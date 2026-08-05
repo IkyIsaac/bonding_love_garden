@@ -34,6 +34,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_plan_items: {
+        Row: {
+          access_plan_id: string
+          catalog_item_id: string
+        }
+        Insert: {
+          access_plan_id: string
+          catalog_item_id: string
+        }
+        Update: {
+          access_plan_id?: string
+          catalog_item_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_plan_items_access_plan_id_fkey"
+            columns: ["access_plan_id"]
+            isOneToOne: false
+            referencedRelation: "access_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "access_plan_items_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      access_plans: {
+        Row: {
+          created_at: string
+          daily_time_limit_minutes: number | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          plan_type: string
+          price: number
+          updated_at: string
+          validity_unit: string
+          validity_value: number
+          visit_limit: number | null
+        }
+        Insert: {
+          created_at?: string
+          daily_time_limit_minutes?: number | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          plan_type: string
+          price: number
+          updated_at?: string
+          validity_unit: string
+          validity_value: number
+          visit_limit?: number | null
+        }
+        Update: {
+          created_at?: string
+          daily_time_limit_minutes?: number | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          plan_type?: string
+          price?: number
+          updated_at?: string
+          validity_unit?: string
+          validity_value?: number
+          visit_limit?: number | null
+        }
+        Relationships: []
+      }
       catalog_items: {
         Row: {
           created_at: string
@@ -86,6 +161,87 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      discount_rule_components: {
+        Row: {
+          catalog_item_id: string | null
+          discount_rule_id: string
+          id: string
+          is_entry_fee: boolean
+        }
+        Insert: {
+          catalog_item_id?: string | null
+          discount_rule_id: string
+          id?: string
+          is_entry_fee?: boolean
+        }
+        Update: {
+          catalog_item_id?: string | null
+          discount_rule_id?: string
+          id?: string
+          is_entry_fee?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discount_rule_components_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discount_rule_components_discount_rule_id_fkey"
+            columns: ["discount_rule_id"]
+            isOneToOne: false
+            referencedRelation: "discount_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discount_rules: {
+        Row: {
+          created_at: string
+          days_of_week: number[] | null
+          description: string | null
+          discount_type: string
+          discount_value: number
+          id: string
+          min_quantity: number | null
+          name: string
+          status: string
+          updated_at: string
+          valid_from: string | null
+          valid_to: string | null
+        }
+        Insert: {
+          created_at?: string
+          days_of_week?: number[] | null
+          description?: string | null
+          discount_type: string
+          discount_value: number
+          id?: string
+          min_quantity?: number | null
+          name: string
+          status?: string
+          updated_at?: string
+          valid_from?: string | null
+          valid_to?: string | null
+        }
+        Update: {
+          created_at?: string
+          days_of_week?: number[] | null
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          id?: string
+          min_quantity?: number | null
+          name?: string
+          status?: string
+          updated_at?: string
+          valid_from?: string | null
+          valid_to?: string | null
+        }
+        Relationships: []
       }
       entry_fee_config: {
         Row: {
@@ -200,6 +356,78 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      package_items: {
+        Row: {
+          catalog_item_id: string
+          package_id: string
+          quantity: number
+        }
+        Insert: {
+          catalog_item_id: string
+          package_id: string
+          quantity?: number
+        }
+        Update: {
+          catalog_item_id?: string
+          package_id?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "package_items_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "package_items_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      packages: {
+        Row: {
+          availability_end: string | null
+          availability_start: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          availability_end?: string | null
+          availability_start?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          availability_end?: string | null
+          availability_start?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
