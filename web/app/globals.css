@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
+/*
+ * Botanical Play design tokens (docs/design/botanical_play/DESIGN.md),
+ * ported here the same way they were ported into the Flutter app
+ * (mobile/lib/core/theme/app_theme.dart) — one design system, two clients.
+ * DESIGN.md defines a single (light) palette, not a light/dark pair, so
+ * this implements light only rather than inventing a dark variant the
+ * design system doesn't specify.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #00361a;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1a4d2e;
+  --color-on-primary-container: #88bd95;
+
+  --color-secondary: #b80049;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e2165f;
+  --color-on-secondary-container: #fffbff;
+
+  --color-tertiary: #002f54;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #004678;
+  --color-on-tertiary-container: #71b5ff;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-surface: #f8faf5;
+  --color-on-surface: #191c19;
+  --color-surface-variant: #e1e3de;
+  --color-on-surface-variant: #414942;
+  --color-surface-container: #edeee9;
+  --color-surface-container-low: #f3f4ef;
+  --color-surface-container-high: #e7e9e4;
+  --color-outline: #717971;
+  --color-outline-variant: #c1c9bf;
+
+  --background: var(--color-surface);
+  --foreground: var(--color-on-surface);
 }
 
 @theme inline {
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-on-primary-container: var(--color-on-primary-container);
+
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+
+  --color-tertiary: var(--color-tertiary);
+  --color-on-tertiary: var(--color-on-tertiary);
+  --color-tertiary-container: var(--color-tertiary-container);
+  --color-on-tertiary-container: var(--color-on-tertiary-container);
+
+  --color-error: var(--color-error);
+  --color-on-error: var(--color-on-error);
+  --color-error-container: var(--color-error-container);
+  --color-on-error-container: var(--color-on-error-container);
+
+  --color-surface: var(--color-surface);
+  --color-on-surface: var(--color-on-surface);
+  --color-surface-variant: var(--color-surface-variant);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-heading: var(--font-heading), sans-serif;
+  --font-body: var(--font-body), sans-serif;
+  --font-sans: var(--font-body), sans-serif;
+
+  /* "Standard Radius" per DESIGN.md — buttons/cards default to this, not Tailwind's small default */
+  --radius-DEFAULT: 1rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body), sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
 }
