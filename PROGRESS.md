@@ -2,9 +2,9 @@
 
 Living tracker for the Bonding Love Garden build. Updated with every commit. Phases mirror the build order in [`docs/ARCHITECTURE_PLAN.md`](docs/ARCHITECTURE_PLAN.md#7-build-order--mapped-to-brief-9-with-changes-flagged) (§7), reconciled against what's actually shipped rather than the original week-by-week estimate.
 
-**Current focus:** Web admin config CRUD done; next up is either the remaining §6 admin modules (staff management, session/wristband monitoring, reports, audit log viewer) or starting the mobile app.
+**Current focus:** Web admin dashboard is feature-complete for §6 (all 10 sidebar modules working against real data). Next up: mobile app, or UAT/polish on the web admin (real click-through visual QA is still lighter than the rest — see Phase 4).
 
-**Last updated:** web admin config CRUD (Settings, Plan Builder, Discounts, Packages) + auth + Docusaurus documentation site scaffolded with initial Developer/User Guide content.
+**Last updated:** remaining §6 admin modules — Dashboard, Staff Management, Wristbands, Active Sessions (live), Reports, Audit Log — all built and verified against real, live-flow-generated demo data, in an actual browser.
 
 ---
 
@@ -43,6 +43,7 @@ All of §4's function list is built and live-tested against a real local stack (
 - [x] `reservations-book` (entitlement + lead-time + per-day-cap validation)
 - [x] `wallet-redeem` (credit redemption; wallet *earning* side is an open question — see below)
 - [x] `notify-purchase-complete` — implemented inline in `processPaymentEvent` (creates the notification row; Realtime delivery works via the publication, actual FCM push is not built)
+- [x] `admin-create-staff` (added for the web admin's Staff Management page — creates a real `auth.users` row via the GoTrue admin API, app_metadata-trusted role, same pattern as every other Edge Function)
 
 ### Known open gaps (flagged in code, not silently resolved)
 
@@ -61,9 +62,16 @@ All of §4's function list is built and live-tested against a real local stack (
 - [x] Plan Builder page (`catalog_items`, `access_plans` + included-items picker, `entry_fee_config`)
 - [x] Discounts page (`discount_rules` + `discount_rule_components`, matching the discount engine's actual matching semantics)
 - [x] Packages page (`packages` + `package_items` with per-item quantities)
-- [ ] Staff management, wristband/session monitoring, reports, audit log viewer — not started (remaining §6 modules)
+- [x] Dashboard overview (guests in park now, revenue/plans sold today, memberships expiring within 7 days)
+- [x] Staff Management (list + edit role/approval via direct Server Action; **creating** a new staff account needs a new Edge Function, `admin-create-staff` — the one write in this whole dashboard that can't go through a normal RLS-respecting client call, since it requires a real `auth.users` row via the GoTrue admin API)
+- [x] Wristbands monitoring (`wristband_live_status`, search, admin revoke)
+- [x] Active Sessions — live view: a client-side interval (catches pure time-based active→expiring_soon→expired transitions, which have no DB row change at all) plus a Realtime subscription on `sessions` (catches actual changes instantly) both just call `router.refresh()` rather than duplicating the status-computation logic client-side; extend/end via direct Server Action (admin is already included in `sessions`' RLS UPDATE policy alongside supervisor)
+- [x] Reports (revenue/sessions today+this week, top plans by revenue, most popular games — aggregated in JS for now, not a SQL view/RPC; a deliberate, noted shortcut given how little data volume exists right now, not a reversal of the "aggregation belongs in SQL" principle)
+- [x] Audit Log (filterable by action type + search, admin-only per RLS)
 
-All four CRUD pages verified end-to-end against a real local stack: real OTP login, every mutation exercised through the exact authenticated REST path the Server Actions use (not simulated), RLS negative case confirmed (non-admin blocked with a real 403), middleware redirect behavior confirmed. Literal click-through browser verification (screenshots, visual QA) wasn't possible this session — the Chrome automation extension wasn't connected — so visual/UX review of these pages is still outstanding.
+All ten pages verified in an actual browser this time (the Chrome extension connected mid-session) against demo data produced by **real system flows**, not just hand-inserted rows: two full checkout → payments-initiate → signed-webhook → session-scan-admit runs produced real orders/subscriptions/wristbands/sessions/audit_log entries; bulk variety (expiring-soon/expired/ended sessions, a declined order) was backfilled via direct SQL for speed. Live-tested interactions: extending a session from the Active Sessions page correctly flipped its status from "expiring soon" back to "active" in real time; creating a staff member through the UI correctly round-tripped through the new Edge Function and produced a real audit_log entry.
+
+Two real bugs found via this pass, both fixed: entry_fee_config had picked up a stray 400x-too-large row at some point earlier in the session (root cause unclear — corrected via the proper insert-a-new-version path, which is itself real evidence the versioning design works); and `session-scan-admit` never actually updated `wristbands.last_scanned_at` despite the column existing for exactly that (brief §4.10 lists it explicitly) — caught because the Wristbands page showed "Never" for a wristband that had just been scanned twice.
 
 ## Phase 5 — Documentation site
 
