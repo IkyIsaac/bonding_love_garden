@@ -109,6 +109,50 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          action_type: string
+          actor_profile_id: string | null
+          created_at: string
+          details: string | null
+          id: string
+          location: string | null
+          status: string
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action_type: string
+          actor_profile_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          location?: string | null
+          status?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action_type?: string
+          actor_profile_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          location?: string | null
+          status?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_actor_profile_id_fkey"
+            columns: ["actor_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       catalog_items: {
         Row: {
           created_at: string
@@ -435,6 +479,47 @@ export type Database = {
             columns: ["wristband_id"]
             isOneToOne: false
             referencedRelation: "wristbands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          payload: Json | null
+          recipient_profile_id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          payload?: Json | null
+          recipient_profile_id: string
+          title: string
+          type: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          payload?: Json | null
+          recipient_profile_id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_recipient_profile_id_fkey"
+            columns: ["recipient_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
