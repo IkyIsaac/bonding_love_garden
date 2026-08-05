@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 import type { NormalizedPaymentEvent } from "./types.ts";
+import { issueWristband } from "../wristbands.ts";
 
 /**
  * "What happens when a payment succeeds" (docs/ARCHITECTURE_PLAN.md §4) —
@@ -149,12 +150,21 @@ async function handlePaymentSucceeded(admin: SupabaseClient, orderId: string) {
         continue;
       }
 
-      await issueWristband(admin, {
-        familyId: order.family_id,
-        familyMemberId: item.family_member_id,
-        subscriptionId: subscription.id,
-        expiresAt: endsAt,
-      });
+      try {
+        await issueWristband(admin, {
+          familyId: order.family_id,
+          familyMemberId: item.family_member_id,
+          subscriptionId: subscription.id,
+          expiresAt: endsAt,
+        });
+      } catch (err) {
+        // Payment already succeeded and the subscription already exists —
+        // don't fail the whole webhook over a wristband hiccup, just log it
+        // loudly so it can be issued manually.
+        console.error(
+          `Failed to issue wristband for subscription ${subscription.id}: ${err instanceof Error ? err.message : err}`,
+        );
+      }
     }
   }
 
@@ -184,35 +194,6 @@ function addInterval(date: Date, value: number, unit: string): Date {
       break;
   }
   return result;
-}
-
-/**
- * Inlined rather than pulled into its own _shared/wristbands.ts — there's
- * only one caller right now. Extract it when a standalone wristband-issue
- * endpoint (staff manual/cash issuance, per §4) actually needs the same
- * logic, same as cart-pricing.ts only got extracted from
- * checkout-create-order once discount-preview became a second real caller.
- */
-async function issueWristband(admin: SupabaseClient, params: {
-  familyId: string;
-  familyMemberId: string | null;
-  subscriptionId: string;
-  expiresAt: Date;
-}) {
-  const qrCodeValue = `WB-${crypto.randomUUID()}`;
-  const wristbandNumber = qrCodeValue.slice(3, 15).toUpperCase();
-
-  const { error } = await admin.from("wristbands").insert({
-    family_id: params.familyId,
-    family_member_id: params.familyMemberId,
-    subscription_id: params.subscriptionId,
-    qr_code_value: qrCodeValue,
-    wristband_number: wristbandNumber,
-    expires_at: params.expiresAt.toISOString(),
-  });
-  if (error) {
-    console.error(`Failed to issue wristband for subscription ${params.subscriptionId}: ${error.message}`);
-  }
 }
 
 /**

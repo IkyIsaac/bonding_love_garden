@@ -902,6 +902,33 @@ export type Database = {
         }
         Relationships: []
       }
+      reservation_settings: {
+        Row: {
+          default_fee: number
+          id: string
+          max_advance_days: number
+          max_per_day_per_family: number | null
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          default_fee?: number
+          id?: string
+          max_advance_days?: number
+          max_per_day_per_family?: number | null
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          default_fee?: number
+          id?: string
+          max_advance_days?: number
+          max_per_day_per_family?: number | null
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reservations: {
         Row: {
           catalog_item_id: string
