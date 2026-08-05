@@ -258,7 +258,7 @@ otp_expiry = 3600
 
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
-enable_signup = false
+enable_signup = true
 # If enabled, users need to confirm their phone number before signing in.
 enable_confirmations = false
 # Template for sending OTP to users
@@ -266,9 +266,13 @@ template = "Your code is {{ .Code }}"
 # Controls the minimum amount of time that must pass before sending another sms otp.
 max_frequency = "5s"
 
-# Use pre-defined map of phone number to OTP for testing.
-# [auth.sms.test_otp]
-# 4152127777 = "123456"
+# Real SMS provider deliberately left unconfigured (docs/ARCHITECTURE_PLAN.md
+# §8 decision) — dev/UAT uses these fixed test numbers instead, no real SMS
+# sent. Swapping in a real provider later is a Dashboard/config change only,
+# never app code.
+[auth.sms.test_otp]
+255700000010 = "123456"
+255700000099 = "123456"
 
 # Configure logged in session timeouts.
 # [auth.sessions]
@@ -288,12 +292,19 @@ max_frequency = "5s"
 # uri = "pg-functions://<database>/<schema>/<hook_name>"
 
 # Configure one of the supported SMS providers: `twilio`, `twilio_verify`, `messagebird`, `textlocal`, `vonage`.
+#
+# GoTrue disables phone login entirely unless *some* provider is enabled,
+# even though the test_otp numbers above never actually reach it — these are
+# throwaway local-only placeholder values (not real credentials, nothing
+# ever calls out to Twilio with them since test_otp intercepts those numbers
+# first). Swapping in a real provider for production is a Dashboard/env-var
+# change, per the §8 decision in docs/ARCHITECTURE_PLAN.md — this local
+# placeholder doesn't affect that.
 [auth.sms.twilio]
-enabled = false
-account_sid = ""
-message_service_sid = ""
-# DO NOT commit your Twilio auth token to git. Use environment variable substitution instead:
-auth_token = "env(SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN)"
+enabled = true
+account_sid = "local-dev-placeholder"
+message_service_sid = "local-dev-placeholder"
+auth_token = "local-dev-placeholder"
 
 # Multi-factor-authentication is available to Supabase Pro plan.
 [auth.mfa]
