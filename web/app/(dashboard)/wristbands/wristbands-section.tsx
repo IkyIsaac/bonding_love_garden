@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Search } from "lucide-react";
 import { revokeWristband } from "./actions";
-import Card from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Badge from "@/components/ui/badge";
 import DataTable, { type Column } from "@/components/ui/data-table";
 import DeleteButton from "@/components/ui/delete-button";
@@ -60,17 +62,24 @@ export default function WristbandsSection({ wristbands }: { wristbands: Wristban
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4 gap-4">
-        <h2 className="font-heading font-bold text-on-surface">All Wristbands</h2>
-        <input
-          type="text"
-          placeholder="Search by name or wristband #"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-64 rounded-lg border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
-        />
-      </div>
-      <DataTable columns={columns} rows={filtered} emptyMessage="No wristbands issued yet." />
+      <CardHeader>
+        <CardTitle>All Wristbands</CardTitle>
+        <CardAction>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search by name or wristband #"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-64 pl-8"
+            />
+          </div>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={filtered} emptyMessage="No wristbands issued yet." />
+      </CardContent>
     </Card>
   );
 }

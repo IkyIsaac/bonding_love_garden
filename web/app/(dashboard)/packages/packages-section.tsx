@@ -1,9 +1,11 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import { upsertPackage, deletePackage, type FormState } from "./actions";
-import Button from "@/components/ui/button";
-import Card from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Badge from "@/components/ui/badge";
 import Modal from "@/components/ui/modal";
 import DataTable, { type Column } from "@/components/ui/data-table";
@@ -53,7 +55,7 @@ export default function PackagesSection({
       className: "text-right",
       render: (r) => (
         <div className="flex gap-2 justify-end">
-          <Button variant="ghost" onClick={() => setEditing(r)}>Edit</Button>
+          <Button variant="ghost" size="sm" onClick={() => setEditing(r)}>Edit</Button>
           <DeleteButton id={r.id} action={deletePackage} />
         </div>
       ),
@@ -62,11 +64,17 @@ export default function PackagesSection({
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-heading font-bold text-on-surface">Packages</h2>
-        <Button onClick={() => setEditing("new")}>Add package</Button>
-      </div>
-      <DataTable columns={columns} rows={packages} emptyMessage="No packages configured yet." />
+      <CardHeader>
+        <CardTitle>Packages</CardTitle>
+        <CardAction>
+          <Button onClick={() => setEditing("new")}>
+            <Plus /> Add package
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={packages} emptyMessage="No packages configured yet." />
+      </CardContent>
 
       <Modal open={editing !== null} onClose={() => setEditing(null)} title={editing === "new" ? "Add package" : "Edit package"}>
         {editing !== null && (
@@ -107,20 +115,20 @@ export default function PackagesSection({
             </div>
 
             <fieldset className="flex flex-col gap-2">
-              <legend className="text-sm font-medium text-on-surface mb-1">Bundled items (quantity 0 = not included)</legend>
-              <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto border border-outline-variant rounded-lg p-3">
+              <legend className="text-sm font-medium text-foreground mb-1">Bundled items (quantity 0 = not included)</legend>
+              <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto border border-border rounded-lg p-3">
                 {catalogItems.length === 0 && (
-                  <p className="text-sm text-on-surface-variant col-span-2">Add games/services first.</p>
+                  <p className="text-sm text-muted-foreground col-span-2">Add games/services first.</p>
                 )}
                 {catalogItems.map((item) => (
-                  <label key={item.id} className="flex items-center justify-between gap-2 text-sm text-on-surface">
+                  <label key={item.id} className="flex items-center justify-between gap-2 text-sm text-foreground">
                     <span>{item.name}</span>
-                    <input
+                    <Input
                       type="number"
                       name={`quantity__${item.id}`}
                       min={0}
                       defaultValue={selectedQuantities[item.id] ?? 0}
-                      className="w-16 rounded-lg border border-outline-variant px-2 py-1 text-right"
+                      className="w-16 text-right"
                     />
                   </label>
                 ))}
@@ -128,7 +136,7 @@ export default function PackagesSection({
             </fieldset>
 
             <CheckboxField label="Active" name="isActive" defaultChecked={editing !== "new" ? editing.is_active : true} />
-            {state.error && <p className="text-sm text-error">{state.error}</p>}
+            {state.error && <p className="text-sm text-destructive">{state.error}</p>}
             <div className="flex justify-end gap-2">
               <Button type="button" variant="secondary" onClick={() => setEditing(null)}>Cancel</Button>
               <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save"}</Button>

@@ -18,8 +18,8 @@ export default async function DiscountsPage() {
 
   return (
     <div>
-      <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Discount Rules</h1>
-      <p className="text-sm text-on-surface-variant mb-6">
+      <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Discount Rules</h1>
+      <p className="text-sm text-muted-foreground mb-6">
         A rule fires when every one of its selected components is in the cart. Multiple rules can stack on the same order.
       </p>
       <DiscountRulesSection rules={rules ?? []} catalogItems={catalogItems ?? []} componentsByRuleId={componentsByRuleId} />

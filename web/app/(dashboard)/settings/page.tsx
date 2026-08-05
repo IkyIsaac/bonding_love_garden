@@ -6,13 +6,13 @@ export default async function SettingsPage() {
   const { data: settings, error } = await supabase.from("venue_settings").select("*").single();
 
   if (error || !settings) {
-    return <p className="text-error">Failed to load venue settings: {error?.message}</p>;
+    return <p className="text-destructive">Failed to load venue settings: {error?.message}</p>;
   }
 
   return (
     <div>
-      <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Settings</h1>
-      <p className="text-sm text-on-surface-variant mb-6">Venue branding and configuration.</p>
+      <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Settings</h1>
+      <p className="text-sm text-muted-foreground mb-6">Venue branding and configuration.</p>
       <SettingsForm settings={settings} />
     </div>
   );

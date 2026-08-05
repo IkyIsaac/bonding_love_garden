@@ -1,6 +1,9 @@
+import Link from "next/link";
+import { Users, Wallet, ShoppingBag, CalendarClock, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import StatTile from "@/components/ui/stat-tile";
-import Card from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -32,23 +35,42 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Dashboard</h1>
-        <p className="text-sm text-on-surface-variant">Today at a glance.</p>
+        <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Dashboard</h1>
+        <p className="text-sm text-muted-foreground">Today at a glance.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatTile label="Guests in park now" value={String((liveSessions ?? []).length)} sublabel="active + expiring soon" />
-        <StatTile label="Revenue today" value={revenueToday.toLocaleString()} />
-        <StatTile label="Plans sold today" value={String(plansSoldToday)} />
-        <StatTile label="Memberships expiring within 7 days" value={String((expiringSoon ?? []).length)} />
+        <StatTile
+          icon={Users}
+          label="Guests in park now"
+          value={String((liveSessions ?? []).length)}
+          sublabel="active + expiring soon"
+        />
+        <StatTile icon={Wallet} label="Revenue today" value={revenueToday.toLocaleString()} sublabel="TZS" />
+        <StatTile icon={ShoppingBag} label="Plans sold today" value={String(plansSoldToday)} />
+        <StatTile
+          icon={CalendarClock}
+          label="Memberships expiring soon"
+          value={String((expiringSoon ?? []).length)}
+          sublabel="within 7 days"
+        />
       </div>
 
       <Card>
-        <p className="text-sm text-on-surface-variant">
-          For breakdowns — top plans, popular games, revenue trends — see{" "}
-          <a href="/reports" className="text-primary underline">Reports</a>. For live per-guest session details, see{" "}
-          <a href="/sessions" className="text-primary underline">Active Sessions</a>.
-        </p>
+        <CardContent className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            For revenue trends, top plans and popular games, see Reports. For live per-guest session details, see
+            Active Sessions.
+          </p>
+          <div className="flex gap-2 shrink-0">
+            <Button variant="outline" size="sm" render={<Link href="/reports" />}>
+              Reports <ArrowRight />
+            </Button>
+            <Button variant="outline" size="sm" render={<Link href="/sessions" />}>
+              Active Sessions <ArrowRight />
+            </Button>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );

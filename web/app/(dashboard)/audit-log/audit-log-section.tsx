@@ -1,7 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Card from "@/components/ui/card";
+import { Search } from "lucide-react";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Badge from "@/components/ui/badge";
 import DataTable, { type Column } from "@/components/ui/data-table";
 
@@ -51,31 +54,37 @@ export default function AuditLogSection({ entries }: { entries: AuditLogRow[] })
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
-        <h2 className="font-heading font-bold text-on-surface">Audit Log</h2>
-        <div className="flex gap-2">
-          <select
-            value={actionType}
-            onChange={(e) => setActionType(e.target.value)}
-            className="rounded-lg border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
-          >
-            {actionTypes.map((t) => (
-              <option key={t} value={t}>{t === "all" ? "All actions" : t.replace(/_/g, " ")}</option>
-            ))}
-          </select>
-          <input
-            type="text"
-            placeholder="Search staff, details, location…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-64 rounded-lg border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
-          />
-        </div>
-      </div>
-      <DataTable columns={columns} rows={filtered} emptyMessage="No audit log entries yet." />
-      <p className="text-xs text-on-surface-variant mt-3">
-        Showing {filtered.length} of {entries.length} — insert-only, written exclusively by Edge Functions using the service role. Not even admin can edit these via the API.
-      </p>
+      <CardHeader>
+        <CardTitle>Audit Log</CardTitle>
+        <CardAction className="flex gap-2">
+          <Select value={actionType} onValueChange={(v) => setActionType(v ?? "all")}>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {actionTypes.map((t) => (
+                <SelectItem key={t} value={t}>{t === "all" ? "All actions" : t.replace(/_/g, " ")}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search staff, details, location…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-64 pl-8"
+            />
+          </div>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={filtered} emptyMessage="No audit log entries yet." />
+        <p className="text-xs text-muted-foreground mt-3">
+          Showing {filtered.length} of {entries.length} — insert-only, written exclusively by Edge Functions using the service role. Not even admin can edit these via the API.
+        </p>
+      </CardContent>
     </Card>
   );
 }

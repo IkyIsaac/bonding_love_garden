@@ -27,8 +27,8 @@ export default async function AuditLogPage() {
 
   return (
     <div>
-      <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Audit Log</h1>
-      <p className="text-sm text-on-surface-variant mb-6">Staff actions across the platform, most recent first.</p>
+      <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Audit Log</h1>
+      <p className="text-sm text-muted-foreground mb-6">Staff actions across the platform, most recent first.</p>
       <AuditLogSection entries={rows} />
     </div>
   );

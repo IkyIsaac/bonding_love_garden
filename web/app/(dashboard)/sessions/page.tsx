@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import Card from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import SessionsTable, { type SessionRow } from "./sessions-table";
 
 export default async function SessionsPage() {
@@ -61,12 +61,14 @@ export default async function SessionsPage() {
 
   return (
     <div>
-      <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Active Sessions</h1>
-      <p className="text-sm text-on-surface-variant mb-6">
+      <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Active Sessions</h1>
+      <p className="text-sm text-muted-foreground mb-6">
         Live view — refreshes automatically every 15 seconds and instantly on any change.
       </p>
       <Card>
-        <SessionsTable sessions={rows} />
+        <CardContent>
+          <SessionsTable sessions={rows} />
+        </CardContent>
       </Card>
     </div>
   );

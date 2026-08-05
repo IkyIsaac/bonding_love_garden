@@ -1,20 +1,18 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import SignOutButton from "./sign-out-button";
-
-const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/staff", label: "Staff Management" },
-  { href: "/plans", label: "Plan Builder" },
-  { href: "/discounts", label: "Discount Rules" },
-  { href: "/packages", label: "Packages" },
-  { href: "/wristbands", label: "Wristbands" },
-  { href: "/sessions", label: "Active Sessions" },
-  { href: "/reports", label: "Reports" },
-  { href: "/audit-log", label: "Audit Log" },
-  { href: "/settings", label: "Settings" },
-];
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import NavMenu from "./nav-menu";
+import UserMenu from "./user-menu";
 
 export default async function DashboardLayout({
   children,
@@ -33,39 +31,46 @@ export default async function DashboardLayout({
 
   if (!profile || profile.role !== "admin") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-surface p-8">
+      <div className="flex min-h-screen items-center justify-center bg-background p-8">
         <div className="text-center max-w-sm">
-          <h1 className="font-heading text-xl font-bold text-on-surface mb-2">Not authorized</h1>
-          <p className="text-on-surface-variant mb-6">
+          <h1 className="font-heading text-xl font-bold text-foreground mb-2">Not authorized</h1>
+          <p className="text-muted-foreground mb-6">
             This account doesn&apos;t have admin access to the dashboard.
           </p>
-          <SignOutButton />
+          <Button variant="outline" render={<a href="/login" />}>
+            Back to login
+          </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-64 shrink-0 border-r border-outline-variant bg-white p-6 flex flex-col">
-        <div className="font-heading font-bold text-lg text-primary mb-8">Admin Dashboard</div>
-        <nav className="flex flex-col gap-1 flex-1">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="border-t border-outline-variant pt-4 mt-4 flex flex-col gap-1">
-          <p className="text-sm font-medium text-on-surface truncate">{profile.full_name || "Admin"}</p>
-          <SignOutButton />
-        </div>
-      </aside>
-      <main className="flex-1 bg-surface p-8 overflow-y-auto">{children}</main>
-    </div>
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader className="p-4">
+          <div className="flex items-center gap-2 px-1 font-heading font-bold text-lg leading-tight">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-sm">
+              BL
+            </span>
+            <span className="truncate group-data-[collapsible=icon]:hidden">Bonding Love Garden</span>
+          </div>
+        </SidebarHeader>
+        <SidebarContent className="px-2">
+          <NavMenu />
+        </SidebarContent>
+        <SidebarFooter>
+          <UserMenu name={profile.full_name || "Admin"} />
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset className="min-w-0">
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="h-5" />
+          <span className="font-heading font-semibold text-foreground">Admin Dashboard</span>
+        </header>
+        <main className="min-w-0 flex-1 bg-background p-6 md:p-8 overflow-y-auto">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

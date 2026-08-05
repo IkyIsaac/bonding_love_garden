@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import { upsertAccessPlan, deleteAccessPlan, type FormState } from "./actions";
-import Button from "@/components/ui/button";
-import Card from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Badge from "@/components/ui/badge";
 import Modal from "@/components/ui/modal";
 import DataTable, { type Column } from "@/components/ui/data-table";
@@ -49,7 +50,7 @@ export default function AccessPlansSection({
       className: "text-right",
       render: (r) => (
         <div className="flex gap-2 justify-end">
-          <Button variant="ghost" onClick={() => setEditing(r)}>Edit</Button>
+          <Button variant="ghost" size="sm" onClick={() => setEditing(r)}>Edit</Button>
           <DeleteButton id={r.id} action={deleteAccessPlan} />
         </div>
       ),
@@ -58,11 +59,17 @@ export default function AccessPlansSection({
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-heading font-bold text-on-surface">Access Plans</h2>
-        <Button onClick={() => setEditing("new")}>Add plan</Button>
-      </div>
-      <DataTable columns={columns} rows={plans} emptyMessage="No access plans configured yet." />
+      <CardHeader>
+        <CardTitle>Access Plans</CardTitle>
+        <CardAction>
+          <Button onClick={() => setEditing("new")}>
+            <Plus /> Add plan
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={plans} emptyMessage="No access plans configured yet." />
+      </CardContent>
 
       <Modal open={editing !== null} onClose={() => setEditing(null)} title={editing === "new" ? "Add plan" : "Edit plan"}>
         {editing !== null && (
@@ -120,10 +127,10 @@ export default function AccessPlansSection({
             </div>
 
             <fieldset className="flex flex-col gap-2">
-              <legend className="text-sm font-medium text-on-surface mb-1">Included games/services</legend>
-              <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto border border-outline-variant rounded-lg p-3">
+              <legend className="text-sm font-medium text-foreground mb-1">Included games/services</legend>
+              <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto border border-border rounded-lg p-3">
                 {catalogItems.length === 0 && (
-                  <p className="text-sm text-on-surface-variant col-span-2">Add games/services first.</p>
+                  <p className="text-sm text-muted-foreground col-span-2">Add games/services first.</p>
                 )}
                 {catalogItems.map((item) => (
                   <CheckboxField
@@ -138,7 +145,7 @@ export default function AccessPlansSection({
             </fieldset>
 
             <CheckboxField label="Active" name="isActive" defaultChecked={editing !== "new" ? editing.is_active : true} />
-            {state.error && <p className="text-sm text-error">{state.error}</p>}
+            {state.error && <p className="text-sm text-destructive">{state.error}</p>}
             <div className="flex justify-end gap-2">
               <Button type="button" variant="secondary" onClick={() => setEditing(null)}>Cancel</Button>
               <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save"}</Button>

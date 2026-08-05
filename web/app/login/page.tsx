@@ -2,7 +2,13 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { Leaf } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 export default function LoginPage() {
   const [phone, setPhone] = useState("");
@@ -41,64 +47,59 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface p-4">
-      <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm border border-outline-variant">
-        <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Admin Login</h1>
-        <p className="text-sm text-on-surface-variant mb-6">Bonding Love Garden management</p>
-
-        {step === "phone" ? (
-          <form onSubmit={sendOtp} className="flex flex-col gap-4">
-            <label className="flex flex-col gap-1 text-sm font-medium text-on-surface">
-              Phone number
-              <input
-                type="tel"
-                required
-                autoFocus
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+255700000000"
-                className="rounded-lg border border-outline-variant px-3 py-2 font-normal focus:border-primary focus:outline-none"
-              />
-            </label>
-            {error && <p className="text-sm text-error">{error}</p>}
-            <button
-              type="submit"
-              disabled={loading}
-              className="rounded-xl bg-primary text-on-primary py-2.5 font-medium disabled:opacity-50"
-            >
-              {loading ? "Sending…" : "Send code"}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={verifyOtp} className="flex flex-col gap-4">
-            <p className="text-sm text-on-surface-variant">Enter the code sent to {phone}</p>
-            <input
-              type="text"
-              required
-              autoFocus
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder="123456"
-              className="rounded-lg border border-outline-variant px-3 py-2 tracking-[0.3em] text-center focus:border-primary focus:outline-none"
-            />
-            {error && <p className="text-sm text-error">{error}</p>}
-            <button
-              type="submit"
-              disabled={loading}
-              className="rounded-xl bg-primary text-on-primary py-2.5 font-medium disabled:opacity-50"
-            >
-              {loading ? "Verifying…" : "Verify"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep("phone")}
-              className="text-sm text-on-surface-variant underline"
-            >
-              Use a different number
-            </button>
-          </form>
-        )}
-      </div>
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="items-center text-center gap-2">
+          <span className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <Leaf className="size-5" />
+          </span>
+          <CardTitle className="text-xl">Admin Login</CardTitle>
+          <CardDescription>Bonding Love Garden management</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {step === "phone" ? (
+            <form onSubmit={sendOtp} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="phone">Phone number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  required
+                  autoFocus
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+255700000000"
+                />
+              </div>
+              {error && <p className="text-sm text-destructive">{error}</p>}
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Sending…" : "Send code"}
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={verifyOtp} className="flex flex-col gap-4 items-center">
+              <p className="text-sm text-muted-foreground self-start">Enter the code sent to {phone}</p>
+              <InputOTP maxLength={6} value={otp} onChange={setOtp} autoFocus>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+              {error && <p className="text-sm text-destructive self-start">{error}</p>}
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Verifying…" : "Verify"}
+              </Button>
+              <Button type="button" variant="link" onClick={() => setStep("phone")}>
+                Use a different number
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

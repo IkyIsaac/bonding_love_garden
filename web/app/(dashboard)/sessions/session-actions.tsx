@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { extendSession, endSession } from "./actions";
-import Button from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function SessionActions({ id, ended }: { id: string; ended: boolean }) {
   const [pending, startTransition] = useTransition();
@@ -26,8 +26,14 @@ export default function SessionActions({ id, ended }: { id: string; ended: boole
 
   return (
     <div className="flex gap-2 justify-end">
-      <Button variant="secondary" onClick={handleExtend} disabled={pending}>+15 min</Button>
-      <Button variant="ghost" onClick={handleEnd} disabled={pending} className="text-error hover:bg-error-container">
+      <Button variant="secondary" size="sm" onClick={handleExtend} disabled={pending}>+15 min</Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleEnd}
+        disabled={pending}
+        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+      >
         End
       </Button>
     </div>

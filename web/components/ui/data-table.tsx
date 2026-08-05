@@ -1,3 +1,5 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 export interface Column<T> {
   header: string;
   render: (row: T) => React.ReactNode;
@@ -14,33 +16,31 @@ export default function DataTable<T extends { id: string }>({
   emptyMessage?: string;
 }) {
   if (rows.length === 0) {
-    return <p className="text-sm text-on-surface-variant py-8 text-center">{emptyMessage}</p>;
+    return <p className="text-sm text-muted-foreground py-8 text-center">{emptyMessage}</p>;
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-outline-variant text-left text-on-surface-variant">
-            {columns.map((col) => (
-              <th key={col.header} className="py-2 pr-4 font-medium whitespace-nowrap">
-                {col.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id} className="border-b border-outline-variant last:border-0">
-              {columns.map((col) => (
-                <td key={col.header} className={`py-3 pr-4 ${col.className ?? ""}`}>
-                  {col.render(row)}
-                </td>
-              ))}
-            </tr>
+    <Table>
+      <TableHeader>
+        <TableRow className="hover:bg-transparent">
+          {columns.map((col) => (
+            <TableHead key={col.header} className="whitespace-nowrap">
+              {col.header}
+            </TableHead>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row.id}>
+            {columns.map((col) => (
+              <TableCell key={col.header} className={col.className}>
+                {col.render(row)}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

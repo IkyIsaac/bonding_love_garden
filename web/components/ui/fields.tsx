@@ -1,55 +1,94 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
-
-const inputClasses =
-  "rounded-lg border border-outline-variant px-3 py-2 font-normal focus:border-primary focus:outline-none disabled:bg-surface-container disabled:text-on-surface-variant";
+import { Children, isValidElement, type ReactElement, type ReactNode } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { ComponentProps } from "react";
 
 export function TextField({
   label,
+  id,
+  name,
+  className,
   ...props
-}: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+}: { label: string } & ComponentProps<typeof Input>) {
+  const fieldId = id ?? name;
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium text-on-surface">
-      {label}
-      <input className={inputClasses} {...props} />
-    </label>
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor={fieldId}>{label}</Label>
+      <Input id={fieldId} name={name} className={className} {...props} />
+    </div>
   );
 }
 
 export function TextareaField({
   label,
+  id,
+  name,
+  className,
   ...props
-}: { label: string } & TextareaHTMLAttributes<HTMLTextAreaElement>) {
+}: { label: string } & ComponentProps<typeof Textarea>) {
+  const fieldId = id ?? name;
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium text-on-surface">
-      {label}
-      <textarea className={inputClasses} {...props} />
-    </label>
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor={fieldId}>{label}</Label>
+      <Textarea id={fieldId} name={name} className={className} {...props} />
+    </div>
   );
 }
 
+/**
+ * Accepts plain <option value="..."> children (never rendered as DOM — just
+ * read for {value, label}) so every existing call site stays untouched while
+ * the actual control underneath is Base UI's Select, not a native <select>.
+ */
 export function SelectField({
   label,
+  name,
+  defaultValue,
+  disabled,
+  required,
   children,
-  ...props
-}: { label: string; children: ReactNode } & SelectHTMLAttributes<HTMLSelectElement>) {
+}: {
+  label: string;
+  name?: string;
+  defaultValue?: string;
+  disabled?: boolean;
+  required?: boolean;
+  children: ReactNode;
+}) {
+  const options = Children.toArray(children).filter(isValidElement) as ReactElement<{
+    value?: string;
+    children?: ReactNode;
+  }>[];
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium text-on-surface">
-      {label}
-      <select className={inputClasses} {...props}>
-        {children}
-      </select>
-    </label>
+    <div className="flex flex-col gap-1.5">
+      <Label>{label}</Label>
+      <Select name={name} defaultValue={defaultValue} disabled={disabled} required={required}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={label} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((opt) => (
+            <SelectItem key={String(opt.props.value)} value={String(opt.props.value)}>
+              {opt.props.children}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
 
 export function CheckboxField({
   label,
   ...props
-}: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+}: { label: string } & ComponentProps<typeof Checkbox>) {
   return (
-    <label className="flex items-center gap-2 text-sm font-medium text-on-surface">
-      <input type="checkbox" className="rounded border-outline-variant text-primary focus:ring-primary" {...props} />
+    <Label className="font-normal">
+      <Checkbox {...props} />
       {label}
-    </label>
+    </Label>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function Modal({
   open,
@@ -13,36 +13,14 @@ export default function Modal({
   title: string;
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
-
   return (
-    <dialog
-      ref={ref}
-      onClose={onClose}
-      onCancel={onClose}
-      className="rounded-xl p-0 backdrop:bg-on-surface/40 w-full max-w-lg m-auto"
-    >
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-heading text-lg font-bold text-on-surface">{title}</h2>
-          <button
-            onClick={onClose}
-            className="text-on-surface-variant hover:text-on-surface"
-            aria-label="Close"
-            type="button"
-          >
-            ✕
-          </button>
-        </div>
+    <Dialog open={open} onOpenChange={(next) => { if (!next) onClose(); }}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
         {children}
-      </div>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
 }

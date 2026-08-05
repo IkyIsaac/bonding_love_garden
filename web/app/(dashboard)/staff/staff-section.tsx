@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { UserPlus } from "lucide-react";
 import { createStaff, updateStaff, type FormState } from "./actions";
-import Button from "@/components/ui/button";
-import Card from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Badge from "@/components/ui/badge";
 import Modal from "@/components/ui/modal";
 import DataTable, { type Column } from "@/components/ui/data-table";
@@ -51,10 +52,10 @@ function AddStaffModal({ open, onClose }: { open: boolean; onClose: () => void }
           <option value="supervisor">Supervisor</option>
           <option value="admin">Admin</option>
         </SelectField>
-        <p className="text-xs text-on-surface-variant">
+        <p className="text-xs text-muted-foreground">
           No password needed — staff sign in with phone + a one-time code, same as customers.
         </p>
-        {state.error && <p className="text-sm text-error">{state.error}</p>}
+        {state.error && <p className="text-sm text-destructive">{state.error}</p>}
         <div className="flex justify-end gap-2">
           <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
           <Button type="submit" disabled={pending}>{pending ? "Creating…" : "Create account"}</Button>
@@ -90,7 +91,7 @@ function EditStaffModal({ staff, onClose }: { staff: Staff | null; onClose: () =
             <option value="suspended">Suspended</option>
             <option value="rejected">Rejected</option>
           </SelectField>
-          {state.error && <p className="text-sm text-error">{state.error}</p>}
+          {state.error && <p className="text-sm text-destructive">{state.error}</p>}
           <div className="flex justify-end gap-2">
             <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
             <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save"}</Button>
@@ -114,18 +115,24 @@ export default function StaffSection({ staff }: { staff: Staff[] }) {
       header: "",
       className: "text-right",
       render: (r) => (
-        <Button variant="ghost" onClick={() => setEditing(r)}>Edit</Button>
+        <Button variant="ghost" size="sm" onClick={() => setEditing(r)}>Edit</Button>
       ),
     },
   ];
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-heading font-bold text-on-surface">Staff</h2>
-        <Button onClick={() => setAdding(true)}>Add staff</Button>
-      </div>
-      <DataTable columns={columns} rows={staff} emptyMessage="No staff accounts yet." />
+      <CardHeader>
+        <CardTitle>Staff</CardTitle>
+        <CardAction>
+          <Button onClick={() => setAdding(true)}>
+            <UserPlus /> Add staff
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={staff} emptyMessage="No staff accounts yet." />
+      </CardContent>
 
       <AddStaffModal open={adding} onClose={() => setAdding(false)} />
       <EditStaffModal staff={editing} onClose={() => setEditing(null)} />

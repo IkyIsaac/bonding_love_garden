@@ -1,10 +1,12 @@
+import { Badge as ReuiBadge } from "@/components/reui/badge";
+
 type Tone = "neutral" | "success" | "warning" | "error";
 
-const TONE_CLASSES: Record<Tone, string> = {
-  neutral: "bg-surface-container text-on-surface-variant",
-  success: "bg-primary-container text-on-primary-container",
-  warning: "bg-tertiary-container text-on-tertiary-container",
-  error: "bg-error-container text-on-error-container",
+const TONE_VARIANT: Record<Tone, "secondary" | "success-light" | "warning-light" | "destructive-light"> = {
+  neutral: "secondary",
+  success: "success-light",
+  warning: "warning-light",
+  error: "destructive-light",
 };
 
 export default function Badge({
@@ -15,8 +17,8 @@ export default function Badge({
   tone?: Tone;
 }) {
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${TONE_CLASSES[tone]}`}>
+    <ReuiBadge variant={TONE_VARIANT[tone]} radius="full" size="lg">
       {children}
-    </span>
+    </ReuiBadge>
   );
 }

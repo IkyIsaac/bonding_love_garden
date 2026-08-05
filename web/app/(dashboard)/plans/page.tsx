@@ -21,8 +21,8 @@ export default async function PlansPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="font-heading text-2xl font-bold text-on-surface mb-1">Plan Builder</h1>
-        <p className="text-sm text-on-surface-variant">Games, services, access plans, and the venue entry fee.</p>
+        <h1 className="font-heading text-2xl font-bold text-foreground mb-1">Plan Builder</h1>
+        <p className="text-sm text-muted-foreground">Games, services, access plans, and the venue entry fee.</p>
       </div>
       <EntryFeeCard currentAmount={currentFee?.amount ?? null} />
       <CatalogItemsSection items={catalogItems ?? []} />

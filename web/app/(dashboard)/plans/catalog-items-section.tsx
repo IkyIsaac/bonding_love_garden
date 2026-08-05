@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import { upsertCatalogItem, deleteCatalogItem, type FormState } from "./actions";
-import Button from "@/components/ui/button";
-import Card from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Badge from "@/components/ui/badge";
 import Modal from "@/components/ui/modal";
 import DataTable, { type Column } from "@/components/ui/data-table";
@@ -39,7 +40,7 @@ export default function CatalogItemsSection({ items }: { items: CatalogItem[] })
       className: "text-right",
       render: (r) => (
         <div className="flex gap-2 justify-end">
-          <Button variant="ghost" onClick={() => setEditing(r)}>Edit</Button>
+          <Button variant="ghost" size="sm" onClick={() => setEditing(r)}>Edit</Button>
           <DeleteButton id={r.id} action={deleteCatalogItem} />
         </div>
       ),
@@ -48,11 +49,17 @@ export default function CatalogItemsSection({ items }: { items: CatalogItem[] })
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-heading font-bold text-on-surface">Games &amp; Services</h2>
-        <Button onClick={() => setEditing("new")}>Add item</Button>
-      </div>
-      <DataTable columns={columns} rows={items} emptyMessage="No games or services configured yet." />
+      <CardHeader>
+        <CardTitle>Games &amp; Services</CardTitle>
+        <CardAction>
+          <Button onClick={() => setEditing("new")}>
+            <Plus /> Add item
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} rows={items} emptyMessage="No games or services configured yet." />
+      </CardContent>
 
       <Modal open={editing !== null} onClose={() => setEditing(null)} title={editing === "new" ? "Add item" : "Edit item"}>
         {editing !== null && (
@@ -90,7 +97,7 @@ export default function CatalogItemsSection({ items }: { items: CatalogItem[] })
               defaultChecked={editing !== "new" ? !!editing.is_motorized : false}
             />
             <CheckboxField label="Active" name="isActive" defaultChecked={editing !== "new" ? editing.is_active : true} />
-            {state.error && <p className="text-sm text-error">{state.error}</p>}
+            {state.error && <p className="text-sm text-destructive">{state.error}</p>}
             <div className="flex justify-end gap-2">
               <Button type="button" variant="secondary" onClick={() => setEditing(null)}>Cancel</Button>
               <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save"}</Button>
