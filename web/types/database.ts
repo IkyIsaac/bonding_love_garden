@@ -357,6 +357,88 @@ export type Database = {
           },
         ]
       }
+      game_credit_ledger: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          direction: string
+          family_id: string
+          family_member_id: string | null
+          id: string
+          order_id: string | null
+          reason: string | null
+          wristband_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          direction: string
+          family_id: string
+          family_member_id?: string | null
+          id?: string
+          order_id?: string | null
+          reason?: string | null
+          wristband_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          direction?: string
+          family_id?: string
+          family_member_id?: string | null
+          id?: string
+          order_id?: string | null
+          reason?: string | null
+          wristband_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_credit_ledger_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_credit_ledger_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_credit_ledger_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_credit_ledger_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_credit_ledger_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristband_live_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_credit_ledger_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristbands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_discount_applications: {
         Row: {
           amount_deducted: number
@@ -786,6 +868,74 @@ export type Database = {
           },
         ]
       }
+      sessions: {
+        Row: {
+          catalog_item_id: string | null
+          created_at: string
+          ended_at: string | null
+          extended_minutes_total: number
+          id: string
+          planned_end_at: string
+          started_at: string
+          updated_at: string
+          wristband_id: string
+          zone_id: string | null
+        }
+        Insert: {
+          catalog_item_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          extended_minutes_total?: number
+          id?: string
+          planned_end_at: string
+          started_at?: string
+          updated_at?: string
+          wristband_id: string
+          zone_id?: string | null
+        }
+        Update: {
+          catalog_item_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          extended_minutes_total?: number
+          id?: string
+          planned_end_at?: string
+          started_at?: string
+          updated_at?: string
+          wristband_id?: string
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristband_live_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristbands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           access_plan_id: string
@@ -893,6 +1043,80 @@ export type Database = {
         }
         Relationships: []
       }
+      wristbands: {
+        Row: {
+          expires_at: string
+          family_id: string
+          family_member_id: string | null
+          id: string
+          issued_at: string
+          issued_by: string | null
+          last_scanned_at: string | null
+          qr_code_value: string
+          status: string
+          subscription_id: string | null
+          updated_at: string
+          wristband_number: string
+        }
+        Insert: {
+          expires_at: string
+          family_id: string
+          family_member_id?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          qr_code_value: string
+          status?: string
+          subscription_id?: string | null
+          updated_at?: string
+          wristband_number: string
+        }
+        Update: {
+          expires_at?: string
+          family_id?: string
+          family_member_id?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          qr_code_value?: string
+          status?: string
+          subscription_id?: string | null
+          updated_at?: string
+          wristband_number?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wristbands_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_issued_by_fkey"
+            columns: ["issued_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       zones: {
         Row: {
           capacity: number | null
@@ -916,14 +1140,178 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      family_credit_balance: {
+        Row: {
+          balance: number | null
+          family_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_credit_ledger_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_live_status: {
+        Row: {
+          catalog_item_id: string | null
+          created_at: string | null
+          ended_at: string | null
+          extended_minutes_total: number | null
+          id: string | null
+          planned_end_at: string | null
+          started_at: string | null
+          status: string | null
+          updated_at: string | null
+          wristband_id: string | null
+          zone_id: string | null
+        }
+        Insert: {
+          catalog_item_id?: string | null
+          created_at?: string | null
+          ended_at?: string | null
+          extended_minutes_total?: number | null
+          id?: string | null
+          planned_end_at?: string | null
+          started_at?: string | null
+          status?: never
+          updated_at?: string | null
+          wristband_id?: string | null
+          zone_id?: string | null
+        }
+        Update: {
+          catalog_item_id?: string | null
+          created_at?: string | null
+          ended_at?: string | null
+          extended_minutes_total?: number | null
+          id?: string | null
+          planned_end_at?: string | null
+          started_at?: string | null
+          status?: never
+          updated_at?: string | null
+          wristband_id?: string | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristband_live_status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_wristband_id_fkey"
+            columns: ["wristband_id"]
+            isOneToOne: false
+            referencedRelation: "wristbands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wristband_live_status: {
+        Row: {
+          expires_at: string | null
+          family_id: string | null
+          family_member_id: string | null
+          id: string | null
+          issued_at: string | null
+          issued_by: string | null
+          last_scanned_at: string | null
+          live_status: string | null
+          qr_code_value: string | null
+          status: string | null
+          subscription_id: string | null
+          updated_at: string | null
+          wristband_number: string | null
+        }
+        Insert: {
+          expires_at?: string | null
+          family_id?: string | null
+          family_member_id?: string | null
+          id?: string | null
+          issued_at?: string | null
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          live_status?: never
+          qr_code_value?: string | null
+          status?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          wristband_number?: string | null
+        }
+        Update: {
+          expires_at?: string | null
+          family_id?: string | null
+          family_member_id?: string | null
+          id?: string | null
+          issued_at?: string | null
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          live_status?: never
+          qr_code_value?: string | null
+          status?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+          wristband_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wristbands_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_issued_by_fkey"
+            columns: ["issued_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wristbands_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
+      is_supervisor: { Args: never; Returns: boolean }
       owns_family: { Args: { fid: string }; Returns: boolean }
       owns_order: { Args: { oid: string }; Returns: boolean }
       owns_subscription: { Args: { sid: string }; Returns: boolean }
+      owns_wristband: { Args: { wid: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
