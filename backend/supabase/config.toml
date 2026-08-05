@@ -387,6 +387,22 @@ deno_version = 2
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
+# Payment provider webhooks authenticate via their own per-provider
+# signature scheme (verified inside the function itself — see
+# _shared/payments/handle-webhook.ts), not a Supabase user session. Without
+# this, Kong rejects every webhook call before it even reaches the function
+# (no Authorization header = no Supabase JWT), which is exactly what a real
+# payment gateway's callback looks like. Applies to the deployed project too,
+# not just local `functions serve`.
+[functions.payments-webhook-selcom]
+verify_jwt = false
+
+[functions.payments-webhook-snippe]
+verify_jwt = false
+
+[functions.payments-webhook-payguard]
+verify_jwt = false
+
 [analytics]
 enabled = true
 port = 55327

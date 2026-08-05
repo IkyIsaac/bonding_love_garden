@@ -51,6 +51,7 @@ interface PersistOrderInput {
   resolvedLines: ResolvedLine[];
   includeEntryFee: boolean;
   entryFeeAmount: number;
+  entryFeeConfigId: string | null;
   discountApplications: { discountRuleId: string; amountDeducted: number }[];
 }
 
@@ -107,10 +108,14 @@ async function persistOrder(
   }));
 
   if (input.includeEntryFee) {
+    // reference_id = the entry_fee_config row actually charged — lets a
+    // later payment webhook snapshot the exact fee version onto
+    // subscriptions.entry_fee_config_id instead of whatever's current by
+    // the time payment succeeds.
     orderItemsToInsert.push({
       order_id: order.id,
       item_type: "entry_fee",
-      reference_id: null,
+      reference_id: input.entryFeeConfigId,
       family_member_id: null,
       quantity: 1,
       unit_price: input.entryFeeAmount,

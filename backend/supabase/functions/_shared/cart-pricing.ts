@@ -60,6 +60,7 @@ export interface CartPricingResult {
   entryFeeTotal: number;
   totalAmount: number;
   entryFeeAmount: number;
+  entryFeeConfigId: string | null;
   includeEntryFee: boolean;
   resolvedLines: ResolvedLine[];
   discountApplications: DiscountApplication[];
@@ -224,17 +225,31 @@ export async function resolveCartItems(
   return resolved;
 }
 
-export async function fetchCurrentEntryFeeAmount(admin: SupabaseClient): Promise<number> {
+export interface CurrentEntryFee {
+  id: string;
+  amount: number;
+}
+
+/**
+ * Returns the config row's id alongside the amount so the caller can
+ * snapshot exactly which fee version was charged (order_items.reference_id
+ * for the entry_fee line — see checkout-create-order) — subscriptions.
+ * entry_fee_config_id is documented as "fee snapshot at purchase", and that
+ * snapshot has to trace back to the version actually charged, not whatever
+ * happens to be current when a payment webhook later activates the
+ * subscription (the venue could have changed the fee in between).
+ */
+export async function fetchCurrentEntryFee(admin: SupabaseClient): Promise<CurrentEntryFee> {
   const { data, error } = await admin
     .from("entry_fee_config")
-    .select("amount")
+    .select("id, amount")
     .is("effective_to", null)
     .order("effective_from", { ascending: false })
     .limit(1)
     .maybeSingle();
   if (error) throw new HttpError(500, `Failed to look up entry fee: ${error.message}`);
   if (!data) throw new HttpError(500, "No entry fee is currently configured for this venue");
-  return data.amount;
+  return data;
 }
 
 async function fetchDiscountContext(
@@ -290,7 +305,9 @@ export async function computeCartPricing(
   includeEntryFee: boolean,
 ): Promise<CartPricingResult> {
   const resolvedLines = await resolveCartItems(admin, items, familyId);
-  const entryFeeAmount = includeEntryFee ? await fetchCurrentEntryFeeAmount(admin) : 0;
+  const currentEntryFee = includeEntryFee ? await fetchCurrentEntryFee(admin) : null;
+  const entryFeeAmount = currentEntryFee?.amount ?? 0;
+  const entryFeeConfigId = currentEntryFee?.id ?? null;
 
   const compositionLines: CartLineForComposition[] = resolvedLines
     .filter((l) => l.itemType === "access_plan" || l.itemType === "package")
@@ -325,6 +342,7 @@ export async function computeCartPricing(
     entryFeeTotal,
     totalAmount,
     entryFeeAmount,
+    entryFeeConfigId,
     includeEntryFee,
     resolvedLines,
     discountApplications,
