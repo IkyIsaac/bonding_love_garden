@@ -47,6 +47,16 @@ Deno.serve(async (req) => {
     if (wristbandError) throw new HttpError(500, `Failed to look up wristband: ${wristbandError.message}`);
     if (!wristband) throw new HttpError(404, "No wristband found for this QR code");
 
+    // Every scan attempt updates this, valid or not — it's a scan-activity
+    // timestamp, not an admission-success one (found missing entirely while
+    // reviewing the Wristbands admin page against real scan data: every
+    // wristband showed "Last scanned: Never" despite having been scanned).
+    const { error: touchError } = await admin
+      .from("wristbands")
+      .update({ last_scanned_at: new Date().toISOString() })
+      .eq("id", wristband.id);
+    if (touchError) console.error(`Failed to update last_scanned_at for wristband ${wristband.id}: ${touchError.message}`);
+
     const beneficiary = await resolveBeneficiaryDisplay(admin, wristband.family_id, wristband.family_member_id);
     const plan = wristband.subscription_id ? await resolvePlanDisplay(admin, wristband.subscription_id) : null;
 
