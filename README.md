@@ -5,14 +5,17 @@ Reusable play park / family entertainment venue management platform: a Flutter m
 - **Spec:** [`docs/Bonding_Love_Garden_Project_Brief.md`](docs/Bonding_Love_Garden_Project_Brief.md)
 - **Architecture, schema, RLS, Edge Functions, build order:** [`docs/ARCHITECTURE_PLAN.md`](docs/ARCHITECTURE_PLAN.md)
 - **UI design reference (Stitch mockups + design system):** [`docs/design/`](docs/design/)
+- **Build progress tracker (updated every commit):** [`PROGRESS.md`](PROGRESS.md)
+- **Developer & user documentation site:** [`docs-site/`](docs-site/) (Docusaurus — `cd docs-site && npm start`)
 
 ## Layout
 
 ```
-backend/   Supabase project — migrations, Edge Functions, seed data
-web/       Next.js admin dashboard (owner/manager)
-mobile/    Flutter app — Customer (primary) + Staff (assisted) experiences
-docs/      Spec, architecture plan, design mockups
+backend/    Supabase project — migrations, Edge Functions, seed data
+web/        Next.js admin dashboard (owner/manager)
+mobile/     Flutter app — Customer (primary) + Staff (assisted) experiences
+docs-site/  Docusaurus documentation site (developer guide + user guide)
+docs/       Spec, architecture plan, design mockups
 ```
 
 ## Getting started
