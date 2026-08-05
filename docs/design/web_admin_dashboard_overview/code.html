@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Love Garden Admin - Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#1a4d2e",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-primary": "#9dd3aa",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary": "#00361a",
+                        "surface-tint": "#366847",
+                        "secondary": "#b80049",
+                        "on-surface": "#191c19",
+                        "on-primary-fixed": "#00210e",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c1c9bf",
+                        "secondary-container": "#e2165f",
+                        "outline": "#717971",
+                        "surface-container-highest": "#e1e3de",
+                        "primary-fixed-dim": "#9dd3aa",
+                        "on-secondary-fixed": "#400014",
+                        "secondary-fixed-dim": "#ffb2be",
+                        "primary-fixed": "#b8f0c5",
+                        "tertiary-fixed": "#d1e4ff",
+                        "background": "#f8faf5",
+                        "on-tertiary-container": "#71b5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#88bd95",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#002f54",
+                        "on-secondary-fixed-variant": "#900038",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffd9de",
+                        "on-tertiary-fixed": "#001d36",
+                        "inverse-on-surface": "#f0f1ec",
+                        "surface-variant": "#e1e3de",
+                        "on-primary-fixed-variant": "#1d5031",
+                        "surface-dim": "#d9dbd6",
+                        "on-background": "#191c19",
+                        "inverse-surface": "#2e312e",
+                        "surface": "#f8faf5",
+                        "tertiary-fixed-dim": "#9ecaff",
+                        "tertiary-container": "#004678",
+                        "surface-bright": "#f8faf5",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeee9",
+                        "surface-container-low": "#f3f4ef",
+                        "on-surface-variant": "#414942",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e7e9e4",
+                        "on-tertiary-fixed-variant": "#00497d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "sm": "12px",
+                        "margin": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-depth {
+            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.06);
+        }
+        body {
+            background-color: #f8faf5;
+            color: #191c19;
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-active {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c9bf;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex overflow-hidden">
+<!-- NavigationDrawer (Persistent Left) -->
+<aside class="hidden md:flex flex-col h-screen w-80 bg-surface-container-low dark:bg-surface-dim shadow-sm py-lg border-r-0 z-50 overflow-y-auto">
+<div class="px-gutter mb-lg">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Love Garden Admin</h1>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff Management</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-body-md text-body-md">Plan Builder</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="percent">percent</span>
+<span class="font-body-md text-body-md">Discount Rules</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-body-md text-body-md">Guest Analytics</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container rounded-xl px-4 py-3 mx-2 transition-all cursor-pointer mt-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-gutter py-md">
+<div class="bg-surface-container p-md rounded-xl flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">JD</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Jane Doe</p>
+<p class="text-xs text-outline">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto custom-scrollbar relative">
+<!-- TopAppBar (Embedded in Canvas) -->
+<header class="sticky top-0 bg-surface dark:bg-surface-dim z-40 flex justify-between items-center px-gutter py-md w-full transition-colors">
+<div class="flex items-center gap-base">
+<h2 class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed">Overview</h2>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Live</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-150 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-150 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-2 bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-md text-label-md transition-transform active:scale-95 hover:opacity-90">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                    Register Guest
+                </button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="px-gutter py-md max-w-7xl mx-auto w-full space-y-md">
+<!-- Bento Grid Metrics -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-md">
+<!-- Revenue Trend Card -->
+<div class="md:col-span-6 lg:col-span-5 bg-surface-container-lowest p-md rounded-[24px] soft-depth border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-md text-label-md text-outline-variant uppercase">Revenue Trend</p>
+<h3 class="font-display-lg text-display-lg text-primary mt-xs">$42,850.00</h3>
+</div>
+<span class="text-green-600 bg-green-50 px-2 py-1 rounded-lg text-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                                12.5%
+                            </span>
+</div>
+<p class="text-on-surface-variant font-body-md text-body-md mt-sm">Estimated for this month</p>
+</div>
+<div class="mt-lg h-32 w-full relative overflow-hidden">
+<!-- Abstract Chart Simulation -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0,35 Q10,32 20,25 T40,28 T60,15 T80,20 T100,5" fill="none" stroke="#1a4d2e" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0,35 Q10,32 20,25 T40,28 T60,15 T80,20 T100,5 L100,40 L0,40 Z" fill="url(#grad1)" opacity="0.1"></path>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#1a4d2e;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#1a4d2e;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+<!-- Active Sessions -->
+<div class="md:col-span-6 lg:col-span-3 bg-primary-container text-on-primary-container p-md rounded-[24px] soft-depth flex flex-col justify-between relative overflow-hidden">
+<div class="z-10">
+<p class="font-label-md text-label-md text-on-primary-container/70 uppercase">Current Guests</p>
+<h3 class="font-display-lg text-display-lg mt-xs">142</h3>
+<p class="text-on-primary-container/80 font-body-md text-body-md mt-sm">Capacity: 75% full</p>
+</div>
+<!-- Leaf Inspired Progress Circle -->
+<div class="z-10 mt-md">
+<div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-secondary rounded-full"></div>
+</div>
+</div>
+<!-- Abstract Background Shape -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+</div>
+<!-- New Registrations -->
+<div class="md:col-span-12 lg:col-span-4 bg-surface-container-lowest p-md rounded-[24px] soft-depth border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-md text-label-md text-outline-variant uppercase">New Registrations</p>
+<h3 class="font-headline-lg text-headline-lg text-primary mt-xs">842</h3>
+</div>
+<div class="w-12 h-12 bg-secondary-container/20 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+</div>
+</div>
+<div class="flex -space-x-3 mt-md">
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-gray-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young woman with warm lighting, set against a blurred garden background to maintain the premium organic brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDazdQNzzFL3b6CZaWXDhZUhC-c6NiIIh1CJHDkuahIRiDeXZWQXBqPeY4Y_uKunpPergFiPhraBPth5KlmNy0hszKGgEbUfIo7AqV-lptkhihBvjT5_zATnQJQQ5rULLYPbQrHxSxdO15zP92NCcq7kPfQpbls8g_l4Y04A31U1du-Hu6NjynoEriDUeMfSpx29c2b5Sfmr99ud8Zd6BDqkS0SmEfyTnSJNYGXrrzfeclEtrUZ8a13BqCv0x9ibpW6MX_Qpq_KzI"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-gray-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A candid photo of a happy father playing with his child in a sun-drenched botanical park, captured with shallow depth of field and soft natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuOcgWGuUnriwH199ohsUiIfROkMSCYH9lBmPG_tGFVSZPIEvv9NNwH6j-hy0jfkuJdtKKQkXesMFZikZrG-4Jwzo7YQzv145Ke25Q8XSmNlWo1UT-Yv5terGhP_WFMv-J3sK-GeAlQVtv6dH8HJcoFqDeUDR_1Do3XtxM_3qXJW6zMf1uLxyzyRSxVes25sVXZnPyXAK7brzKRqY13qdK9akWNOJ1wpZDa8MpZKTpQx9vQdAYLYi5qWqL3bccu91cDWg_6Mimptk"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-gray-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of an elderly man with kind eyes, wearing premium leisure attire, outdoors in a lush green environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6wOrV1KXGNTHVSOv6EqD6FX05tpeoF-ieF-qi09KTqsIDO1W3nFd2ZiwWWgmVkUk1IdYTwNVTxKQ-jTCvlqfN1H1qVIIQWAPaZSTIH1aLK8San4OFRZF53neBg9FKXbMjIsXE-VmVy_ifs_M4FpZrk5SW9nwdFWQgdvCEGtaQFgjwb4ndsbwldUXtjsOl5JV0orhrjGGDcXsoWmzftQj_3qcTmnswTpwmez1XKPjqNCmWAqJr_R22epWFHexSSI7_Gf4TBRgbvi4"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">
+                                +12
+                            </div>
+</div>
+</div>
+<p class="text-outline mt-md font-body-md text-body-md italic">+14% since last weekend</p>
+</div>
+</section>
+<!-- Table Section -->
+<section class="bg-surface-container-lowest rounded-[32px] soft-depth border border-outline-variant/20 overflow-hidden">
+<div class="px-gutter py-md flex flex-col md:flex-row justify-between items-start md:items-center gap-base">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary">Real-time Play Sessions</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">Manage current activity across all garden zones</p>
+</div>
+<div class="flex gap-sm">
+<select class="rounded-full border-outline-variant bg-surface-container-low font-label-md text-label-md px-4 py-2 focus:ring-primary focus:border-primary">
+<option>All Zones</option>
+<option>Rose Garden</option>
+<option>Labyrinth</option>
+<option>Zen Terrace</option>
+</select>
+<button class="bg-surface-container-high hover:bg-surface-variant transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/50 border-b border-outline-variant/10">
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Guest Identity</th>
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Zone</th>
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Entry Time</th>
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Status</th>
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Plan</th>
+<th class="px-gutter py-4 font-label-md text-label-md text-outline uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1 -->
+<tr class="hover:bg-primary-fixed-dim/5 transition-colors group">
+<td class="px-gutter py-4">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed-dim flex items-center justify-center text-primary-container font-bold">LW</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Lucas Walker</p>
+<p class="text-xs text-outline">ID: LG-8829</p>
+</div>
+</div>
+</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">Rose Garden Alpha</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">10:42 AM</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 bg-green-700 rounded-full"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-secondary-container/10 text-secondary border border-secondary/20">Garden Master</span>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-primary-fixed-dim/5 transition-colors group">
+<td class="px-gutter py-4">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed font-bold">AM</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Aria Martinez</p>
+<p class="text-xs text-outline">ID: LG-8830</p>
+</div>
+</div>
+</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">Zen Terrace</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">11:15 AM</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 bg-green-700 rounded-full"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-surface-container-highest text-on-surface-variant border border-outline-variant/30">Standard Entry</span>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-primary-fixed-dim/5 transition-colors group">
+<td class="px-gutter py-4">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700 font-bold">BJ</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Ben Jameson</p>
+<p class="text-xs text-outline">ID: LG-8831</p>
+</div>
+</div>
+</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">Botanical Walkway</td>
+<td class="px-gutter py-4 text-on-surface-variant font-body-md">11:30 AM</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 bg-orange-700 rounded-full animate-pulse"></span>
+                                        Ending Soon
+                                    </span>
+</td>
+<td class="px-gutter py-4">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-secondary-container/10 text-secondary border border-secondary/20">Garden Master</span>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-gutter py-md bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center">
+<span class="text-sm text-outline font-body-md">Showing 3 of 142 active sessions</span>
+<div class="flex gap-base">
+<button class="px-4 py-1 text-sm font-label-md text-on-surface-variant hover:text-primary transition-colors">Previous</button>
+<button class="px-4 py-1 text-sm font-label-md bg-primary text-on-primary rounded-full">Next</button>
+</div>
+</div>
+</section>
+<!-- Bottom Spacer for Airiness -->
+<div class="h-xl"></div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on most screens, but useful for quick action here) -->
+<div class="fixed bottom-margin right-margin z-50">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[28px]" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</button>
+</div>
+<!-- Script for subtle interaction -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Placeholder for chart animation or interaction logic
+            const cards = document.querySelectorAll('.soft-depth');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('transition-all', 'duration-300', '-translate-y-1');
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('-translate-y-1');
+                });
+            });
+        });
+    </script>
+</body></html>

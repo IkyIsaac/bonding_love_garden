@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guest Analytics - Love Garden Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e7e9e4",
+                    "secondary-container": "#e2165f",
+                    "tertiary-container": "#004678",
+                    "surface-container-low": "#f3f4ef",
+                    "on-surface": "#191c19",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#ffd9de",
+                    "secondary-fixed-dim": "#ffb2be",
+                    "on-tertiary-fixed": "#001d36",
+                    "surface-container-highest": "#e1e3de",
+                    "surface-bright": "#f8faf5",
+                    "on-surface-variant": "#414942",
+                    "surface-tint": "#366847",
+                    "inverse-primary": "#9dd3aa",
+                    "background": "#f8faf5",
+                    "tertiary": "#002f54",
+                    "primary-container": "#1a4d2e",
+                    "tertiary-fixed": "#d1e4ff",
+                    "primary-fixed-dim": "#9dd3aa",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#191c19",
+                    "on-secondary-fixed": "#400014",
+                    "secondary": "#b80049",
+                    "on-tertiary-container": "#71b5ff",
+                    "on-primary-fixed": "#00210e",
+                    "inverse-surface": "#2e312e",
+                    "primary-fixed": "#b8f0c5",
+                    "on-tertiary-fixed-variant": "#00497d",
+                    "primary": "#00361a",
+                    "surface-variant": "#e1e3de",
+                    "tertiary-fixed-dim": "#9ecaff",
+                    "outline-variant": "#c1c9bf",
+                    "on-secondary-fixed-variant": "#900038",
+                    "on-secondary-container": "#fffbff",
+                    "error": "#ba1a1a",
+                    "surface-container": "#edeee9",
+                    "surface-dim": "#d9dbd6",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f8faf5",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "outline": "#717971",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f0f1ec",
+                    "on-primary-fixed-variant": "#1d5031",
+                    "on-primary-container": "#88bd95"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "sm": "12px",
+                    "md": "24px",
+                    "margin": "32px",
+                    "lg": "48px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "xl": "80px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-shadow {
+            box-shadow: 0 8px 32px -4px rgba(26, 77, 46, 0.08);
+        }
+        .heat-map-cell {
+            transition: transform 0.2s ease;
+        }
+        .heat-map-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- NavigationDrawer -->
+<aside class="hidden md:flex h-screen w-80 flex-col py-lg bg-surface-container-low border-r-0 shadow-sm shrink-0">
+<div class="px-gutter mb-lg">
+<h1 class="font-headline-md text-headline-md text-primary">Love Garden Admin</h1>
+</div>
+<nav class="flex-1 space-y-2">
+<div class="flex items-center gap-4 text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md text-body-md">Staff Management</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-body-md text-body-md">Plan Builder</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">percent</span>
+<span class="font-body-md text-body-md">Discount Rules</span>
+</div>
+<!-- ACTIVE TAB: Guest Analytics -->
+<div class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-xl px-4 py-3 mx-2 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-body-md text-body-md">Guest Analytics</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+</nav>
+<div class="px-gutter pt-md">
+<div class="p-md bg-secondary-fixed text-on-secondary-fixed-variant rounded-xl">
+<p class="font-label-md text-label-md">System Health</p>
+<div class="w-full bg-on-secondary-fixed-variant/10 h-2 rounded-full mt-2">
+<div class="bg-secondary h-full rounded-full w-4/5"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-gutter py-md w-full bg-surface z-10">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-2 hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-lg text-headline-lg text-primary">Guest Analytics</h2>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="hidden lg:flex items-center gap-xs px-md py-sm bg-surface-container rounded-full">
+<span class="material-symbols-outlined text-outline">calendar_today</span>
+<span class="font-label-md text-label-md">Oct 12 - Oct 19, 2023</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-low rounded-full text-on-surface-variant active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed border-2 border-surface-container-highest cursor-pointer overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly park administrator smiling warmly. The image is a close-up portrait with soft, natural lighting, featuring a clean green and white background consistent with a high-end botanical garden theme. The aesthetic is professional, modern, and hospitable, using a bright and clean color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA29VQpIUuPezeNzUsP-WJiMtDCGo0dN_2XHFW88LLiFwpLZLDtyfgZ5Sr-aiBpEnLgRTc16OGIf5ioPDvAXFs_ePmlJTcVFuRwFXAy7its7YbVeeN9cKVXi784tuo1x9iftQhh1Mb0Y6jnPIX5UycdgXvEUnnheVIS4Q2fUt_UFLHlT0pixpp0dJJW4ndhS1cwx7nMbdKutaEO6cgKk6Zi6mdeTD-Y09XwIJoNZ6EHwan_QpMeJHw7c_6oZEeFTKXavC8rnBd-U-w"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="flex-1 overflow-y-auto px-gutter pb-xl space-y-md">
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mt-sm">
+<div class="bg-surface-container-lowest p-md rounded-[32px] soft-shadow border border-surface-variant">
+<div class="flex justify-between items-start mb-2">
+<span class="p-2 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-xl material-symbols-outlined">timer</span>
+<span class="text-secondary font-label-md">+12%</span>
+</div>
+<p class="text-outline font-label-md">Avg. Session Duration</p>
+<h3 class="font-headline-lg text-headline-lg mt-1">2h 45m</h3>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-[32px] soft-shadow border border-surface-variant">
+<div class="flex justify-between items-start mb-2">
+<span class="p-2 bg-primary-fixed text-on-primary-fixed-variant rounded-xl material-symbols-outlined">replay</span>
+<span class="text-primary font-label-md">+5.4%</span>
+</div>
+<p class="text-outline font-label-md">Return Rate</p>
+<h3 class="font-headline-lg text-headline-lg mt-1">34.2%</h3>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-[32px] soft-shadow border border-surface-variant">
+<div class="flex justify-between items-start mb-2">
+<span class="p-2 bg-secondary-fixed text-on-secondary-fixed-variant rounded-xl material-symbols-outlined">groups</span>
+<span class="text-primary font-label-md">+18%</span>
+</div>
+<p class="text-outline font-label-md">Total Visitors (Week)</p>
+<h3 class="font-headline-lg text-headline-lg mt-1">12,482</h3>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-[32px] soft-shadow border border-surface-variant">
+<div class="flex justify-between items-start mb-2">
+<span class="p-2 bg-surface-container-high text-on-surface-variant rounded-xl material-symbols-outlined">payments</span>
+<span class="text-secondary font-label-md">+22%</span>
+</div>
+<p class="text-outline font-label-md">Avg. Guest Spend</p>
+<h3 class="font-headline-lg text-headline-lg mt-1">$68.50</h3>
+</div>
+</div>
+<!-- Main Charts Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Attendance Trends (Bento Large) -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-lg rounded-[32px] soft-shadow border border-surface-variant relative overflow-hidden">
+<div class="flex justify-between items-center mb-lg relative z-10">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary">Attendance Trends</h4>
+<p class="text-outline font-body-md">Daily visitor volume vs Last week</p>
+</div>
+<select class="bg-surface-container border-none rounded-full px-md font-label-md text-on-surface-variant focus:ring-primary">
+<option>This Week</option>
+<option>Last Week</option>
+</select>
+</div>
+<!-- Placeholder Chart Visualization -->
+<div class="h-64 flex items-end justify-between gap-4 relative z-10">
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-24 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-16"></div>
+<div class="absolute bottom-0 w-full bg-primary h-12 transition-all duration-500 group-hover:h-14"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Mon</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-32 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-28"></div>
+<div class="absolute bottom-0 w-full bg-primary h-20 transition-all duration-500 group-hover:h-24"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Tue</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-48 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-36"></div>
+<div class="absolute bottom-0 w-full bg-primary h-32 transition-all duration-500 group-hover:h-36"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Wed</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-40 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-38"></div>
+<div class="absolute bottom-0 w-full bg-primary h-28 transition-all duration-500 group-hover:h-32"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Thu</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-secondary-container/10 rounded-t-xl h-56 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-secondary/20 h-48"></div>
+<div class="absolute bottom-0 w-full bg-secondary h-44 transition-all duration-500 group-hover:h-48"></div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-secondary">Fri</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-60 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-54"></div>
+<div class="absolute bottom-0 w-full bg-primary h-50 transition-all duration-500 group-hover:h-54"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Sat</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-2">
+<div class="w-full bg-surface-container rounded-t-xl h-52 relative overflow-hidden group">
+<div class="absolute bottom-0 w-full bg-primary/20 h-44"></div>
+<div class="absolute bottom-0 w-full bg-primary h-40 transition-all duration-500 group-hover:h-44"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Sun</span>
+</div>
+</div>
+</div>
+<!-- Visitor Demographics (Donut) -->
+<div class="bg-surface-container-lowest p-lg rounded-[32px] soft-shadow border border-surface-variant">
+<h4 class="font-headline-md text-headline-md text-primary mb-lg">Demographics</h4>
+<div class="flex flex-col items-center">
+<div class="relative w-48 h-48 mb-lg">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="transparent" r="15.9" stroke="#edeee9" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.9" stroke="#00361a" stroke-dasharray="65 100" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="15.9" stroke="#b80049" stroke-dasharray="35 100" stroke-dashoffset="-65" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md">12.4k</span>
+<span class="font-label-sm text-label-sm text-outline">Total</span>
+</div>
+</div>
+<div class="w-full space-y-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-body-md">Children (0-12)</span>
+</div>
+<span class="font-label-md">65%</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="font-body-md">Adults</span>
+</div>
+<span class="font-label-md">35%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Heatmap & Regions Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Peak Hours Heatmap -->
+<div class="bg-surface-container-lowest p-lg rounded-[32px] soft-shadow border border-surface-variant">
+<div class="flex justify-between items-center mb-lg">
+<h4 class="font-headline-md text-headline-md text-primary">Peak Hours Heatmap</h4>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline">Low</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
+<div class="w-3 h-3 rounded-sm bg-primary-fixed-dim"></div>
+<div class="w-3 h-3 rounded-sm bg-on-primary-fixed-variant"></div>
+<div class="w-3 h-3 rounded-sm bg-primary-container"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Peak</span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1">
+<!-- Column headers -->
+<div></div>
+<div class="text-center font-label-sm text-outline pb-2">10am</div>
+<div class="text-center font-label-sm text-outline pb-2">12pm</div>
+<div class="text-center font-label-sm text-outline pb-2">2pm</div>
+<div class="text-center font-label-sm text-outline pb-2">4pm</div>
+<div class="text-center font-label-sm text-outline pb-2">6pm</div>
+<div class="text-center font-label-sm text-outline pb-2">8pm</div>
+<!-- Row: Mon -->
+<div class="font-label-sm text-outline self-center">Mon</div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed-dim"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed"></div>
+<!-- Row: Wed -->
+<div class="font-label-sm text-outline self-center">Wed</div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed-dim"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed-dim"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed"></div>
+<!-- Row: Fri -->
+<div class="font-label-sm text-outline self-center">Fri</div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed-dim"></div>
+<!-- Row: Sat -->
+<div class="font-label-sm text-outline self-center">Sat</div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-secondary shadow-lg"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-secondary shadow-lg"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-container"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-on-primary-fixed-variant"></div>
+<div class="h-10 rounded-lg heat-map-cell bg-primary-fixed-dim"></div>
+</div>
+</div>
+<!-- Top Visitor Regions -->
+<div class="bg-surface-container-lowest p-lg rounded-[32px] soft-shadow border border-surface-variant flex flex-col">
+<h4 class="font-headline-md text-headline-md text-primary mb-lg">Top Visitor Regions</h4>
+<div class="flex-1 flex gap-lg items-center">
+<div class="w-1/2 h-48 bg-surface-container rounded-2xl relative overflow-hidden">
+<div class="absolute inset-0 opacity-40 grayscale group hover:grayscale-0 transition-all duration-500">
+<div class="bg-cover bg-center w-full h-full" data-alt="A stylized and modern vector-style map showing a metropolitan area with lush green parks and residential districts. The design uses a soft botanical color palette with deep greens and subtle warm pinks to highlight specific zones of high visitor traffic. The map feels clean and architectural, avoiding clutter for a premium dashboard feel." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAgr_Rk1vKiEv1rBacnveFC9aPtk7mgZwunqW2YOxzyBlzsB-89gwTK81SG8EU_VMArEYMZ3naU-uDsfW6Za1ZrmJeJyjmyhVVjF6A-Oh-3Fa1NNGcA4TdNPD9e5La0xMCZ84xh01Ap6AjJ91O7KcY7HrBEZrLtUWDs5t8e0slNwF0wwDCXt6lv3veQ90FqFENqyLOBrSnEEZR3hPvOADIZPKJc9Dg7xUAaK46GX_Ve7wHvkaSQkRJGBwmcG-LiB9eDMgtcU0sAN7k')"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-6 h-6 bg-secondary/80 rounded-full animate-ping"></div>
+<div class="absolute w-4 h-4 bg-secondary rounded-full border-2 border-surface"></div>
+</div>
+</div>
+<div class="w-1/2 space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<span class="font-label-md">Downtown District</span>
+<span class="text-primary font-bold">42%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full">
+<div class="bg-primary h-full rounded-full w-[42%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<span class="font-label-md">Westside Heights</span>
+<span class="text-primary font-bold">28%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full">
+<div class="bg-primary h-full rounded-full w-[28%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<span class="font-label-md">Riverside Estate</span>
+<span class="text-primary font-bold">18%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full">
+<div class="bg-primary h-full rounded-full w-[18%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center">
+<span class="font-label-md">Other</span>
+<span class="text-primary font-bold">12%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full">
+<div class="bg-primary h-full rounded-full w-[12%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent High-Value Guests Table -->
+<div class="bg-surface-container-lowest p-lg rounded-[32px] soft-shadow border border-surface-variant overflow-hidden">
+<div class="flex justify-between items-center mb-lg">
+<h4 class="font-headline-md text-headline-md text-primary">Recent High-Value Guests</h4>
+<button class="flex items-center gap-2 text-secondary font-label-md hover:underline">
+                            View All Members
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-separate border-spacing-y-4">
+<thead>
+<tr class="text-outline font-label-md uppercase tracking-wider">
+<th class="px-md pb-2">Guest</th>
+<th class="px-md pb-2">Membership</th>
+<th class="px-md pb-2 text-center">Visits</th>
+<th class="px-md pb-2">Last Visit</th>
+<th class="px-md pb-2 text-right">Lifetime Spend</th>
+<th class="px-md pb-2"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group hover:bg-surface-container-low transition-colors rounded-2xl">
+<td class="p-md rounded-l-2xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of an upscale family man in his 40s, looking professional yet relaxed in a green polo shirt. The lighting is bright and clear, with a blurred botanical garden background. The composition is a clean headshot for a user profile, matching the luxurious and friendly brand identity of Love Garden." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1azhZ4YHheND_fwHblfv_1EWt6-mKgoz-g_weXUKadQQALZc3nOTC2z6uWMArzUtsLniL41GQ4P4XBCE-r3iTdSnrDUmVeF-ynYQ3ZRt0Y2BU4n_KynAps8bmeGYQlfo9acCaa7SKFoR2_SaGtAqiYRVKprgsQNNfA-ScbiJeDz2V7U5d4Ktq2Zm_li8KA5EnxOVpDeqxkie_rQtyEslSm1yIHk-cmg9OGyiqkCLXu7ez9lf4BXZAC5DUo0snFihyho93dxX_FDA"/>
+</div>
+<div>
+<p class="font-label-md">Julian Thorne</p>
+<p class="text-outline text-label-sm">julian.t@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary border border-secondary/20 rounded-full font-label-sm">Platinum</span>
+</td>
+<td class="p-md text-center font-label-md">24</td>
+<td class="p-md">
+<p class="font-body-md">Oct 18, 2023</p>
+<p class="text-outline text-label-sm">4:30 PM</p>
+</td>
+<td class="p-md text-right font-label-md text-primary">$1,840.00</td>
+<td class="p-md rounded-r-2xl text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors rounded-2xl">
+<td class="p-md rounded-l-2xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-quality portrait of a stylish woman in her early 30s, looking into the camera with a confident smile. She is wearing elegant casual wear in earth tones. The background is a soft, out-of-focus garden patio with warm sunlight. The image is professional, bright, and fits the luxury botanical park aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZFto6e4WOESIOwUJnrqNVPwFN1zAW6BNh4OyhkoXEHCGvTIZ-V5KmBiFoSsPxKU6_LdAErzdJu5n6yhtPu9UBxz66-X5GhzXRmnNDicsrcneOfP4q7N_iEjhYtq9tgAfiLkbRsPM5ZuYZNUFGQZH-c5puzQ2DqfMs_x6dyEYulIOdTHeFuaKzaKfOxozvTsVmUYhYf7MSO_9POG4zbwtLvk0IVfhSlIqfMUx54WkYS2b2hy4byRLcLVAQzvoSg9ZzTd-9tajWomk"/>
+</div>
+<div>
+<p class="font-label-md">Elena Rodriguez</p>
+<p class="text-outline text-label-sm">elena.rod@email.com</p>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full font-label-sm">Gold Family</span>
+</td>
+<td class="p-md text-center font-label-md">18</td>
+<td class="p-md">
+<p class="font-body-md">Oct 17, 2023</p>
+<p class="text-outline text-label-sm">11:15 AM</p>
+</td>
+<td class="p-md text-right font-label-md text-primary">$1,215.00</td>
+<td class="p-md rounded-r-2xl text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors rounded-2xl">
+<td class="p-md rounded-l-2xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful older man in his late 50s with grey hair and glasses, wearing a light linen shirt. The lighting is warm afternoon sun, creating a hospitable and serene mood. He is set against a lush greenery background, consistent with a high-end botanical garden visitor profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqcsHnRGS-Cnf0-SVbDXWFqAvelTIyCxiGisn11jsfR3GotWi-CBg9Uq1l18gCQKXNjbM6GSjsU-UN6g1OIAX-4rAF4_DSR1tA_Ltq6FI60sHmMj2UM-nQbvK3UlLMbPWjB2PwR_lgqw4rwi9yRp0pjm07cESWzKqhsXP4IRiTVM5VVJg8uvyhJmU_q0CTkAfU3psaCqcr4J9zR8jRdfEBE7Dr4b9bStBQOt4CQ2G-rfzUj6GqKddIyozt730vfdvmLhY83wimJeI"/>
+</div>
+<div>
+<p class="font-label-md">Marcus Chen</p>
+<p class="text-outline text-label-sm">m.chen@service.net</p>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full font-label-sm">Gold Family</span>
+</td>
+<td class="p-md text-center font-label-md">31</td>
+<td class="p-md">
+<p class="font-body-md">Oct 16, 2023</p>
+<p class="text-outline text-label-sm">09:45 AM</p>
+</td>
+<td class="p-md text-right font-label-md text-primary">$2,450.00</td>
+<td class="p-md rounded-r-2xl text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation (Hidden on desktop) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-4 md:hidden bg-surface-container shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">family_restroom</span>
+<span class="font-label-md text-label-md">Family</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Wallet</span>
+</div>
+</nav>
+<script>
+        // Simple interactivity for demonstration
+        document.querySelectorAll('.heat-map-cell').forEach(cell => {
+            cell.addEventListener('mouseenter', function() {
+                // Potential tooltip logic
+            });
+        });
+
+        // Simulating some dynamic entrance animations
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.soft-shadow');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Love Garden Staff Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#1a4d2e",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-primary": "#9dd3aa",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "primary": "#00361a",
+                    "surface-tint": "#366847",
+                    "secondary": "#b80049",
+                    "on-secondary": "#ffffff",
+                    "background": "#f8faf5",
+                    "surface": "#f8faf5",
+                    "surface-container": "#edeee9",
+                    "surface-container-low": "#f3f4ef",
+                    "surface-container-high": "#e7e9e4",
+                    "on-surface": "#191c19",
+                    "on-surface-variant": "#414942",
+                    "outline": "#717971",
+                    "outline-variant": "#c1c9bf",
+                    "secondary-container": "#e2165f",
+                    "on-primary-container": "#88bd95"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "base": "8px",
+                    "lg": "48px",
+                    "sm": "12px",
+                    "margin": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanner-overlay {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+        }
+        .scan-frame {
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.6);
+        }
+        .animate-scan {
+            animation: scan-line 2s linear infinite;
+        }
+        @keyframes scan-line {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden">
+<!-- TOP APP BAR -->
+<header class="bg-surface sticky top-0 z-40 flex justify-between items-center px-gutter py-md w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Love Garden</h1>
+</div>
+<div class="relative active:scale-95 duration-150 cursor-pointer">
+<span class="material-symbols-outlined text-primary text-2xl">notifications</span>
+<span class="absolute top-0 right-0 w-2.5 h-2.5 bg-secondary rounded-full border-2 border-surface"></span>
+</div>
+</header>
+<!-- MAIN DASHBOARD CONTENT -->
+<main class="px-gutter pt-4 pb-32 space-y-6" id="dashboard-view">
+<!-- Welcome Section -->
+<section>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Good Morning, Sarah</h2>
+<p class="text-on-surface-variant">The garden is currently at 65% capacity.</p>
+</section>
+<!-- Operational Stats Cards (Bento Style) -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-5 rounded-[24px] flex flex-col justify-between h-40 shadow-sm border border-outline-variant/30 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-primary text-3xl">groups</span>
+<div>
+<div class="font-headline-md text-primary">32</div>
+<div class="text-label-md text-on-surface-variant">Active Visitors</div>
+</div>
+</div>
+<div class="bg-secondary-container/10 p-5 rounded-[24px] flex flex-col justify-between h-40 shadow-sm border border-secondary/20 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-secondary text-3xl">emergency_home</span>
+<div>
+<div class="font-headline-md text-secondary">5</div>
+<div class="text-label-md text-on-surface-variant">Plans Expiring</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<section class="space-y-4">
+<h3 class="text-label-md uppercase tracking-wider text-outline">Quick Actions</h3>
+<div class="grid gap-3">
+<button class="w-full h-16 bg-primary text-on-primary rounded-[24px] flex items-center px-6 gap-4 font-label-md shadow-lg active:scale-95 transition-all" onclick="openScanner()">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+                    Scan QR Code
+                </button>
+<button class="w-full h-16 bg-surface-container-high text-on-surface rounded-[24px] flex items-center px-6 gap-4 font-label-md active:scale-95 transition-all">
+<span class="material-symbols-outlined">person_add</span>
+                    Register Customer
+                </button>
+<button class="w-full h-16 bg-surface-container-high text-on-surface rounded-[24px] flex items-center px-6 gap-4 font-label-md active:scale-95 transition-all">
+<span class="material-symbols-outlined">shopping_bag</span>
+                    Sell Plan
+                </button>
+</div>
+</section>
+<!-- Recent Logs (Visual Polish) -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="text-label-md uppercase tracking-wider text-outline">Recent Activity</h3>
+<span class="text-primary font-label-md">View All</span>
+</div>
+<div class="bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-sm border border-outline-variant/20">
+<div class="p-4 flex items-center gap-4 border-b border-outline-variant/10">
+<div class="w-12 h-12 rounded-2xl bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful young boy with curly hair, wearing a colorful striped t-shirt, standing in a brightly lit garden setting. The lighting is soft and natural, emphasizing a premium, hospitable child care environment. The photography style is high-end, clean, and professional, consistent with a luxury park's aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_GqJnoqJbn3lydtATJWQPFmm_DYdVIxOK1wcQegtg6MSQ5vI-6b0hh7g7bhaHm4M_6pbCQLGPRu_dzVm6ARiL83GQp52Nm80PQzaI_twzJIpQnkAWRJa0g12uXqVWILRPZkSgBe2K0WMHhPCaYR-DvUMMB2TWq23Xax0ce8vAJ725XCJAxrZgAPq7ZXTUFtEej_7YW06gA8kgZqe-6mYsdGOxV8DLNoWYLnO2wdsRt6uJe7zo6Y5GRJ1AdN6dxHzFEQPku_lnZsI"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Leo Harrison</p>
+<p class="text-sm text-on-surface-variant">Check-in • 09:12 AM</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young girl with pigtails, laughing, with a soft-focus lush botanical garden background. The scene is bright and airy, reflecting a joyful and safe premium guest experience. The color palette is warm and inviting, featuring soft greens and pinks in the background, maintaining a professional yet playful tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbE373c5aN0hV_ESJ5tVCv-by5qar_hiHI4eozwK-DkfZOS2xZ4ubJ7NIr4HC0aMlpSHmomsdTa3FvxbRogGuCshNbPVWX1eKEUwtmoAaxhgMKvty4gtbjDMhOSATJe63twrMIe4cH6LC1QT6wST8GQ1ZZkqSReZpgtJ6gUKUlek4lG2Ct5RWzJrcKV9SBJHwJbmG620misnHp2ujfB7VEKtDgP_tZwkOFPQKrUbYKP0etP34XO_MUGHYxjoOiZUHnt8zJm-iSrmw"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Mia Chen</p>
+<p class="text-sm text-on-surface-variant">Check-in • 08:45 AM</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+</div>
+</section>
+</main>
+<!-- QR SCANNER OVERLAY (Hidden by default) -->
+<div class="fixed inset-0 z-50 hidden overflow-hidden" id="scanner-view">
+<!-- Live Camera Placeholder (Using Image for visual fidelity) -->
+<div class="absolute inset-0 bg-black">
+<img class="w-full h-full object-cover opacity-80" data-alt="A POV shot through a high-definition smartphone camera lens looking at a botanical park entrance. The frame captures lush tropical plants and soft morning light. The center of the image is slightly darker to prepare for the UI overlay. High contrast, sharp focus, very professional photography of a luxury garden interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRB93oeasJwbkbnr3jJ7GGNQgqsXXlAcQPAEB6568YrvtgLXQVfLM-n89lObErcyeMQ8ppgYKUAaoc6CuEeArczSTkl1-kjMvczN3WHSNvXNDIJnqwlLM1UA_zkCcFv2JsQlcnH44Z_IiYMBGh4B7IgVbwRuQ1vMknkN5IBQP9vmBxmzYMLL_Nz4hjU8psfXFmh1dagbmmqtwg9h0i6xe5_qOXBMZ8Q7OzWsuR1rxHWcX6SZMJGmEw7PM985hg1rsqHJt5hwNKdG8"/>
+</div>
+<!-- Scanner UI Shell -->
+<div class="relative w-full h-full flex flex-col">
+<!-- Toast Notification -->
+<div class="mx-6 mt-12 bg-secondary text-on-secondary px-6 py-4 rounded-[20px] shadow-2xl flex items-center gap-3 transition-all duration-500 transform translate-y-[-100px]" id="instant-alert">
+<span class="material-symbols-outlined">warning</span>
+<p class="font-label-md flex-1">Capacity alert: Zone B is at 90%</p>
+</div>
+<!-- Viewport Framing -->
+<div class="flex-1 flex items-center justify-center relative">
+<div class="w-64 h-64 border-4 border-white/40 rounded-[40px] relative scan-frame overflow-hidden">
+<div class="absolute inset-0 border-2 border-secondary animate-pulse opacity-50 rounded-[38px]"></div>
+<!-- Animated Scan Line -->
+<div class="absolute left-0 right-0 h-1 bg-secondary shadow-[0_0_15px_#b80049] animate-scan z-10"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<p class="mt-[320px] text-white/80 font-label-md bg-black/40 backdrop-blur-md px-4 py-2 rounded-full">Align QR code within frame</p>
+</div>
+</div>
+<!-- Controls -->
+<div class="p-10 safe-bottom flex justify-between items-center bg-gradient-to-t from-black/80 to-transparent">
+<button class="w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center text-white active:scale-90 transition-transform" onclick="closeScanner()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<button class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-2xl border-4 border-white/20 active:scale-90 transition-transform" onclick="simulateScanSuccess()">
+<span class="material-symbols-outlined" style="font-size: 32px;">qr_code_2</span>
+</button>
+<button class="w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined">flashlight_on</span>
+</button>
+</div>
+</div>
+<!-- Success Popup (Hidden) -->
+<div class="fixed inset-0 flex items-end justify-center p-6 bg-black/40 backdrop-blur-sm z-[60] hidden" id="success-popup">
+<div class="bg-surface w-full max-w-sm rounded-[40px] p-8 shadow-2xl transform translate-y-10 transition-transform duration-300 flex flex-col items-center">
+<div class="w-24 h-24 rounded-[32px] overflow-hidden mb-4 border-4 border-white shadow-lg">
+<img class="w-full h-full object-cover" data-alt="A close-up studio-style portrait of a smiling young boy named Theo. He has bright eyes and a joyous expression. The background is a clean, out-of-focus soft green texture. High-key lighting, premium quality, professional headshot for a luxury membership profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1t8XHT-zemoHSNfjFP9QZZYxetIu-ghoK20WLlZOTRRdgSxZzY1BWNqsXNBRFjodEl6Y1KhMt4NjTDG2cFciRhaTpPSnNh8uDM-sGWL7xrC6Z-Wj8gxKKDn78yMFCT18CnOs8GmYmGLU38T0hwnanD0n6crL4TqbfbMeK-Yg_HNXwVmWgHkhBzXPulmNZa37EyqJZeAi5OLPKt2IObqgBWOoiRpDQOMTrqqdxKp1ARg3q0GmP5qnJwOppFVfvlF3sLxh7Q2bCFHY"/>
+</div>
+<h4 class="font-headline-md text-on-surface">Theo Watson</h4>
+<div class="bg-primary/10 text-primary px-4 py-1.5 rounded-full flex items-center gap-1.5 mt-2 mb-6">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md font-bold">VALID ENTRY</span>
+</div>
+<div class="w-full grid grid-cols-2 gap-3">
+<button class="h-14 rounded-[24px] bg-surface-container-high text-on-surface font-label-md" onclick="closeScanner()">Close</button>
+<button class="h-14 rounded-[24px] bg-primary text-on-primary font-label-md" onclick="closeScanner()">Confirm</button>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM NAV BAR -->
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center pt-2 pb-safe px-4 bg-surface-container shadow-lg rounded-t-[32px]">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-2 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-md mt-0.5">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-all" href="#">
+<span class="material-symbols-outlined">family_restroom</span>
+<span class="text-label-md mt-0.5">Family</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-all" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="text-label-md mt-0.5">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-all" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-label-md mt-0.5">Wallet</span>
+</a>
+</nav>
+<script>
+        function openScanner() {
+            const scanner = document.getElementById('scanner-view');
+            const alert = document.getElementById('instant-alert');
+            scanner.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            
+            // Show toast after 1 second
+            setTimeout(() => {
+                alert.style.transform = 'translateY(0)';
+            }, 800);
+            
+            // Hide toast after 4 seconds
+            setTimeout(() => {
+                alert.style.transform = 'translateY(-100px)';
+            }, 4500);
+        }
+
+        function closeScanner() {
+            const scanner = document.getElementById('scanner-view');
+            const popup = document.getElementById('success-popup');
+            scanner.classList.add('hidden');
+            popup.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function simulateScanSuccess() {
+            const popup = document.getElementById('success-popup');
+            const modal = popup.querySelector('div');
+            popup.classList.remove('hidden');
+            
+            // Minimalist delay to feel "processing"
+            setTimeout(() => {
+                modal.classList.remove('translate-y-10');
+                modal.classList.add('translate-y-0');
+            }, 10);
+
+            // Simple vibrate feedback simulation
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate([100, 50, 100]);
+            }
+        }
+
+        // Handle micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            btn.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+</body></html>

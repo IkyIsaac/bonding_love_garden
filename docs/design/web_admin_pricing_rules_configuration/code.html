@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Love Garden Admin - Pricing &amp; Rules Builder</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#1a4d2e",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-primary": "#9dd3aa",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "primary": "#00361a",
+                    "surface-tint": "#366847",
+                    "secondary": "#b80049",
+                    "on-surface": "#191c19",
+                    "on-primary-fixed": "#00210e",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#c1c9bf",
+                    "secondary-container": "#e2165f",
+                    "outline": "#717971",
+                    "surface-container-highest": "#e1e3de",
+                    "primary-fixed-dim": "#9dd3aa",
+                    "on-secondary-fixed": "#400014",
+                    "secondary-fixed-dim": "#ffb2be",
+                    "primary-fixed": "#b8f0c5",
+                    "tertiary-fixed": "#d1e4ff",
+                    "background": "#f8faf5",
+                    "on-tertiary-container": "#71b5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#88bd95",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#002f54",
+                    "on-secondary-fixed-variant": "#900038",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffd9de",
+                    "on-tertiary-fixed": "#001d36",
+                    "inverse-on-surface": "#f0f1ec",
+                    "surface-variant": "#e1e3de",
+                    "on-primary-fixed-variant": "#1d5031",
+                    "surface-dim": "#d9dbd6",
+                    "on-background": "#191c19",
+                    "inverse-surface": "#2e312e",
+                    "surface": "#f8faf5",
+                    "tertiary-fixed-dim": "#9ecaff",
+                    "tertiary-container": "#004678",
+                    "surface-bright": "#f8faf5",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeee9",
+                    "surface-container-low": "#f3f4ef",
+                    "on-surface-variant": "#414942",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e7e9e4",
+                    "on-tertiary-fixed-variant": "#00497d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "base": "8px",
+                    "lg": "48px",
+                    "sm": "12px",
+                    "margin": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf5;
+            color: #191c19;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px -10px rgba(26, 77, 46, 0.08);
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md flex min-h-screen">
+<!-- NavigationDrawer (The Anchor) -->
+<aside class="h-screen w-80 bg-surface-container-low dark:bg-surface-dim shadow-sm flex flex-col py-lg sticky top-0 shrink-0">
+<div class="px-gutter mb-lg">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Love Garden Admin</h1>
+</div>
+<nav class="flex-1 overflow-y-auto">
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">badge</span>
+<span>Staff Management</span>
+</div>
+<div class="flex items-center gap-4 bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-3 mx-2 cursor-pointer">
+<span class="material-symbols-outlined">layers</span>
+<span>Plan Builder</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">percent</span>
+<span>Discount Rules</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">monitoring</span>
+<span>Guest Analytics</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 hover:bg-surface-container-high dark:hover:bg-surface-container transition-all cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</div>
+</nav>
+<div class="mt-auto px-gutter py-4">
+<div class="flex items-center gap-3 p-3 bg-surface-container-high rounded-full">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">JD</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-label-md truncate">Jane Doe</p>
+<p class="text-[10px] text-outline uppercase tracking-wider">Super Admin</p>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim flex justify-between items-center px-gutter py-md w-full sticky top-0 z-40">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Pricing &amp; Rules Builder</h2>
+<p class="text-label-sm text-outline">Configure your park's hospitality products and dynamic pricing.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-outline-variant flex items-center justify-center overflow-hidden border-2 border-surface">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a park administrator in a garden setting, high-end commercial photography style with soft natural lighting and a lush green background. The subject is smiling warmly, representing hospitality and premium service standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2uLJTY2rhrm0hTTpPWxjPdt-hfky0qjZVENSakhmPy17_RxbtKWj94RZIK0cVWuc9vyQrZumhBZAneFQy7NySs00MAvb2gIew69eBlyj7KBgCSCCTnSlKEQganMoGAyzsrcqTjpENh5BW9d-i4Tw8kwWwNZdIc9chllPJ4bGu2Cwt0MmYSVAlwyJoE96ex7R0U8u0AsMxl4NL-wTdPFXrMBzF4joawWkfQuPXj5iZ-7J-7eLg3C-GPlmLZ5YU_HOe1AQIuWCAzRs"/>
+</div>
+</div>
+</header>
+<section class="p-gutter space-y-md">
+<!-- Bento Layout: Access Plans & Game Management -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Access Plans Section -->
+<div class="lg:col-span-8 flex flex-col gap-base">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-primary">Access Plans</h3>
+<button class="flex items-center gap-2 bg-secondary text-on-secondary px-6 py-2.5 rounded-full font-label-md hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            Create Plan
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Single Visit Plan -->
+<div class="bg-surface-container-lowest p-6 rounded-[32px] border border-outline-variant/30 soft-shadow flex flex-col hover:border-primary/40 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-primary-fixed p-3 rounded-2xl text-primary">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-sm">Single Visit</div>
+</div>
+<h4 class="font-headline-md mb-2">Botanical Explorer</h4>
+<p class="text-body-md text-on-surface-variant flex-1 mb-6">Standard full-day access to all gardens and open facilities. Valid for 24 hours from entry.</p>
+<div class="flex items-end justify-between">
+<div>
+<span class="text-headline-md font-bold text-primary">$45</span>
+<span class="text-label-sm text-outline">/ person</span>
+</div>
+<button class="text-primary hover:underline font-label-md flex items-center gap-1">Edit <span class="material-symbols-outlined text-[18px]">edit</span></button>
+</div>
+</div>
+<!-- Recurring Plan -->
+<div class="bg-surface-container-lowest p-6 rounded-[32px] border border-outline-variant/30 soft-shadow flex flex-col hover:border-primary/40 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="bg-tertiary-fixed p-3 rounded-2xl text-tertiary">
+<span class="material-symbols-outlined">calendar_month</span>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm">Recurring</div>
+</div>
+<h4 class="font-headline-md mb-2">Garden Guardian</h4>
+<p class="text-body-md text-on-surface-variant flex-1 mb-6">Unlimited monthly access with priority entry and weekend events. Auto-renews monthly.</p>
+<div class="flex items-end justify-between">
+<div>
+<span class="text-headline-md font-bold text-primary">$120</span>
+<span class="text-label-sm text-outline">/ month</span>
+</div>
+<button class="text-primary hover:underline font-label-md flex items-center gap-1">Edit <span class="material-symbols-outlined text-[18px]">edit</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Game Management Section -->
+<div class="lg:col-span-4 bg-primary-container text-on-primary-container p-gutter rounded-[32px] soft-shadow relative overflow-hidden flex flex-col">
+<div class="relative z-10">
+<h3 class="font-headline-md mb-2">Game Inventory</h3>
+<p class="text-label-sm opacity-80 mb-6">Classify equipment for insurance and pricing rules.</p>
+<div class="space-y-4">
+<!-- Toggle Item 1 -->
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/20">
+<div>
+<p class="font-label-md">Eco-Pedal Boats</p>
+<p class="text-[10px] uppercase tracking-widest opacity-60">Non-motorized</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<!-- Toggle Item 2 -->
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/20">
+<div>
+<p class="font-label-md">Forest Segway Tours</p>
+<p class="text-[10px] uppercase tracking-widest opacity-60">Motorized</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<!-- Toggle Item 3 -->
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/20">
+<div>
+<p class="font-label-md">Safari ATVs</p>
+<p class="text-[10px] uppercase tracking-widest opacity-60">Motorized</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Decorative background element -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+<!-- Discount Rule Builder: High-end Detail Section -->
+<div class="bg-surface-container rounded-[40px] p-gutter soft-shadow">
+<div class="mb-gutter border-b border-outline-variant pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h3 class="font-headline-lg text-primary">Discount Rule Builder</h3>
+<p class="text-body-md text-on-surface-variant">Chain multiple services together to create promotional bundles.</p>
+</div>
+<div class="flex items-center bg-surface-container-low p-1.5 rounded-full border border-outline-variant">
+<button class="px-6 py-2 rounded-full bg-white shadow-sm font-label-md text-primary">Active Rules</button>
+<button class="px-6 py-2 rounded-full font-label-md text-outline hover:text-primary transition-colors">Archived</button>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-lg">
+<!-- Configurator Panel -->
+<div class="xl:col-span-2 space-y-gutter">
+<div class="bg-white p-8 rounded-[32px] space-y-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white text-label-sm">1</div>
+<h4 class="font-headline-md">Select Component Mix</h4>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 border-primary bg-primary/5 text-primary transition-all">
+<span class="material-symbols-outlined text-[32px] mb-2">sensor_door</span>
+<span class="font-label-md">Entry</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 border-outline-variant/30 hover:border-primary/40 transition-all">
+<span class="material-symbols-outlined text-[32px] mb-2">sports_esports</span>
+<span class="font-label-md">Games</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 border-primary bg-primary/5 text-primary transition-all">
+<span class="material-symbols-outlined text-[32px] mb-2">restaurant</span>
+<span class="font-label-md">Lunch</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 border-outline-variant/30 hover:border-primary/40 transition-all">
+<span class="material-symbols-outlined text-[32px] mb-2">photo_camera</span>
+<span class="font-label-md">Photo Ops</span>
+</button>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white text-label-sm">2</div>
+<h4 class="font-headline-md">Define Global Discount</h4>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex-1">
+<input class="w-full h-3 bg-surface-container-highest rounded-full appearance-none cursor-pointer accent-secondary" id="discountRange" max="50" min="0" type="range" value="15"/>
+</div>
+<div class="w-24 bg-surface-container-low border border-outline-variant p-4 rounded-2xl text-center">
+<span class="font-display-lg text-primary" id="discountVal">15</span><span class="text-headline-md text-primary">%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Rule Preview Card -->
+<div class="bg-primary p-8 rounded-[32px] text-white flex flex-col shadow-2xl relative overflow-hidden">
+<div class="relative z-10 flex flex-col h-full">
+<span class="text-[10px] uppercase tracking-widest text-on-primary-container mb-2">Bundle Preview</span>
+<h4 class="font-headline-lg mb-6">The Garden Retreat</h4>
+<div class="space-y-4 flex-1">
+<div class="flex items-center justify-between border-b border-white/10 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-primary-container">check_circle</span>
+<span class="font-body-md">Botanical Entry</span>
+</div>
+<span class="opacity-60">$45.00</span>
+</div>
+<div class="flex items-center justify-between border-b border-white/10 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-primary-container">check_circle</span>
+<span class="font-body-md">Botanical Lunch Box</span>
+</div>
+<span class="opacity-60">$22.00</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-body-md">Subtotal</span>
+<span class="font-body-md line-through opacity-40">$67.00</span>
+</div>
+<div class="flex items-center justify-between text-secondary-fixed-dim">
+<span class="font-label-md">Rule Applied (-15%)</span>
+<span class="font-label-md">-$10.05</span>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-white/20 flex items-center justify-between">
+<div>
+<p class="text-label-sm opacity-60">Bundle Price</p>
+<p class="text-display-lg font-bold text-secondary-fixed-dim">$56.95</p>
+</div>
+<button class="bg-secondary hover:bg-secondary-container transition-colors text-white w-14 h-14 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">save</span>
+</button>
+</div>
+</div>
+<!-- Abstract Leaf Pattern Overlay -->
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-[180px]">eco</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Metrics / Status Table -->
+<div class="bg-surface-container-lowest rounded-[32px] p-gutter border border-outline-variant/20 soft-shadow">
+<div class="flex items-center justify-between mb-gutter">
+<h3 class="font-headline-md">Inventory Class Distribution</h3>
+<div class="flex gap-2">
+<span class="px-4 py-1 rounded-full bg-secondary/10 text-secondary text-label-sm font-bold">Motorized: 12</span>
+<span class="px-4 py-1 rounded-full bg-primary/10 text-primary text-label-sm font-bold">Non-Motorized: 28</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="text-outline border-b border-outline-variant/30">
+<tr>
+<th class="pb-4 font-label-md px-4">Item Name</th>
+<th class="pb-4 font-label-md px-4">Category</th>
+<th class="pb-4 font-label-md px-4">Classification</th>
+<th class="pb-4 font-label-md px-4">Hourly Rate</th>
+<th class="pb-4 font-label-md px-4">Availability</th>
+<th class="pb-4 font-label-md px-4">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-4 px-4 font-body-md">Classic Bicycle</td>
+<td class="py-4 px-4 text-on-surface-variant">Ground Transp.</td>
+<td class="py-4 px-4"><span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">Non-Motorized</span></td>
+<td class="py-4 px-4">$12.00</td>
+<td class="py-4 px-4">
+<div class="w-24 h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-4/5 h-full bg-primary rounded-full"></div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-4 px-4 font-body-md">Electric Scooter</td>
+<td class="py-4 px-4 text-on-surface-variant">Ground Transp.</td>
+<td class="py-4 px-4"><span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold">Motorized</span></td>
+<td class="py-4 px-4">$25.00</td>
+<td class="py-4 px-4">
+<div class="w-24 h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-primary rounded-full"></div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-4 px-4 font-body-md">Row Boat</td>
+<td class="py-4 px-4 text-on-surface-variant">Watercraft</td>
+<td class="py-4 px-4"><span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold">Non-Motorized</span></td>
+<td class="py-4 px-4">$18.00</td>
+<td class="py-4 px-4">
+<div class="w-24 h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-full h-full bg-primary rounded-full"></div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Footer Spacer for scrolling -->
+<div class="h-24"></div>
+</main>
+<script>
+        // Interactive Discount Percentage display logic
+        const slider = document.getElementById('discountRange');
+        const display = document.getElementById('discountVal');
+
+        slider.oninput = function() {
+            display.innerHTML = this.value;
+        }
+
+        // Simple scale interaction for cards
+        document.querySelectorAll('.soft-shadow').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+    </script>
+</body></html>

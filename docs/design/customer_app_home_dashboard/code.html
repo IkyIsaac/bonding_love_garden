@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Love Garden - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#1a4d2e",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-primary": "#9dd3aa",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary": "#00361a",
+                        "surface-tint": "#366847",
+                        "secondary": "#b80049",
+                        "on-secondary": "#ffffff",
+                        "background": "#f8faf5",
+                        "surface": "#f8faf5",
+                        "on-surface": "#191c19",
+                        "surface-container": "#edeee9",
+                        "surface-container-low": "#f3f4ef",
+                        "surface-container-high": "#e7e9e4",
+                        "on-surface-variant": "#414942",
+                        "secondary-container": "#e2165f",
+                        "outline": "#717971",
+                        "outline-variant": "#c1c9bf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "sm": "12px",
+                        "margin": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px -5px rgba(26, 77, 46, 0.08);
+        }
+        .timer-glow {
+            animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(226, 22, 95, 0.2); }
+            50% { opacity: 0.8; text-shadow: 0 0 16px rgba(226, 22, 95, 0.4); }
+        }
+        .ios-bounce:active {
+            transform: scale(0.96);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-md flex justify-between items-center px-gutter py-md w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young mother in a sunlit botanical garden setting. The image uses soft, warm natural lighting and a shallow depth of field, reflecting a high-end, premium hospitality brand aesthetic with lush green foliage in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDweEJuO4l-T84DlSzEUmkcQu5cj2I8LL-ayg9vwjrjIB0u30cXIIpfBmY0iB1Gc8rNJEf-CIkUGDXE_c4DjdzCLzPBCoCwkOP1ffIxaderxf7KvOJgqCWjrw79s4jjK1M4xkrbLVZJZOvaLYW8H8hZBC_BM8Tbyd0BIJcOBgZ2OodcBSV-z1YpH9i6GdTv2hGsVV_ymzLJFjSVy4kbO78IE8kYkJrmWkgVGzM1lX6kSwPStEZy8QQ2n1wQM-28t0buco3CVpbBLKY"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Love Garden</h1>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-gutter space-y-8 mt-4 max-w-2xl mx-auto">
+<!-- User Profile / Family Overview Card -->
+<section class="relative overflow-hidden bg-white rounded-3xl p-6 soft-shadow border border-white/50">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-1">Welcome back, Sarah</h2>
+<p class="text-on-surface-variant font-label-md">Membership: Premium Bloom</p>
+</div>
+<div class="bg-primary/5 p-2 rounded-2xl">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-2xl">
+<div class="flex -space-x-3">
+<div class="w-12 h-12 rounded-full border-2 border-white bg-secondary-container flex items-center justify-center text-white overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful young girl with a flower in her hair, set in a bright, modern park environment with soft bokeh. The lighting is ethereal and high-key, maintaining the premium brand's organic and joyful visual language with soft greens and pinks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1GnNjKCrFnVXShf1qYXeCavmgBxkMo3zUPqkiFrtT9RHmxNpmXAS5nyyY-drn5pe3XyuYXLrGP2xNXvFolTrzC1ltygxPg2wDmGwgSNw1Rtohx3MpZA8YRLcZOemGwd8baah-yvXZ8bpw4_6Vll4sM0vyBLOMTtG2BBrn4tDgw9Hh2-hNpk9m3UxmjnT2JBJa27f8pIMsa_nlwzrqeUPONKP3v7ylIWnpz7MCWRZemwo-MciVfGXE_jzfmFWs9AyHMi9ud6O_Ews"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-white overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a happy young boy playing outdoors, captured with professional soft-focus lighting. The color palette features natural forest greens and warm sunlight, fitting the high-end botanical garden theme with a focus on safety and growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPVgtwe1m6RCR0d9djrIqREO1ODz2kC2uLgur9x26z_tZTryJf4HdURtgdKfZKhM7KfMs1szo8zng9RwVkYsgg-Vh0bEb9ohuRnKE1hRMF-tG85hunGDBC5VfMjLgy2FdEm7NAQjNKl18VDYn3ZIgvVrg2xTPlwaB4O5MTJyGL-8kiY1GoGZWJ2suRYvDvN8-yiLzMZr2Wmgrbce5Xa_ot5IatF6eX6deTnfD8F0_e7MLYOnd58Eg7KB2UOlRxDeW_yuzIZI_uM54"/>
+</div>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Family Managed</p>
+<p class="text-xs text-on-surface-variant">Lily &amp; Leo are with you</p>
+</div>
+<button class="ml-auto text-secondary font-label-md flex items-center gap-1 hover:underline">
+                    Manage <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Active Session Status Card -->
+<section class="bg-secondary-container text-on-secondary-container rounded-3xl p-6 soft-shadow relative overflow-hidden ios-bounce transition-transform cursor-pointer">
+<!-- Animated decorative background -->
+<div class="absolute top-0 right-0 -mr-10 -mt-10 opacity-20">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'wght' 100;">schedule</span>
+</div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="flex items-center gap-2 mb-2 bg-white/20 px-4 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm animate-pulse" style="font-variation-settings: 'FILL' 1;">motion_photos_on</span>
+<span class="text-xs font-bold uppercase tracking-wider">Live Playing Session</span>
+</div>
+<p class="font-label-md opacity-90 mb-1">Time Remaining</p>
+<div class="text-[56px] font-bold tracking-tighter leading-none timer-glow mb-4" id="countdown">45:12</div>
+<div class="w-full bg-white/20 h-2 rounded-full overflow-hidden mb-6">
+<div class="bg-white h-full w-2/3 rounded-full"></div>
+</div>
+<div class="flex justify-between w-full px-2 text-sm font-medium">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">pin_drop</span>
+<span>The Glasshouse Zone</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">group</span>
+<span>3 People</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<button class="flex flex-col items-start p-5 bg-white border border-white/50 rounded-2xl soft-shadow text-left group ios-bounce transition-all">
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-1 leading-tight">Buy Access Plan</h3>
+<p class="text-xs text-on-surface-variant">Top up or renew passes</p>
+</button>
+<button class="flex flex-col items-start p-5 bg-white border border-white/50 rounded-2xl soft-shadow text-left group ios-bounce transition-all">
+<div class="w-12 h-12 rounded-xl bg-secondary/5 flex items-center justify-center text-secondary mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-1 leading-tight">My Wristbands</h3>
+<p class="text-xs text-on-surface-variant">Manage device linkages</p>
+</button>
+<button class="flex flex-col items-start p-5 bg-white border border-white/50 rounded-2xl soft-shadow text-left group ios-bounce transition-all">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">family_restroom</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-1 leading-tight">My Family</h3>
+<p class="text-xs text-on-surface-variant">Add members or guests</p>
+</button>
+</section>
+<!-- Recent Notifications Section -->
+<section class="pb-12">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Recent Activity</h2>
+<button class="text-primary font-label-md text-sm">View All</button>
+</div>
+<div class="space-y-3">
+<!-- Notification Item 1 -->
+<div class="flex items-center gap-4 p-4 bg-white rounded-2xl border border-white/50 soft-shadow">
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700">
+<span class="material-symbols-outlined text-sm">payments</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Payment Successful</p>
+<p class="text-xs text-on-surface-variant">Bloom Pass Top-up (+4 hours)</p>
+</div>
+<p class="text-[10px] text-outline font-medium">2m ago</p>
+</div>
+<!-- Notification Item 2 -->
+<div class="flex items-center gap-4 p-4 bg-white rounded-2xl border border-white/50 soft-shadow">
+<div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Membership Updated</p>
+<p class="text-xs text-on-surface-variant">New benefits available in Wallet</p>
+</div>
+<p class="text-[10px] text-outline font-medium">1h ago</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-4 bg-surface-container shadow-lg rounded-t-3xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">family_restroom</span>
+<span class="font-label-md text-label-md">Family</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-label-md text-label-md">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Wallet</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the countdown timer
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            let fortyFiveMinutes = 60 * 45 + 12,
+                display = document.querySelector('#countdown');
+            startTimer(fortyFiveMinutes, display);
+        };
+
+        // Pull-to-refresh simulation/Atmosphere
+        document.addEventListener('touchstart', handleTouchStart, false);        
+        document.addEventListener('touchmove', handleTouchMove, false);
+
+        let xDown = null;                                                        
+        let yDown = null;
+
+        function handleTouchStart(evt) {
+            const firstTouch = evt.touches[0];                                      
+            xDown = firstTouch.clientX;                                      
+            yDown = firstTouch.clientY;                                      
+        };                                                
+
+        function handleTouchMove(evt) {
+            if ( ! xDown || ! yDown ) {
+                return;
+            }
+
+            let xUp = evt.touches[0].clientX;                                    
+            let yUp = evt.touches[0].clientY;
+
+            let xDiff = xDown - xUp;
+            let yDiff = yDown - yUp;
+
+            if ( Math.abs( xDiff ) < Math.abs( yDiff ) ) {
+                if ( yDiff < 0 ) {
+                    // Swiped down - just a visual cue
+                    console.log('Refreshing content...');
+                }
+            }
+            xDown = null;
+            yDown = null;                                             
+        };
+    </script>
+</body></html>

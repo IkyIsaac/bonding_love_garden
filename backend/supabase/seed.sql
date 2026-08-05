@@ -1,0 +1,6 @@
+-- Local/dev seed data only. Never put real client branding, pricing, or game
+-- lists here — those are config the venue owner enters via the admin dashboard
+-- (venue_settings, catalog_items, access_plans, entry_fee_config, etc.),
+-- per the platform's no-hardcoding requirement (brief §1).
+--
+-- Populated once the first migration (identity + venue-config tables) lands.

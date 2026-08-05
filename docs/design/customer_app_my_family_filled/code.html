@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Family - Love Garden</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#9ecaff",
+                    "on-surface-variant": "#414942",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#004678",
+                    "outline": "#717971",
+                    "surface-dim": "#d9dbd6",
+                    "surface": "#f8faf5",
+                    "secondary": "#b80049",
+                    "on-tertiary-fixed": "#001d36",
+                    "tertiary": "#002f54",
+                    "surface-bright": "#f8faf5",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#900038",
+                    "on-primary-fixed-variant": "#1d5031",
+                    "surface-container-high": "#e7e9e4",
+                    "inverse-primary": "#9dd3aa",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#9dd3aa",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#d1e4ff",
+                    "surface-container-highest": "#e1e3de",
+                    "on-secondary-fixed": "#400014",
+                    "background": "#f8faf5",
+                    "secondary-container": "#e2165f",
+                    "secondary-fixed-dim": "#ffb2be",
+                    "primary": "#00361a",
+                    "inverse-on-surface": "#f0f1ec",
+                    "secondary-fixed": "#ffd9de",
+                    "primary-container": "#1a4d2e",
+                    "inverse-surface": "#2e312e",
+                    "on-primary-container": "#88bd95",
+                    "on-primary-fixed": "#00210e",
+                    "on-tertiary-fixed-variant": "#00497d",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#b8f0c5",
+                    "on-background": "#191c19",
+                    "surface-container-low": "#f3f4ef",
+                    "on-secondary-container": "#fffbff",
+                    "outline-variant": "#c1c9bf",
+                    "on-tertiary-container": "#71b5ff",
+                    "surface-variant": "#e1e3de",
+                    "on-surface": "#191c19",
+                    "surface-tint": "#366847",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#edeee9",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "24px",
+                    "lg": "48px",
+                    "base": "8px",
+                    "xl": "80px",
+                    "margin": "32px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf5;
+            color: #191c19;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-depth {
+            box-shadow: 0 8px 32px -4px rgba(26, 77, 46, 0.08);
+        }
+        .glass-accent {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+        }
+        .premium-border {
+            border-left: 4px solid #1a4d2e;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface selection:bg-primary/20">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md flex justify-between items-center px-gutter py-md w-full">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful mother with warm lighting, capturing a premium and hospitable vibe, consistent with a luxury botanical park's branding. Soft skin tones, natural lighting, and a serene background of lush greenery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMVI3VhFWutU74NZDp0k2fmWCtokwRwJK1-bUg-i3o4RRnxGww5Mxr89Mt3m2vgqjPdI0eR8hmv1wooJ0zfmxnQ4wkDu2_TttU2-yw8Kt3Aj5od-lLS05Z8hpmDWksoWY2ienp-szE5efxxa7EGHW7la1OXxQjUpzFCyantG4ML6UHNyBfYD8Nih74744RnWuGg6NcPO91zx_x5AhWTUQ4ObP17MpV1rIOAZacGQtsXHUmOzPO-c3X5PIeBP4Ix4_5ZBp_QGSHTDU"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary">Love Garden</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-gutter pb-32 max-w-2xl mx-auto">
+<!-- Header Section -->
+<section class="mt-8 mb-lg flex items-center justify-between">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">My Family</h1>
+<p class="text-on-surface-variant font-body-md">Manage your family group for park entry.</p>
+</div>
+<button class="bg-secondary text-on-secondary rounded-full px-5 py-3 flex items-center gap-2 font-label-md shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add</span>
+</button>
+</section>
+<!-- Family List -->
+<div class="space-y-md">
+<!-- Sarah Jenkins (Parent) -->
+<div class="bg-surface-container-lowest rounded-[32px] p-md soft-depth premium-border flex flex-col md:flex-row items-center gap-md">
+<div class="relative">
+<div class="w-20 h-20 rounded-full border-4 border-primary/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional yet warm profile photo of a 34-year-old woman with a friendly expression. The visual style is clean and modern, set against a blurred background of a botanical garden with soft sunlight filtering through leaves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC25Ods4q63zM3Kml5TXrntCyBPXYQjrzbUg7i49rbAJJn5I0lPz-Clp5SRi3NCwZNGQqEMSfJPvbfVciVCzBd2CwPvClHPK_nxS16-ZWlEgxau6SIpD9xXoV-NSJ3qIEqeO2oqxMn1AH8f-OsySODPGMNLjXixL0RyUFku7IkyaKzUh4yBZlrfi4rjOKVruA3XM3K3PMhgUPVjsKIttWsWtdFVLxRSqW0fCKM0YZts-pfVH2axzs_GUn6pmYlyZngCSBVHjdALL3I"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-on-primary w-7 h-7 rounded-full flex items-center justify-center text-[16px]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+</div>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="font-headline-md text-on-surface">Sarah Jenkins</h3>
+<p class="text-on-surface-variant font-label-md">Parent • 34 Years Old</p>
+</div>
+<button class="w-full md:w-auto border-2 border-outline-variant text-primary font-label-md px-6 py-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+                    Edit Profile
+                </button>
+</div>
+<!-- Leo Jenkins (Child) -->
+<div class="bg-surface-container-lowest rounded-[32px] p-md soft-depth flex flex-col md:flex-row items-center gap-md relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-[12px] font-bold">Primary Child</span>
+</div>
+<div class="w-20 h-20 rounded-[24px] bg-secondary-fixed-dim/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A joyful 7-year-old boy playing in a bright, modern park setting. The lighting is warm and golden, reflecting the playful and safe atmosphere of the Love Garden. The photo style is professional and lifestyle-oriented." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYGS1M2JUfXy2FheYEyxr5n8w_LyzTP8LV-s_C6XMQeQmVImE49EQf0hPDsvdffmx-RdIMirwni-ZeENIqQXZk6uvALigE1PQASipd5OWC4NOrGhBCu3fHrZ1-U995SS03UsII1gZwcv9yDdG5Ot7HiMmPDsxfyPc2zExoMPUpjsuskFjfmNe-pzY6C5LRmJpczirZAvYDWVIxW5pF60f34-IhqvOY-djec4_trOmINKz7L6LFQ1rvWWh3hZcaPw22mQzU3Gx6kFc"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="font-headline-md text-on-surface">Leo Jenkins</h3>
+<p class="text-on-surface-variant font-label-md mb-2">7 Years Old</p>
+<div class="flex flex-wrap gap-xs justify-center md:justify-start">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+                            Peanut Allergy
+                        </span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">pool</span>
+                            Swim Level 2
+                        </span>
+</div>
+</div>
+<button class="w-full md:w-auto border-2 border-outline-variant text-primary font-label-md px-6 py-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+                    Edit Child
+                </button>
+</div>
+<!-- Mia Jenkins (Child) -->
+<div class="bg-surface-container-lowest rounded-[32px] p-md soft-depth flex flex-col md:flex-row items-center gap-md">
+<div class="w-20 h-20 rounded-[24px] bg-primary-fixed-dim/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A candid, high-quality portrait of a 4-year-old girl in a cheerful park environment. The image uses a shallow depth of field to emphasize her happy expression, with the lush greenery of the botanical garden as a soft backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPtCdywuAQpkS1GaU-2Vs2qNBI4jWFqc96JY_Zfmt0wQG0iuXoK0xo7wyEat4zjGSb0aL7z2AOjGesZkhabCs9t2HhjhQaIDoJ_6JNWlTpYGBkPBcovKz6xw-0DaAjCV4ua468XSlIjK51fMSd8JrW-yFdfL8AgZZxIKBZGxplFQZAHtmme8mHCuhWnmSK1NutjFnyHE6tOUPdyTOyYSlIyz7uZLKjJmaZ91PQhqntL3N341u7EbTdW5WmATN0mcqVVJZhgpOzAbk"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="font-headline-md text-on-surface">Mia Jenkins</h3>
+<p class="text-on-surface-variant font-label-md mb-1">4 Years Old</p>
+<p class="text-outline italic text-label-sm">No special notes</p>
+</div>
+<button class="w-full md:w-auto border-2 border-outline-variant text-primary font-label-md px-6 py-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+                    Edit Child
+                </button>
+</div>
+<!-- Guest Suggestion Card -->
+<div class="mt-lg relative rounded-[32px] p-lg overflow-hidden group">
+<div class="absolute inset-0 bg-primary-container z-0"></div>
+<!-- Interactive light effect -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-secondary rounded-full opacity-20 blur-[60px] group-hover:scale-125 transition-transform duration-1000"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-on-primary-container/20 rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-on-primary-container text-[28px]">group_add</span>
+</div>
+<h2 class="font-headline-md text-on-primary-container mb-sm">Visiting with more guests?</h2>
+<p class="text-on-primary-container/80 font-body-md mb-lg max-w-sm">
+                        You can purchase Guest Passes for grandparents or friends directly in your wallet.
+                    </p>
+<button class="bg-primary-fixed text-on-primary-fixed px-xl py-3 rounded-full font-label-md hover:brightness-110 transition-all active:scale-95 shadow-md">
+                        View Guest Passes
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-4 bg-surface-container shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">family_restroom</span>
+<span class="font-label-md text-label-md">Family</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-label-md text-label-md">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Wallet</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction: Profile image scale on hover
+        document.querySelectorAll('.soft-depth').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const img = card.querySelector('img');
+                if (img) img.classList.add('scale-105');
+            });
+            card.addEventListener('mouseleave', () => {
+                const img = card.querySelector('img');
+                if (img) img.classList.remove('scale-105');
+            });
+        });
+
+        // Simple animation for the "Add" button
+        const addBtn = document.querySelector('button.bg-secondary');
+        addBtn.addEventListener('click', function() {
+            this.classList.add('scale-110');
+            setTimeout(() => this.classList.remove('scale-110'), 200);
+        });
+    </script>
+</body></html>

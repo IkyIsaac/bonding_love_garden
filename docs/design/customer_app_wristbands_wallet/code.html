@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Love Garden - My Wristbands &amp; Wallet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#1a4d2e",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-primary": "#9dd3aa",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "primary": "#00361a",
+                    "surface-tint": "#366847",
+                    "secondary": "#b80049",
+                    "on-surface": "#191c19",
+                    "on-primary-fixed": "#00210e",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#c1c9bf",
+                    "secondary-container": "#e2165f",
+                    "outline": "#717971",
+                    "surface-container-highest": "#e1e3de",
+                    "primary-fixed-dim": "#9dd3aa",
+                    "on-secondary-fixed": "#400014",
+                    "secondary-fixed-dim": "#ffb2be",
+                    "primary-fixed": "#b8f0c5",
+                    "tertiary-fixed": "#d1e4ff",
+                    "background": "#f8faf5",
+                    "on-tertiary-container": "#71b5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#88bd95",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#002f54",
+                    "on-secondary-fixed-variant": "#900038",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffd9de",
+                    "on-tertiary-fixed": "#001d36",
+                    "inverse-on-surface": "#f0f1ec",
+                    "surface-variant": "#e1e3de",
+                    "on-primary-fixed-variant": "#1d5031",
+                    "surface-dim": "#d9dbd6",
+                    "on-background": "#191c19",
+                    "inverse-surface": "#2e312e",
+                    "surface": "#f8faf5",
+                    "tertiary-fixed-dim": "#9ecaff",
+                    "tertiary-container": "#004678",
+                    "surface-bright": "#f8faf5",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeee9",
+                    "surface-container-low": "#f3f4ef",
+                    "on-surface-variant": "#414942",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e7e9e4",
+                    "on-tertiary-fixed-variant": "#00497d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "base": "8px",
+                    "lg": "48px",
+                    "sm": "12px",
+                    "margin": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .soft-shadow {
+            box-shadow: 0 8px 30px rgba(26, 77, 46, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        body {
+            background-color: #f8faf5;
+            overflow-x: hidden;
+        }
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-background">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim flex justify-between items-center px-gutter py-md">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed-dim">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a friendly young father smiling, set against a soft bokeh garden background. The lighting is warm and natural, emphasizing a premium and hospitable atmosphere. He has a clean-cut look, reflecting the high-end management style of a luxury botanical park." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa-DtZypszW_uq7Gkh0NwMfLKwIzQK00q7sTxd1Ng0m93fpjuzpWFzTgBE8NxqJghXZyirRipusqAhCYJSXA5ALCYs9kIAopBRO03WW_IF7U9Q4J8jsBE8KbqIgTmgpnhP1rgAeiJl-D47PFW7tUUXQSA6xgUmNd0wqiDfp-_c2uiN-C6lig_ZyRaTVaMh_y3KNPJr7uFMg-4iHTy_pr4v3uEDtj7oQJnYACSB9EF-mtHdTAPzImNCEm8LMYqrZUkfb1aekfj_zIE"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Love Garden</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[88px] pb-32 px-gutter min-h-screen">
+<!-- Tab 1: My Wristbands Gallery -->
+<section class="tab-content active" id="wristbands-view">
+<div class="mb-8">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">My Family Wristbands</h1>
+<p class="text-on-surface-variant font-body-md">Scan these at any gate or game station within the park.</p>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<!-- Member Card 1 -->
+<div class="glass-card rounded-[24px] p-6 soft-shadow flex flex-col items-center text-center cursor-pointer transition-transform active:scale-[0.98]" onclick="toggleExpand(this)">
+<div class="w-full flex justify-between items-start mb-4">
+<div class="text-left">
+<p class="text-label-sm uppercase tracking-wider text-on-surface-variant">Primary Member</p>
+<h2 class="font-headline-md text-primary">Marcus Thompson</h2>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-label-sm">Active</span>
+</div>
+<div class="qr-container bg-white p-4 rounded-xl mb-4 border border-outline-variant">
+<img class="w-40 h-40" data-alt="A high-contrast, clean QR code displayed on a white rounded square background. The design is minimalist and professional, intended for easy scanning by optical sensors at a luxury park entrance. Subtle green leaf patterns are faintly visible in the corners of the white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiRG05pQOhXdntBCdUIDrXIL5XYGIXs4APV-6fgw4CiwaonHjaTeDkYuszTN8q-QCM8LSMdk4rZTI93U9hU4_1vLjBf_JspiRkkZ3eVI1AjLt8HbCkipbdHrnaFCgqgUfwLope8yZ1W2JfR0nScrdvSPmQrCRJb7y6fmjTCYoEaQw_WwuSgILqHkV_9pWPv9tBZ4uBvqX-HRUfHJrf96WohvUqXZjqLmur3s8TSITFa3X9Iqi1-xU2MB6Z9T47oHgm3B7n_Au_Y1c"/>
+</div>
+<div class="w-full space-y-2 text-on-surface-variant font-body-md">
+<div class="flex justify-between border-b border-surface-container py-2">
+<span>Plan Expiry</span>
+<span class="font-semibold text-primary">Dec 22, 2024</span>
+</div>
+<div class="expanded-details hidden animate-fadeIn">
+<div class="flex justify-between border-b border-surface-container py-2">
+<span>Wristband ID</span>
+<span class="font-mono">LG-8842-MT</span>
+</div>
+<div class="flex justify-between py-2">
+<span>Last Scanned</span>
+<span>Today, 10:45 AM</span>
+</div>
+</div>
+</div>
+<button class="mt-4 text-secondary font-label-md flex items-center gap-1">
+<span>Tap to view details</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+<!-- Member Card 2 -->
+<div class="glass-card rounded-[24px] p-6 soft-shadow flex flex-col items-center text-center cursor-pointer transition-transform active:scale-[0.98]" onclick="toggleExpand(this)">
+<div class="w-full flex justify-between items-start mb-4">
+<div class="text-left">
+<p class="text-label-sm uppercase tracking-wider text-on-surface-variant">Family Member</p>
+<h2 class="font-headline-md text-primary">Sarah Thompson</h2>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-label-sm">Active</span>
+</div>
+<div class="qr-container bg-white p-4 rounded-xl mb-4 border border-outline-variant">
+<img class="w-40 h-40" data-alt="A sharp, digital QR code centered on a clean white surface with rounded corners. The visual is optimized for mobile screen display with high contrast to ensure quick scanning at security gates. The aesthetic is modern and integrates seamlessly with a lush, organic brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt5bdaq-_5mOG4v0amgjXYWdZLOm05vH9mwSn66FXBFJ4hQ8Qu4Bj35R28_2slyfUXXbKnm0p3r1dmr_aYARPFfpEPDIV31DIfchJdsbEsvdDtBkUPUnLEUPozo9cF8bEPX-rPKe_3rHVf5XDavTRhrqnRamkv-77qQaO0AlWXByzAFO1ovujcMMWFnheFFN4iTlycEPg3qXe24SMH6efwCbM5reQAZq4NozfyWkfN72KOWbTmM6QbPUi98OubJI0UZFO3-HphKi4"/>
+</div>
+<div class="w-full space-y-2 text-on-surface-variant font-body-md">
+<div class="flex justify-between border-b border-surface-container py-2">
+<span>Plan Expiry</span>
+<span class="font-semibold text-primary">Dec 22, 2024</span>
+</div>
+<div class="expanded-details hidden">
+<div class="flex justify-between border-b border-surface-container py-2">
+<span>Wristband ID</span>
+<span class="font-mono">LG-8843-ST</span>
+</div>
+<div class="flex justify-between py-2">
+<span>Last Scanned</span>
+<span>Yesterday, 4:12 PM</span>
+</div>
+</div>
+</div>
+<button class="mt-4 text-secondary font-label-md flex items-center gap-1">
+<span>Tap to view details</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Tab 2: Wallet -->
+<section class="tab-content" id="wallet-view">
+<div class="mb-8">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Game Credit Wallet</h1>
+<p class="text-on-surface-variant font-body-md">Manage and top-up your credits for attractions.</p>
+</div>
+<!-- Balance Card -->
+<div class="relative overflow-hidden bg-primary-container rounded-[32px] p-8 text-on-primary-container mb-8 soft-shadow">
+<!-- Atmospheric Background Shader -->
+
+<div class="relative z-10 flex flex-col items-center py-4">
+<p class="text-on-primary-container font-label-md uppercase tracking-[2px] opacity-80 mb-2">Available Balance</p>
+<div class="flex items-baseline gap-2">
+<span class="text-[64px] font-bold leading-none">7</span>
+<span class="text-headline-md font-semibold">Credits</span>
+</div>
+<button class="mt-8 bg-secondary text-white px-8 py-3 rounded-full font-label-md shadow-lg active:scale-95 transition-transform">
+                        Top Up Credits
+                    </button>
+</div>
+</div>
+<!-- Transaction Ledger -->
+<div class="space-y-4">
+<div class="flex justify-between items-end mb-2">
+<h3 class="font-headline-md text-primary">Recent History</h3>
+<button class="text-label-md text-secondary">View All</button>
+</div>
+<div class="bg-white rounded-[24px] divide-y divide-surface-container overflow-hidden soft-shadow">
+<!-- Item 1 -->
+<div class="p-5 flex justify-between items-center hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="sports_esports">sports_esports</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Garden Arcade Redem...</h4>
+<p class="text-label-sm text-on-surface-variant">Today, 11:30 AM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-secondary">-2 Credits</p>
+<p class="text-label-sm text-on-surface-variant">Wristband ID: 8842</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-5 flex justify-between items-center hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed-dim/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="add_card">add_card</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Credit Top-up</h4>
+<p class="text-label-sm text-on-surface-variant">Yesterday, 09:15 AM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">+10 Credits</p>
+<p class="text-label-sm text-on-surface-variant">Ref: WEB-10224</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-5 flex justify-between items-center hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="forest">forest</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Botanical Maze Entry</h4>
+<p class="text-label-sm text-on-surface-variant">Nov 18, 02:45 PM</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-secondary">-1 Credit</p>
+<p class="text-label-sm text-on-surface-variant">Wristband ID: 8843</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-4 shadow-[0_-4px_12px_rgba(26,77,46,0.06)] bg-surface-container dark:bg-surface-container-high rounded-t-xl h-20">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed-dim/10 active:scale-90 transition-transform" onclick="switchTab('home')">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-5 py-1 active:scale-90 transition-transform" id="nav-family" onclick="switchTab('wristbands')">
+<span class="material-symbols-outlined" data-icon="family_restroom">family_restroom</span>
+<span class="font-label-md text-label-md">Family</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed-dim/10 active:scale-90 transition-transform" onclick="switchTab('plans')">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span class="font-label-md text-label-md">Plans</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed-dim/10 active:scale-90 transition-transform" id="nav-wallet" onclick="switchTab('wallet')">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Wallet</span>
+</button>
+</nav>
+<script>
+        function toggleExpand(card) {
+            const details = card.querySelector('.expanded-details');
+            const icon = card.querySelector('.material-symbols-outlined[data-icon^="expand"]');
+            const btnText = card.querySelector('button span:first-child');
+            
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                icon.innerText = 'expand_less';
+                btnText.innerText = 'Tap to hide details';
+            } else {
+                details.classList.add('hidden');
+                icon.innerText = 'expand_more';
+                btnText.innerText = 'Tap to view details';
+            }
+        }
+
+        function switchTab(tab) {
+            const wristbandsView = document.getElementById('wristbands-view');
+            const walletView = document.getElementById('wallet-view');
+            const navFamily = document.getElementById('nav-family');
+            const navWallet = document.getElementById('nav-wallet');
+
+            // Reset Styles
+            [navFamily, navWallet].forEach(el => {
+                el.className = "flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed-dim/10 active:scale-90 transition-transform";
+            });
+            wristbandsView.classList.remove('active');
+            walletView.classList.remove('active');
+
+            // Set Active
+            if (tab === 'wristbands' || tab === 'home') {
+                wristbandsView.classList.add('active');
+                navFamily.className = "flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-5 py-1 active:scale-90 transition-transform";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (tab === 'wallet') {
+                walletView.classList.add('active');
+                navWallet.className = "flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-5 py-1 active:scale-90 transition-transform";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body></html>

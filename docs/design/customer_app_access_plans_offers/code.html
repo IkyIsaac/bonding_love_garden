@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Love Garden - Access Plans</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#1a4d2e",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-primary": "#9dd3aa",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary": "#00361a",
+                        "surface-tint": "#366847",
+                        "secondary": "#b80049",
+                        "on-surface": "#191c19",
+                        "on-primary-fixed": "#00210e",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c1c9bf",
+                        "secondary-container": "#e2165f",
+                        "outline": "#717971",
+                        "surface-container-highest": "#e1e3de",
+                        "primary-fixed-dim": "#9dd3aa",
+                        "on-secondary-fixed": "#400014",
+                        "secondary-fixed-dim": "#ffb2be",
+                        "primary-fixed": "#b8f0c5",
+                        "tertiary-fixed": "#d1e4ff",
+                        "background": "#f8faf5",
+                        "on-tertiary-container": "#71b5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#88bd95",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#002f54",
+                        "on-secondary-fixed-variant": "#900038",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffd9de",
+                        "on-tertiary-fixed": "#001d36",
+                        "inverse-on-surface": "#f0f1ec",
+                        "surface-variant": "#e1e3de",
+                        "on-primary-fixed-variant": "#1d5031",
+                        "surface-dim": "#d9dbd6",
+                        "on-background": "#191c19",
+                        "inverse-surface": "#2e312e",
+                        "surface": "#f8faf5",
+                        "tertiary-fixed-dim": "#9ecaff",
+                        "tertiary-container": "#004678",
+                        "surface-bright": "#f8faf5",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeee9",
+                        "surface-container-low": "#f3f4ef",
+                        "on-surface-variant": "#414942",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e7e9e4",
+                        "on-tertiary-fixed-variant": "#00497d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "sm": "12px",
+                        "margin": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md hide-scrollbar pb-32">
+<!-- Top App Bar -->
+<header class="bg-surface sticky top-0 z-50 flex justify-between items-center px-gutter py-md w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border-2 border-primary/10">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a friendly concierge in a high-end luxury botanical park. The lighting is soft and warm, highlighting a welcoming expression. The background features lush green foliage and premium wooden textures, maintaining a sophisticated, modern light-mode aesthetic with deep green and primary accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC13W88Aoq4gcqEuPK08sUmWDsTRVjF9ccWk7TIxYvvhDv6GgmfD-CBXkvH4jtfdZhPKXVjnXzFt4lJLPzx9qPoCU8YBDPlR4pVGNmjwQmq1-4G3eX7ABEx6wxxSCSIUNmovNOrQoapwhkQTG-U_61s2FUjXrdXAKCvNrNeblOaw9hy21bsrxe-q2tdz85WgWEjPRcpaB3SmLdPuKQAAswLVXZGUbE78249uVLUyDmjFyJV0Nlxvcx8K_-GV1mtElB3VRDXecosMS8"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary">Love Garden</span>
+</div>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low transition-colors rounded-full active:scale-95 duration-150">
+            notifications
+        </button>
+</header>
+<main class="px-gutter pt-base">
+<!-- Hero Section with Background Shader -->
+<section class="relative rounded-3xl overflow-hidden h-48 mb-8 flex flex-col justify-end p-6">
+
+<div class="relative z-10">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-1">Access Plans</h1>
+<p class="font-body-md text-on-surface-variant max-w-[280px]">Choose your path to nature and joy in our luxury garden.</p>
+</div>
+</section>
+<!-- Custom Tabs -->
+<div class="flex p-1 bg-surface-container-low rounded-full mb-8">
+<button class="flex-1 py-3 px-4 rounded-full font-label-md text-label-md transition-all duration-300 bg-primary text-on-primary shadow-sm" id="tab-single" onclick="switchTab('single')">
+                Single Visit
+            </button>
+<button class="flex-1 py-3 px-4 rounded-full font-label-md text-label-md transition-all duration-300 text-on-surface-variant" id="tab-membership" onclick="switchTab('membership')">
+                Memberships
+            </button>
+</div>
+<!-- Pricing Cards Container -->
+<div class="space-y-6" id="plans-container">
+<!-- Single Visit Content (Visible by Default) -->
+<div class="space-y-6" id="content-single">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-[32px] border border-primary/5 shadow-[0_8px_30px_rgb(26,77,46,0.06)] relative overflow-hidden active:scale-[0.98] transition-transform">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full font-label-sm text-label-sm mb-2 uppercase tracking-wider">Casual</span>
+<h3 class="font-headline-md text-headline-md text-primary">Standard Pass</h3>
+</div>
+<div class="text-right">
+<span class="block font-headline-lg text-headline-lg text-secondary">$29</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">+ Entry Fee applies</span>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">schedule</span>
+<span class="font-body-md">Valid for 24 Hours</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">sports_esports</span>
+<span class="font-body-md">2 Premium Games included</span>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-full font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                        Book Visit <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Card 2 (Premium Highlight) -->
+<div class="bg-primary text-on-primary p-6 rounded-[32px] shadow-lg relative overflow-hidden active:scale-[0.98] transition-transform">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-container rounded-full opacity-50"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-3 py-1 bg-secondary-fixed-dim text-on-secondary-fixed rounded-full font-label-sm text-label-sm mb-2 uppercase tracking-wider">Most Popular</span>
+<h3 class="font-headline-md text-headline-md">Adventure Pass</h3>
+</div>
+<div class="text-right">
+<span class="block font-headline-lg text-headline-lg text-secondary-fixed-dim">$45</span>
+<span class="opacity-80 font-label-sm text-label-sm">+ Entry Fee applies</span>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="font-body-md">Valid for 48 Hours</span>
+</div>
+<div class="flex items-center gap-3 text-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">all_inclusive</span>
+<span class="font-body-md">Unlimited Games access</span>
+</div>
+</div>
+<button class="w-full bg-surface-container-lowest text-primary py-4 rounded-full font-label-md text-label-md hover:bg-opacity-90 transition-all flex items-center justify-center gap-2">
+                            Select Pass <span class="material-symbols-outlined">star</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Memberships Content (Hidden by Default) -->
+<div class="hidden space-y-6" id="content-membership">
+<div class="bg-surface-container-lowest p-6 rounded-[32px] border border-primary/5 shadow-[0_8px_30px_rgb(26,77,46,0.06)] relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-block px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full font-label-sm text-label-sm mb-2 uppercase tracking-wider">Monthly</span>
+<h3 class="font-headline-md text-headline-md text-primary">Explorer Club</h3>
+</div>
+<div class="text-right">
+<span class="block font-headline-lg text-headline-lg text-secondary">$120</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">+ Entry Fee applies</span>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">event_repeat</span>
+<span class="font-body-md">30 Days Unlimited Access</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">redeem</span>
+<span class="font-body-md">Monthly Guest Pass (1)</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-full font-label-md text-label-md hover:opacity-95 transition-opacity">
+                        Join the Club
+                    </button>
+</div>
+</div>
+</div>
+<!-- Packages & Offers Section -->
+<section class="mt-12 mb-12">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-md text-headline-md text-primary">Packages &amp; Offers</h2>
+<span class="text-secondary font-label-md text-label-md">View All</span>
+</div>
+<div class="flex gap-6 overflow-x-auto hide-scrollbar -mx-gutter px-gutter">
+<!-- Deal 1 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-low rounded-[24px] p-5 relative overflow-hidden border border-outline-variant/30">
+<div class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">timer</span>
+                        Ends in 2 days
+                    </div>
+<div class="mb-4 pt-6">
+<h4 class="font-headline-md text-[20px] text-primary mb-1">Family Weekend Bundles</h4>
+<p class="text-on-surface-variant font-body-md text-[14px]">Up to 4 Guests + Picnic hamper included</p>
+</div>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="text-headline-md text-primary">$149</span>
+<span class="text-on-surface-variant line-through text-label-sm">$199</span>
+</div>
+<div class="p-4 bg-surface-container-highest/50 rounded-2xl flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-on-tertiary-container">family_restroom</span>
+<span class="font-label-md text-label-md text-on-surface">Perfect for 4 People</span>
+</div>
+</div>
+<!-- Deal 2 -->
+<div class="flex-shrink-0 w-72 bg-surface-container-low rounded-[24px] p-5 relative overflow-hidden border border-outline-variant/30">
+<div class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">timer</span>
+                        Ends in 2 days
+                    </div>
+<div class="mb-4 pt-6">
+<h4 class="font-headline-md text-[20px] text-primary mb-1">Twilight Gaming</h4>
+<p class="text-on-surface-variant font-body-md text-[14px]">Evening entry after 6PM with full gaming credits</p>
+</div>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="text-headline-md text-primary">$35</span>
+<span class="text-on-surface-variant line-through text-label-sm">$55</span>
+</div>
+<div class="p-4 bg-surface-container-highest/50 rounded-2xl flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-on-tertiary-container">nights_stay</span>
+<span class="font-label-md text-label-md text-on-surface">Evening Exclusive</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-4 bg-surface-container shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">family_restroom</span>
+<span class="font-label-md text-label-md">Family</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-label-md text-label-md">Plans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed-dim/10 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Wallet</span>
+</a>
+</nav>
+<script>
+        function switchTab(tab) {
+            const singleTabBtn = document.getElementById('tab-single');
+            const membershipTabBtn = document.getElementById('tab-membership');
+            const singleContent = document.getElementById('content-single');
+            const membershipContent = document.getElementById('content-membership');
+
+            if (tab === 'single') {
+                // Style buttons
+                singleTabBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                singleTabBtn.classList.remove('text-on-surface-variant');
+                membershipTabBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                membershipTabBtn.classList.add('text-on-surface-variant');
+                
+                // Toggle content
+                singleContent.classList.remove('hidden');
+                membershipContent.classList.add('hidden');
+            } else {
+                // Style buttons
+                membershipTabBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                membershipTabBtn.classList.remove('text-on-surface-variant');
+                singleTabBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                singleTabBtn.classList.add('text-on-surface-variant');
+                
+                // Toggle content
+                membershipContent.classList.remove('hidden');
+                singleContent.classList.add('hidden');
+            }
+        }
+
+        // Add some basic scroll interaction for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md', 'glass-effect');
+            } else {
+                header.classList.remove('shadow-md', 'glass-effect');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+
+# Node / web
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+npm-debug.log*
+pnpm-debug.log*
+
+# Supabase
+backend/supabase/.branches
+backend/supabase/.temp
+backend/.env
+
+# Flutter / Dart
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/build/
+mobile/.pub-cache/
+mobile/.pub/
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/**/generated_plugin_registrant.dart
+mobile/*.iml
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code (machine-local permissions, not shared project config)
+.claude/settings.local.json

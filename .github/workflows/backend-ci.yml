@@ -1,0 +1,26 @@
+name: backend-ci
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+  pull_request:
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+
+jobs:
+  migrations:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      # Spins up the local Supabase stack (Docker) and applies every
+      # migration in supabase/migrations/ against a clean Postgres —
+      # catches broken SQL before it reaches staging/prod.
+      - run: npx supabase start
+      - run: npx supabase db reset
