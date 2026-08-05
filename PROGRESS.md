@@ -2,9 +2,9 @@
 
 Living tracker for the Bonding Love Garden build. Updated with every commit. Phases mirror the build order in [`docs/ARCHITECTURE_PLAN.md`](docs/ARCHITECTURE_PLAN.md#7-build-order--mapped-to-brief-9-with-changes-flagged) (§7), reconciled against what's actually shipped rather than the original week-by-week estimate.
 
-**Current focus:** Web admin dashboard is feature-complete for §6 (all 10 sidebar modules working against real data). Next up: mobile app, or UAT/polish on the web admin (real click-through visual QA is still lighter than the rest — see Phase 4).
+**Current focus:** Web admin dashboard is feature-complete for §6 and has been rebuilt on ReUI/shadcn for a premium visual pass. Next up: mobile app, or further UAT/polish on the web admin.
 
-**Last updated:** remaining §6 admin modules — Dashboard, Staff Management, Wristbands, Active Sessions (live), Reports, Audit Log — all built and verified against real, live-flow-generated demo data, in an actual browser.
+**Last updated:** Web admin rebuilt on [ReUI](https://reui.io/components) (shadcn/ui-based component library) — new branded sidebar shell, Dialog/AlertDialog/Select/Table/Sidebar primitives replacing the hand-rolled originals, verified page-by-page in an actual browser with two real bugs found and fixed along the way.
 
 ---
 
@@ -72,6 +72,22 @@ All of §4's function list is built and live-tested against a real local stack (
 All ten pages verified in an actual browser this time (the Chrome extension connected mid-session) against demo data produced by **real system flows**, not just hand-inserted rows: two full checkout → payments-initiate → signed-webhook → session-scan-admit runs produced real orders/subscriptions/wristbands/sessions/audit_log entries; bulk variety (expiring-soon/expired/ended sessions, a declined order) was backfilled via direct SQL for speed. Live-tested interactions: extending a session from the Active Sessions page correctly flipped its status from "expiring soon" back to "active" in real time; creating a staff member through the UI correctly round-tripped through the new Edge Function and produced a real audit_log entry.
 
 Two real bugs found via this pass, both fixed: entry_fee_config had picked up a stray 400x-too-large row at some point earlier in the session (root cause unclear — corrected via the proper insert-a-new-version path, which is itself real evidence the versioning design works); and `session-scan-admit` never actually updated `wristbands.last_scanned_at` despite the column existing for exactly that (brief §4.10 lists it explicitly) — caught because the Wristbands page showed "Never" for a wristband that had just been scanned twice.
+
+### Visual rebuild on ReUI (shadcn/ui-based component library)
+
+- [x] Bootstrapped shadcn/ui (`web/components.json`, "base-nova" preset — Base UI primitives, not Radix) and registered the `@reui` registry; free ReUI-branded components (`Badge`, `Alert`) live in `web/components/reui/`, everything else (`Dialog`, `Select`, `Table`, `Sidebar`, `AlertDialog`, `Avatar`, `DropdownMenu`, `Tooltip`, `Sheet`, `Sonner`, `InputOTP`, ...) came from the open shadcn base registry, which shares ReUI's "nova" style system — most of ReUI's own catalog is paid, so this app uses the free tier only, per the owner's choice
+- [x] Botanical Play tokens reconciled into shadcn's semantic CSS variables in `globals.css` rather than accepting shadcn's generated neutral palette — `--primary`/`--accent`/`--destructive`/etc. now resolve to the Deep Green / Warm Pink brand palette; `--secondary` deliberately does NOT reuse Botanical's pink "secondary" token (that's `--accent`) since shadcn's `bg-secondary` means the neutral quiet-button role — a real naming collision caught and fixed after browser testing showed pink badges where neutral gray was expected
+- [x] New branded sidebar app shell (`(dashboard)/layout.tsx`, `nav-menu.tsx`, `user-menu.tsx`) — deep-green `Sidebar` with pink active-item highlight, lucide icons per nav item, collapsible to icon-only with tooltips, `Avatar`+`DropdownMenu` for sign-out
+- [x] Every shared primitive in `web/components/ui/` rebuilt on the new stack: `Modal` wraps `Dialog`, `DataTable` wraps `Table`, `fields.tsx` (`TextField`/`SelectField`/`CheckboxField`/`TextareaField`) wraps `Input`/`Select`/`Checkbox`/`Textarea`+`Label`, `DeleteButton` wraps `AlertDialog` instead of `window.confirm` — all keeping their original prop APIs so most page call sites didn't need to change; `Button`/`Card`/`Badge` call sites were updated directly to the canonical shadcn/ReUI shape instead, since those files are shared internally by every other installed component
+- [x] `SelectField` accepts plain `<option>` children (never rendered as DOM, just read for `{value, label}`) so existing call sites didn't need to switch to `<SelectItem>` — Base UI's `Select` natively participates in `FormData` via a `name` prop, so every existing Server Action form kept working unchanged
+- [x] Login page restyled onto `Card`/`Input`/`Button`, OTP step upgraded to a real `InputOTP` 6-box entry
+- [x] All ten dashboard pages redesigned page-by-page and re-verified live in the browser
+
+Real bugs found via this pass (Turbopack dev treats the whole route graph as one build, so nothing was even renderable in-browser until every page compiled — the bugs below only surfaced once that was true and pages could actually be clicked through):
+- The `--color-secondary` naming collision above (pink badges instead of neutral)
+- ReUI's Badge `-light`/`-outline` variants pair their status colors (`--success-foreground` etc.) with a *pale/translucent* background, not a solid one — these tokens needed to be a readable colored text, not white; the CLI's own generated `.dark` block for these tokens hinted at the correct pattern in hindsight
+- `CardContent` is an unconstrained flex item of `Card` (`flex flex-col`) — a wide `DataTable` inside it inflated the whole card (and `SidebarInset`, and the page) past the viewport instead of scrolling internally; fixed with `min-w-0` at both levels, a classic flexbox gotcha
+- `AlertDialogAction` is already a `<Button>` wrapper (accepts `variant` directly), not a `render`-polymorphic Base UI primitive like `AlertDialogTrigger` — passing `render={<Button variant="destructive" />}` was silently ignored, leaving delete-confirm buttons in the default (non-destructive) style
 
 ## Phase 5 — Documentation site
 
