@@ -2,9 +2,9 @@
 
 Living tracker for the Bonding Love Garden build. Updated with every commit. Phases mirror the build order in [`docs/ARCHITECTURE_PLAN.md`](docs/ARCHITECTURE_PLAN.md#7-build-order--mapped-to-brief-9-with-changes-flagged) (§7), reconciled against what's actually shipped rather than the original week-by-week estimate.
 
-**Current focus:** Mobile app (Phase 6) is underway — customer auth, role-gated routing, and the Home screen are live against the real backend. Next: the rest of the customer bottom-nav tabs (Family, Plans, Wallet).
+**Current focus:** Mobile app (Phase 6) is underway — customer auth, role-gated routing, Home, and Family are live against the real backend. Next: Plans, then Wallet.
 
-**Last updated:** Mobile customer auth (phone OTP, matching the web admin's flow exactly) + role-gated router + `CustomerShell` bottom nav + a fully wired Home screen, verified end-to-end against the real local Supabase instance via `flutter run -d chrome` (no emulator/simulator set up on this machine yet).
+**Last updated:** Mobile Family tab — list, add, and edit family members (`family_members`), bottom sheet form matching the `customer_app_my_family` mockup, wired to real inserts/updates. `familyMembersProvider` is now shared between Home and Family so adding a member on one screen instantly reflects on the other. Verified end-to-end via `flutter run -d chrome` (no emulator/simulator set up on this machine yet), including the actual DB rows landing correctly.
 
 ---
 
@@ -106,11 +106,12 @@ Content gets filled in incrementally as features ship, not written all at once r
 - [x] Customer Home screen — welcome card (name + membership tier), family summary, live session card (countdown ticks client-side off `planned_end_at`, no polling), quick actions, recent activity from `notifications`; matches the `customer_app_home_dashboard` Stitch mockup
 - [x] `google_fonts` added for real Montserrat/Inter (previously fell back to the platform default) — same two families the web admin pulls via `next/font/google`
 - [x] Venue name/logo fetched from `venue_settings` at runtime for the login screen rather than hardcoded — `venue_settings_select` is intentionally world-readable (incl. anon) for exactly this
-- [ ] Family, Plans, Wallet tabs (currently placeholder screens behind real nav)
+- [x] Family tab (`features/customer/family/`) — list, add, edit `family_members`; matches the `customer_app_my_family` mockup. No delete: `family_members_delete` is admin-only by RLS design, so the customer app was never going to offer it — a real constraint discovered while building, not an oversight.
+- [ ] Plans, Wallet tabs (currently placeholder screens behind real nav)
 - [ ] Checkout, wristbands (detail screen), memberships, reservations, packages, notifications
 - [ ] Staff experience screens (auth, home, registration, sell, scanner, sessions, memberships, reports)
 
-Verified against the real local Supabase instance: a fresh phone number (`255700000099`, local test-OTP allowlist) signs up through the actual `handle_new_user` trigger — new `auth.users` row, `profiles` row (`role: customer`, `approval_status: pending`), `families` row — then lands on a correctly-empty-state Home screen. No emulator/simulator configured on this machine yet, so verification used Flutter's Chrome (web) target rather than a real device — worth a pass on an actual emulator once one's set up, since Flutter's web renderer isn't pixel-identical to mobile.
+Verified against the real local Supabase instance: a fresh phone number (`255700000099`, local test-OTP allowlist) signs up through the actual `handle_new_user` trigger — new `auth.users` row, `profiles` row (`role: customer`, `approval_status: pending`), `families` row — then lands on a correctly-empty-state Home screen. Adding "Leo Jenkins" through the Family tab's form produced a real `family_members` row (verified via direct SQL) and instantly appeared in Home's family summary card, since both screens share `familyMembersProvider`. No emulator/simulator configured on this machine yet, so verification used Flutter's Chrome (web) target rather than a real device — worth a pass on an actual emulator once one's set up, since Flutter's web renderer isn't pixel-identical to mobile.
 
 ## Phase 7 — Integration, UAT, deploy (§7 weeks 7-8)
 

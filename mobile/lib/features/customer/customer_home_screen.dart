@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_providers.dart';
 import '../../core/theme/app_theme.dart';
-import '../../core/venue/venue_providers.dart';
+import '../../core/widgets/branded_app_bar.dart';
+import 'family/family_providers.dart';
 import 'home_providers.dart';
 
 class CustomerHomeScreen extends ConsumerWidget {
@@ -15,27 +16,13 @@ class CustomerHomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentProfileProvider);
-    final venue = ref.watch(venueSettingsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8),
-          child: CircleAvatar(
-            backgroundColor: AppColors.primaryContainer,
-            child: Text(
-              _initials(profile.value?.fullName ?? ''),
-              style: const TextStyle(color: AppColors.onPrimaryContainer, fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        title: Text(venue.value?.parkName ?? 'Bonding Love Garden'),
-        actions: [IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () {})],
-      ),
+      appBar: const BrandedAppBar(),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(currentProfileProvider);
-          ref.invalidate(familyMemberNamesProvider);
+          ref.invalidate(familyMembersProvider);
           ref.invalidate(activeSubscriptionProvider);
           ref.invalidate(liveSessionProvider);
           ref.invalidate(recentActivityProvider);
@@ -76,14 +63,6 @@ class CustomerHomeScreen extends ConsumerWidget {
       ),
     );
   }
-
-  String _initials(String name) {
-    final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
-    if (parts.isEmpty) return '?';
-    final first = parts[0][0];
-    final second = parts.length > 1 ? parts[1][0] : '';
-    return (first + second).toUpperCase();
-  }
 }
 
 class _WelcomeCard extends ConsumerWidget {
@@ -94,7 +73,7 @@ class _WelcomeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final plan = ref.watch(activeSubscriptionProvider);
-    final familyNames = ref.watch(familyMemberNamesProvider);
+    final familyNames = ref.watch(familyMembersProvider.select((v) => v.whenData((m) => m.map((e) => e.fullName).toList())));
     final firstName = fullName.trim().isEmpty ? 'there' : fullName.trim().split(RegExp(r'\s+')).first;
 
     return Card(

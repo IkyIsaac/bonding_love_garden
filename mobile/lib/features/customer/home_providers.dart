@@ -1,23 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/auth/auth_providers.dart';
-
-/// Every profile has exactly one family row (even solo customers with zero
-/// family_members — see families table comment), so this is always non-null
-/// once currentProfileProvider has resolved.
-final currentFamilyIdProvider = FutureProvider<String>((ref) async {
-  final client = ref.watch(supabaseClientProvider);
-  final profile = await ref.watch(currentProfileProvider.future);
-  final row = await client.from('families').select('id').eq('owner_profile_id', profile!.id).single();
-  return row['id'] as String;
-});
-
-final familyMemberNamesProvider = FutureProvider<List<String>>((ref) async {
-  final client = ref.watch(supabaseClientProvider);
-  final familyId = await ref.watch(currentFamilyIdProvider.future);
-  final rows = await client.from('family_members').select('full_name').eq('family_id', familyId).order('created_at');
-  return rows.map((r) => r['full_name'] as String).toList();
-});
+import '../../core/family/current_family_provider.dart';
 
 class ActivePlanSummary {
   const ActivePlanSummary({required this.planName, required this.endsAt});

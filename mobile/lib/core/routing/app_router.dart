@@ -8,6 +8,7 @@ import '../auth/auth_providers.dart';
 import '../models/profile.dart';
 import '../../features/customer/customer_home_screen.dart';
 import '../../features/customer/customer_shell.dart';
+import '../../features/customer/family/family_screen.dart';
 import '../../features/shared/login_screen.dart';
 
 /// Role gate (post sign-in, from `profiles.role`), per
@@ -51,9 +52,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state, navigationShell) => CustomerShell(navigationShell: navigationShell),
         branches: [
           StatefulShellBranch(routes: [GoRoute(path: '/customer', builder: (context, state) => const CustomerHomeScreen())]),
-          StatefulShellBranch(
-            routes: [GoRoute(path: '/customer/family', builder: (context, state) => const _NotYetBuiltScreen(title: 'Family'))],
-          ),
+          StatefulShellBranch(routes: [GoRoute(path: '/customer/family', builder: (context, state) => const FamilyScreen())]),
           StatefulShellBranch(
             routes: [GoRoute(path: '/customer/plans', builder: (context, state) => const _NotYetBuiltScreen(title: 'Plans'))],
           ),
