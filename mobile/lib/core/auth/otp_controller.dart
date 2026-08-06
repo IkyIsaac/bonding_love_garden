@@ -5,14 +5,24 @@ import 'auth_providers.dart';
 enum LoginStep { phone, otp }
 
 class LoginState {
-  const LoginState({this.step = LoginStep.phone, this.phone = '', this.loading = false, this.error});
+  const LoginState({
+    this.step = LoginStep.phone,
+    this.phone = '',
+    this.loading = false,
+    this.error,
+  });
 
   final LoginStep step;
   final String phone;
   final bool loading;
   final String? error;
 
-  LoginState copyWith({LoginStep? step, String? phone, bool? loading, String? error}) {
+  LoginState copyWith({
+    LoginStep? step,
+    String? phone,
+    bool? loading,
+    String? error,
+  }) {
     return LoginState(
       step: step ?? this.step,
       phone: phone ?? this.phone,
@@ -44,7 +54,9 @@ class OtpController extends Notifier<LoginState> {
   Future<void> verifyOtp(String token) async {
     state = state.copyWith(loading: true, error: null);
     try {
-      await ref.read(authRepositoryProvider).verifyOtp(phone: state.phone, token: token);
+      await ref
+          .read(authRepositoryProvider)
+          .verifyOtp(phone: state.phone, token: token);
       // Loading is left true deliberately through the redirect — the OTP
       // screen would otherwise flash back to an idle state for a frame
       // before the router navigates away.
@@ -57,7 +69,10 @@ class OtpController extends Notifier<LoginState> {
     state = state.copyWith(step: LoginStep.phone, error: null);
   }
 
-  String _messageFor(Object e) => e.toString().replaceFirst('AuthException: ', '');
+  String _messageFor(Object e) =>
+      e.toString().replaceFirst('AuthException: ', '');
 }
 
-final otpControllerProvider = NotifierProvider<OtpController, LoginState>(OtpController.new);
+final otpControllerProvider = NotifierProvider<OtpController, LoginState>(
+  OtpController.new,
+);

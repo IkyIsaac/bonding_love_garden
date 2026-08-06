@@ -17,10 +17,17 @@ class CustomerShell extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) => navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex),
+        onDestinationSelected: (index) => navigationShell.goBranch(
+          index,
+          initialLocation: index == navigationShell.currentIndex,
+        ),
         indicatorColor: AppColors.secondary,
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home, color: AppColors.onSecondary), label: 'Home'),
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home, color: AppColors.onSecondary),
+            label: 'Home',
+          ),
           NavigationDestination(
             icon: Icon(Icons.groups_outlined),
             selectedIcon: Icon(Icons.groups, color: AppColors.onSecondary),
@@ -28,12 +35,18 @@ class CustomerShell extends StatelessWidget {
           ),
           NavigationDestination(
             icon: Icon(Icons.confirmation_number_outlined),
-            selectedIcon: Icon(Icons.confirmation_number, color: AppColors.onSecondary),
+            selectedIcon: Icon(
+              Icons.confirmation_number,
+              color: AppColors.onSecondary,
+            ),
             label: 'Plans',
           ),
           NavigationDestination(
             icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet, color: AppColors.onSecondary),
+            selectedIcon: Icon(
+              Icons.account_balance_wallet,
+              color: AppColors.onSecondary,
+            ),
             label: 'Wallet',
           ),
         ],

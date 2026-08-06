@@ -89,14 +89,38 @@ ThemeData buildAppTheme() {
   // pulls through next/font/google).
   final baseTextTheme = GoogleFonts.interTextTheme();
   final textTheme = baseTextTheme.copyWith(
-    displayLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.displayLarge, fontWeight: FontWeight.w700),
-    displayMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.displayMedium, fontWeight: FontWeight.w700),
-    displaySmall: GoogleFonts.montserrat(textStyle: baseTextTheme.displaySmall, fontWeight: FontWeight.w700),
-    headlineLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineLarge, fontWeight: FontWeight.w700),
-    headlineMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineMedium, fontWeight: FontWeight.w700),
-    headlineSmall: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineSmall, fontWeight: FontWeight.w600),
-    titleLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.titleLarge, fontWeight: FontWeight.w600),
-    titleMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.titleMedium, fontWeight: FontWeight.w600),
+    displayLarge: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.displayLarge,
+      fontWeight: FontWeight.w700,
+    ),
+    displayMedium: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.displayMedium,
+      fontWeight: FontWeight.w700,
+    ),
+    displaySmall: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.displaySmall,
+      fontWeight: FontWeight.w700,
+    ),
+    headlineLarge: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.headlineLarge,
+      fontWeight: FontWeight.w700,
+    ),
+    headlineMedium: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.headlineMedium,
+      fontWeight: FontWeight.w700,
+    ),
+    headlineSmall: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.headlineSmall,
+      fontWeight: FontWeight.w600,
+    ),
+    titleLarge: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.titleLarge,
+      fontWeight: FontWeight.w600,
+    ),
+    titleMedium: GoogleFonts.montserrat(
+      textStyle: baseTextTheme.titleMedium,
+      fontWeight: FontWeight.w600,
+    ),
   );
 
   return ThemeData(

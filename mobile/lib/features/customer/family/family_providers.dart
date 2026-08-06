@@ -7,7 +7,11 @@ import '../../../core/models/family_member.dart';
 final familyMembersProvider = FutureProvider<List<FamilyMember>>((ref) async {
   final client = ref.watch(supabaseClientProvider);
   final familyId = await ref.watch(currentFamilyIdProvider.future);
-  final rows = await client.from('family_members').select().eq('family_id', familyId).order('created_at');
+  final rows = await client
+      .from('family_members')
+      .select()
+      .eq('family_id', familyId)
+      .order('created_at');
   return rows.map(FamilyMember.fromJson).toList();
 });
 
@@ -63,4 +67,6 @@ class FamilyController {
   }
 }
 
-final familyControllerProvider = Provider<FamilyController>((ref) => FamilyController(ref));
+final familyControllerProvider = Provider<FamilyController>(
+  (ref) => FamilyController(ref),
+);

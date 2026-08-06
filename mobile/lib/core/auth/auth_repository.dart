@@ -32,7 +32,11 @@ class AuthRepository {
   Future<Profile?> fetchCurrentProfile() async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return null;
-    final row = await _client.from('profiles').select().eq('id', userId).maybeSingle();
+    final row = await _client
+        .from('profiles')
+        .select()
+        .eq('id', userId)
+        .maybeSingle();
     if (row == null) return null;
     return Profile.fromJson(row);
   }

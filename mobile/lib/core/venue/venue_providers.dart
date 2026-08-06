@@ -7,6 +7,9 @@ import '../models/venue_settings.dart';
 /// this is safe to fetch before the user has signed in.
 final venueSettingsProvider = FutureProvider<VenueSettings>((ref) async {
   final client = ref.watch(supabaseClientProvider);
-  final row = await client.from('venue_settings').select('park_name, logo_url').single();
+  final row = await client
+      .from('venue_settings')
+      .select('park_name, logo_url')
+      .single();
   return VenueSettings.fromJson(row);
 });

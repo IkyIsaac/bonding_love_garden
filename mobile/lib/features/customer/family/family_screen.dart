@@ -30,10 +30,15 @@ class FamilyScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('My Family', style: Theme.of(context).textTheme.headlineSmall),
+                      Text(
+                        'My Family',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                       Text(
                         'Manage your family group and guest profiles.',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),
@@ -43,31 +48,48 @@ class FamilyScreen extends ConsumerWidget {
                   onPressed: () => showMemberFormSheet(context, existing: null),
                   icon: const Icon(Icons.add),
                   label: const Text('Add'),
-                  style: FilledButton.styleFrom(backgroundColor: AppColors.secondary, foregroundColor: AppColors.onSecondary),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.secondary,
+                    foregroundColor: AppColors.onSecondary,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: AppSpacing.md),
-            _OwnerCard(fullName: profile.value?.fullName ?? '', phone: profile.value?.phone ?? ''),
+            _OwnerCard(
+              fullName: profile.value?.fullName ?? '',
+              phone: profile.value?.phone ?? '',
+            ),
             const SizedBox(height: AppSpacing.base),
             members.when(
               data: (list) {
                 if (list.isEmpty) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.lg,
+                    ),
                     child: Text(
                       'No family members added yet. Add a child or dependent adult to bring them along on your visits.',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.onSurfaceVariant,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   );
                 }
-                return Column(children: list.map((m) => _MemberCard(member: m)).toList());
+                return Column(
+                  children: list.map((m) => _MemberCard(member: m)).toList(),
+                );
               },
-              loading: () => const Padding(padding: EdgeInsets.all(24), child: Center(child: CircularProgressIndicator())),
+              loading: () => const Padding(
+                padding: EdgeInsets.all(24),
+                child: Center(child: CircularProgressIndicator()),
+              ),
               error: (_, __) => Text(
                 "Couldn't load family members.",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.error),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppColors.error),
               ),
             ),
           ],
@@ -93,15 +115,29 @@ class _OwnerCard extends StatelessWidget {
             CircleAvatar(
               radius: 28,
               backgroundColor: AppColors.primaryContainer,
-              child: Text(_initials(fullName), style: const TextStyle(color: AppColors.onPrimaryContainer, fontWeight: FontWeight.bold)),
+              child: Text(
+                _initials(fullName),
+                style: const TextStyle(
+                  color: AppColors.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(fullName.isEmpty ? 'You' : fullName, style: Theme.of(context).textTheme.titleMedium),
-                  Text('Account Owner · $phone', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.onSurfaceVariant)),
+                  Text(
+                    fullName.isEmpty ? 'You' : fullName,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    'Account Owner · $phone',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -112,7 +148,11 @@ class _OwnerCard extends StatelessWidget {
   }
 
   String _initials(String name) {
-    final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
+    final parts = name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((p) => p.isNotEmpty)
+        .toList();
     if (parts.isEmpty) return '?';
     final first = parts[0][0];
     final second = parts.length > 1 ? parts[1][0] : '';
@@ -127,8 +167,12 @@ class _MemberCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final kindLabel = member.kind == FamilyMemberKind.child ? 'Child' : 'Dependent Adult';
-    final ageLabel = member.age != null ? '$kindLabel · ${member.age} Years Old' : kindLabel;
+    final kindLabel = member.kind == FamilyMemberKind.child
+        ? 'Child'
+        : 'Dependent Adult';
+    final ageLabel = member.age != null
+        ? '$kindLabel · ${member.age} Years Old'
+        : kindLabel;
 
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.base),
@@ -140,7 +184,11 @@ class _MemberCard extends StatelessWidget {
             CircleAvatar(
               radius: 24,
               backgroundColor: AppColors.surfaceVariant,
-              child: Text(member.fullName.isNotEmpty ? member.fullName[0].toUpperCase() : '?'),
+              child: Text(
+                member.fullName.isNotEmpty
+                    ? member.fullName[0].toUpperCase()
+                    : '?',
+              ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
@@ -149,32 +197,65 @@ class _MemberCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Flexible(child: Text(member.fullName, style: Theme.of(context).textTheme.titleMedium)),
+                      Flexible(
+                        child: Text(
+                          member.fullName,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
                       if (member.isPrimaryChild) ...[
                         const SizedBox(width: AppSpacing.base),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(color: AppColors.surfaceVariant, borderRadius: BorderRadius.circular(AppRadii.full)),
-                          child: const Text('Primary Child', style: TextStyle(fontSize: 11)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceVariant,
+                            borderRadius: BorderRadius.circular(AppRadii.full),
+                          ),
+                          child: const Text(
+                            'Primary Child',
+                            style: TextStyle(fontSize: 11),
+                          ),
                         ),
                       ],
                     ],
                   ),
-                  Text(ageLabel, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.onSurfaceVariant)),
-                  if (member.allergiesNotes != null && member.allergiesNotes!.isNotEmpty) ...[
+                  Text(
+                    ageLabel,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.onSurfaceVariant,
+                    ),
+                  ),
+                  if (member.allergiesNotes != null &&
+                      member.allergiesNotes!.isNotEmpty) ...[
                     const SizedBox(height: AppSpacing.base),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: AppColors.errorContainer, borderRadius: BorderRadius.circular(AppRadii.full)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.errorContainer,
+                        borderRadius: BorderRadius.circular(AppRadii.full),
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.warning_amber_rounded, size: 14, color: AppColors.onErrorContainer),
+                          const Icon(
+                            Icons.warning_amber_rounded,
+                            size: 14,
+                            color: AppColors.onErrorContainer,
+                          ),
                           const SizedBox(width: 4),
                           Flexible(
                             child: Text(
                               member.allergiesNotes!,
-                              style: const TextStyle(fontSize: 11, color: AppColors.onErrorContainer),
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: AppColors.onErrorContainer,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -184,8 +265,13 @@ class _MemberCard extends StatelessWidget {
                   ],
                   const SizedBox(height: AppSpacing.sm),
                   OutlinedButton(
-                    onPressed: () => showMemberFormSheet(context, existing: member),
-                    child: Text(member.kind == FamilyMemberKind.child ? 'Edit Child' : 'Edit Profile'),
+                    onPressed: () =>
+                        showMemberFormSheet(context, existing: member),
+                    child: Text(
+                      member.kind == FamilyMemberKind.child
+                          ? 'Edit Child'
+                          : 'Edit Profile',
+                    ),
                   ),
                 ],
               ),

@@ -24,17 +24,30 @@ class BrandedAppBar extends ConsumerWidget implements PreferredSizeWidget {
           backgroundColor: AppColors.primaryContainer,
           child: Text(
             _initials(profile.value?.fullName ?? ''),
-            style: const TextStyle(color: AppColors.onPrimaryContainer, fontSize: 14, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: AppColors.onPrimaryContainer,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
       title: Text(venue.value?.parkName ?? 'Bonding Love Garden'),
-      actions: [IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () {})],
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.notifications_outlined),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 
   String _initials(String name) {
-    final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
+    final parts = name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((p) => p.isNotEmpty)
+        .toList();
     if (parts.isEmpty) return '?';
     final first = parts[0][0];
     final second = parts.length > 1 ? parts[1][0] : '';

@@ -7,9 +7,13 @@ part 'venue_settings.freezed.dart';
 /// the one runtime-configurable branding surface for app chrome.
 @freezed
 abstract class VenueSettings with _$VenueSettings {
-  const factory VenueSettings({required String parkName, String? logoUrl}) = _VenueSettings;
+  const factory VenueSettings({required String parkName, String? logoUrl}) =
+      _VenueSettings;
 
   factory VenueSettings.fromJson(Map<String, dynamic> json) {
-    return VenueSettings(parkName: json['park_name'] as String, logoUrl: json['logo_url'] as String?);
+    return VenueSettings(
+      parkName: json['park_name'] as String,
+      logoUrl: json['logo_url'] as String?,
+    );
   }
 }

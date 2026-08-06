@@ -10,7 +10,9 @@ class ActivePlanSummary {
   final DateTime endsAt;
 }
 
-final activeSubscriptionProvider = FutureProvider<ActivePlanSummary?>((ref) async {
+final activeSubscriptionProvider = FutureProvider<ActivePlanSummary?>((
+  ref,
+) async {
   final client = ref.watch(supabaseClientProvider);
   final familyId = await ref.watch(currentFamilyIdProvider.future);
   final row = await client
@@ -24,11 +26,19 @@ final activeSubscriptionProvider = FutureProvider<ActivePlanSummary?>((ref) asyn
   if (row == null) return null;
   final plan = row['access_plans'] as Map<String, dynamic>?;
   if (plan == null) return null;
-  return ActivePlanSummary(planName: plan['name'] as String, endsAt: DateTime.parse(row['ends_at'] as String));
+  return ActivePlanSummary(
+    planName: plan['name'] as String,
+    endsAt: DateTime.parse(row['ends_at'] as String),
+  );
 });
 
 class LiveSessionSummary {
-  const LiveSessionSummary({required this.zoneName, required this.plannedEndAt, required this.startedAt, required this.peopleCount});
+  const LiveSessionSummary({
+    required this.zoneName,
+    required this.plannedEndAt,
+    required this.startedAt,
+    required this.peopleCount,
+  });
 
   final String zoneName;
   final DateTime plannedEndAt;
@@ -45,7 +55,10 @@ final liveSessionProvider = FutureProvider<LiveSessionSummary?>((ref) async {
   final client = ref.watch(supabaseClientProvider);
   final familyId = await ref.watch(currentFamilyIdProvider.future);
 
-  final wristbandRows = await client.from('wristbands').select('id').eq('family_id', familyId);
+  final wristbandRows = await client
+      .from('wristbands')
+      .select('id')
+      .eq('family_id', familyId);
   final wristbandIds = wristbandRows.map((r) => r['id'] as String).toList();
   if (wristbandIds.isEmpty) return null;
 
@@ -60,7 +73,11 @@ final liveSessionProvider = FutureProvider<LiveSessionSummary?>((ref) async {
   String zoneName = 'The park';
   final zoneId = first['zone_id'] as String?;
   if (zoneId != null) {
-    final zoneRow = await client.from('zones').select('name').eq('id', zoneId).maybeSingle();
+    final zoneRow = await client
+        .from('zones')
+        .select('name')
+        .eq('id', zoneId)
+        .maybeSingle();
     if (zoneRow != null) zoneName = zoneRow['name'] as String;
   }
 
@@ -73,7 +90,11 @@ final liveSessionProvider = FutureProvider<LiveSessionSummary?>((ref) async {
 });
 
 class ActivityItem {
-  const ActivityItem({required this.title, required this.body, required this.createdAt});
+  const ActivityItem({
+    required this.title,
+    required this.body,
+    required this.createdAt,
+  });
 
   final String title;
   final String? body;
@@ -91,6 +112,12 @@ final recentActivityProvider = FutureProvider<List<ActivityItem>>((ref) async {
       .order('created_at', ascending: false)
       .limit(3);
   return rows
-      .map((r) => ActivityItem(title: r['title'] as String, body: r['body'] as String?, createdAt: DateTime.parse(r['created_at'] as String)))
+      .map(
+        (r) => ActivityItem(
+          title: r['title'] as String,
+          body: r['body'] as String?,
+          createdAt: DateTime.parse(r['created_at'] as String),
+        ),
+      )
       .toList();
 });

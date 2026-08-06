@@ -10,6 +10,10 @@ import '../auth/auth_providers.dart';
 final currentFamilyIdProvider = FutureProvider<String>((ref) async {
   final client = ref.watch(supabaseClientProvider);
   final profile = await ref.watch(currentProfileProvider.future);
-  final row = await client.from('families').select('id').eq('owner_profile_id', profile!.id).single();
+  final row = await client
+      .from('families')
+      .select('id')
+      .eq('owner_profile_id', profile!.id)
+      .single();
   return row['id'] as String;
 });

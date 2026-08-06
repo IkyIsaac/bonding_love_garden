@@ -16,7 +16,10 @@ class LoginScreen extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.lg),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.lg,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -29,7 +32,11 @@ class LoginScreen extends ConsumerWidget {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(AppRadii.large),
                   ),
-                  child: const Icon(Icons.eco, color: AppColors.onPrimary, size: 36),
+                  child: const Icon(
+                    Icons.eco,
+                    color: AppColors.onPrimary,
+                    size: 36,
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -37,13 +44,17 @@ class LoginScreen extends ConsumerWidget {
                 child: venue.when(
                   data: (v) => Text(
                     v.parkName,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.primary),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.primary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   loading: () => const SizedBox(height: 32),
                   error: (_, __) => Text(
                     'Bonding Love Garden',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.primary),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.primary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -53,16 +64,23 @@ class LoginScreen extends ConsumerWidget {
                 loginState.step == LoginStep.phone
                     ? 'Enter your phone number to begin your journey.'
                     : 'Enter the code sent to ${loginState.phone}',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.onSurfaceVariant),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.md),
-              if (loginState.step == LoginStep.phone) const _PhoneStep() else const _OtpStep(),
+              if (loginState.step == LoginStep.phone)
+                const _PhoneStep()
+              else
+                const _OtpStep(),
               if (loginState.error != null) ...[
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   loginState.error!,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.error),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.error),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -101,16 +119,33 @@ class _PhoneStepState extends ConsumerState<_PhoneStep> {
           controller: _controller,
           keyboardType: TextInputType.phone,
           autofocus: true,
-          decoration: const InputDecoration(hintText: '+255700000000', prefixIcon: Icon(Icons.phone_outlined)),
+          decoration: const InputDecoration(
+            hintText: '+255700000000',
+            prefixIcon: Icon(Icons.phone_outlined),
+          ),
         ),
         const SizedBox(height: AppSpacing.sm),
         ElevatedButton.icon(
-          onPressed: loading ? null : () => ref.read(otpControllerProvider.notifier).sendOtp(_controller.text.trim()),
+          onPressed: loading
+              ? null
+              : () => ref
+                    .read(otpControllerProvider.notifier)
+                    .sendOtp(_controller.text.trim()),
           icon: loading
-              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.onSecondary))
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.onSecondary,
+                  ),
+                )
               : const Icon(Icons.arrow_forward),
           label: Text(loading ? 'Sending…' : 'Continue'),
-          style: ElevatedButton.styleFrom(backgroundColor: AppColors.secondary, foregroundColor: AppColors.onSecondary),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.secondary,
+            foregroundColor: AppColors.onSecondary,
+          ),
         ),
       ],
     );
@@ -147,19 +182,39 @@ class _OtpStepState extends ConsumerState<_OtpStep> {
           autofocus: true,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 24, letterSpacing: 8),
-          decoration: const InputDecoration(counterText: '', hintText: '123456'),
+          decoration: const InputDecoration(
+            counterText: '',
+            hintText: '123456',
+          ),
         ),
         const SizedBox(height: AppSpacing.sm),
         ElevatedButton.icon(
-          onPressed: loading ? null : () => ref.read(otpControllerProvider.notifier).verifyOtp(_controller.text.trim()),
+          onPressed: loading
+              ? null
+              : () => ref
+                    .read(otpControllerProvider.notifier)
+                    .verifyOtp(_controller.text.trim()),
           icon: loading
-              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.onSecondary))
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.onSecondary,
+                  ),
+                )
               : const Icon(Icons.check),
           label: Text(loading ? 'Verifying…' : 'Verify'),
-          style: ElevatedButton.styleFrom(backgroundColor: AppColors.secondary, foregroundColor: AppColors.onSecondary),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.secondary,
+            foregroundColor: AppColors.onSecondary,
+          ),
         ),
         TextButton(
-          onPressed: loading ? null : () => ref.read(otpControllerProvider.notifier).backToPhoneStep(),
+          onPressed: loading
+              ? null
+              : () =>
+                    ref.read(otpControllerProvider.notifier).backToPhoneStep(),
           child: const Text('Use a different number'),
         ),
       ],

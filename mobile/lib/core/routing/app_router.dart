@@ -9,6 +9,7 @@ import '../models/profile.dart';
 import '../../features/customer/customer_home_screen.dart';
 import '../../features/customer/customer_shell.dart';
 import '../../features/customer/family/family_screen.dart';
+import '../../features/customer/plans/plans_screen.dart';
 import '../../features/shared/login_screen.dart';
 
 /// Role gate (post sign-in, from `profiles.role`), per
@@ -19,7 +20,9 @@ import '../../features/shared/login_screen.dart';
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/login',
-    refreshListenable: GoRouterRefreshStream(ref.watch(authRepositoryProvider).onAuthStateChange),
+    refreshListenable: GoRouterRefreshStream(
+      ref.watch(authRepositoryProvider).onAuthStateChange,
+    ),
     redirect: (context, state) async {
       final loggingIn = state.matchedLocation == '/login';
       final session = ref.read(authRepositoryProvider).currentSession;
@@ -40,24 +43,63 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       return switch (profile.role) {
         ProfileRole.customer => '/customer',
         ProfileRole.admin => '/admin-only',
-        ProfileRole.cashier || ProfileRole.attendant || ProfileRole.supervisor => '/staff',
+        ProfileRole.cashier ||
+        ProfileRole.attendant ||
+        ProfileRole.supervisor => '/staff',
       };
     },
     routes: [
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
-      GoRoute(path: '/admin-only', builder: (context, state) => const _AdminOnlyScreen()),
-      GoRoute(path: '/staff', builder: (context, state) => const _NotYetBuiltScreen(title: 'Staff app')),
-      GoRoute(path: '/customer/wristbands', builder: (context, state) => const _NotYetBuiltScreen(title: 'Wristbands')),
+      GoRoute(
+        path: '/admin-only',
+        builder: (context, state) => const _AdminOnlyScreen(),
+      ),
+      GoRoute(
+        path: '/staff',
+        builder: (context, state) =>
+            const _NotYetBuiltScreen(title: 'Staff app'),
+      ),
+      GoRoute(
+        path: '/customer/wristbands',
+        builder: (context, state) =>
+            const _NotYetBuiltScreen(title: 'Wristbands'),
+      ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) => CustomerShell(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) =>
+            CustomerShell(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(routes: [GoRoute(path: '/customer', builder: (context, state) => const CustomerHomeScreen())]),
-          StatefulShellBranch(routes: [GoRoute(path: '/customer/family', builder: (context, state) => const FamilyScreen())]),
           StatefulShellBranch(
-            routes: [GoRoute(path: '/customer/plans', builder: (context, state) => const _NotYetBuiltScreen(title: 'Plans'))],
+            routes: [
+              GoRoute(
+                path: '/customer',
+                builder: (context, state) => const CustomerHomeScreen(),
+              ),
+            ],
           ),
           StatefulShellBranch(
-            routes: [GoRoute(path: '/customer/wallet', builder: (context, state) => const _NotYetBuiltScreen(title: 'Wallet'))],
+            routes: [
+              GoRoute(
+                path: '/customer/family',
+                builder: (context, state) => const FamilyScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/customer/plans',
+                builder: (context, state) => const PlansScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/customer/wallet',
+                builder: (context, state) =>
+                    const _NotYetBuiltScreen(title: 'Wallet'),
+              ),
+            ],
           ),
         ],
       ),
@@ -77,7 +119,10 @@ class _AdminOnlyScreen extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Admin accounts use the web dashboard, not this app.', textAlign: TextAlign.center),
+              const Text(
+                'Admin accounts use the web dashboard, not this app.',
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 16),
               OutlinedButton(
                 onPressed: () => ref.read(authRepositoryProvider).signOut(),

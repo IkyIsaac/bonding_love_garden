@@ -5,7 +5,10 @@ import '../../../core/models/family_member.dart';
 import '../../../core/theme/app_theme.dart';
 import 'family_providers.dart';
 
-Future<void> showMemberFormSheet(BuildContext context, {required FamilyMember? existing}) {
+Future<void> showMemberFormSheet(
+  BuildContext context, {
+  required FamilyMember? existing,
+}) {
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -24,10 +27,18 @@ class _MemberFormSheet extends ConsumerStatefulWidget {
 }
 
 class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
-  late final _nameController = TextEditingController(text: widget.existing?.fullName ?? '');
-  late final _ageController = TextEditingController(text: widget.existing?.age?.toString() ?? '');
-  late final _allergiesController = TextEditingController(text: widget.existing?.allergiesNotes ?? '');
-  late final _notesController = TextEditingController(text: widget.existing?.generalNotes ?? '');
+  late final _nameController = TextEditingController(
+    text: widget.existing?.fullName ?? '',
+  );
+  late final _ageController = TextEditingController(
+    text: widget.existing?.age?.toString() ?? '',
+  );
+  late final _allergiesController = TextEditingController(
+    text: widget.existing?.allergiesNotes ?? '',
+  );
+  late final _notesController = TextEditingController(
+    text: widget.existing?.generalNotes ?? '',
+  );
   late FamilyMemberKind _kind = widget.existing?.kind ?? FamilyMemberKind.child;
   String? _gender;
 
@@ -98,13 +109,22 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
     final isEditing = widget.existing != null;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Container(
         decoration: const BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.large)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadii.large),
+          ),
         ),
-        padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.sm, AppSpacing.md, AppSpacing.md),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.md,
+          AppSpacing.sm,
+          AppSpacing.md,
+          AppSpacing.md,
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -113,17 +133,29 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
               Row(
                 children: [
                   Expanded(
-                    child: Text(isEditing ? 'Member Details' : 'Add Family Member', style: Theme.of(context).textTheme.titleLarge),
+                    child: Text(
+                      isEditing ? 'Member Details' : 'Add Family Member',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   ),
-                  IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.of(context).pop()),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 ],
               ),
               const Divider(),
               const SizedBox(height: AppSpacing.sm),
               SegmentedButton<FamilyMemberKind>(
                 segments: const [
-                  ButtonSegment(value: FamilyMemberKind.child, label: Text('Child')),
-                  ButtonSegment(value: FamilyMemberKind.dependentAdult, label: Text('Dependent Adult')),
+                  ButtonSegment(
+                    value: FamilyMemberKind.child,
+                    label: Text('Child'),
+                  ),
+                  ButtonSegment(
+                    value: FamilyMemberKind.dependentAdult,
+                    label: Text('Dependent Adult'),
+                  ),
                 ],
                 selected: {_kind},
                 onSelectionChanged: (s) => setState(() => _kind = s.first),
@@ -135,7 +167,10 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
                     flex: 2,
                     child: TextField(
                       controller: _nameController,
-                      decoration: const InputDecoration(labelText: 'Full Name', hintText: 'e.g. Leo Jenkins'),
+                      decoration: const InputDecoration(
+                        labelText: 'Full Name',
+                        hintText: 'e.g. Leo Jenkins',
+                      ),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -143,7 +178,10 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
                     child: TextField(
                       controller: _ageController,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Age', hintText: 'Years'),
+                      decoration: const InputDecoration(
+                        labelText: 'Age',
+                        hintText: 'Years',
+                      ),
                     ),
                   ),
                 ],
@@ -154,23 +192,33 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
               Wrap(
                 spacing: AppSpacing.base,
                 children: [
-                  for (final option in const [('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
+                  for (final option in const [
+                    ('male', 'Male'),
+                    ('female', 'Female'),
+                    ('other', 'Other'),
+                  ])
                     ChoiceChip(
                       label: Text(option.$2),
                       selected: _gender == option.$1,
-                      onSelected: (selected) => setState(() => _gender = selected ? option.$1 : null),
+                      onSelected: (selected) =>
+                          setState(() => _gender = selected ? option.$1 : null),
                     ),
                 ],
               ),
               const SizedBox(height: AppSpacing.sm),
               TextField(
                 controller: _allergiesController,
-                decoration: const InputDecoration(labelText: 'Allergies', hintText: 'e.g. Peanut allergy'),
+                decoration: const InputDecoration(
+                  labelText: 'Allergies',
+                  hintText: 'e.g. Peanut allergy',
+                ),
               ),
               const SizedBox(height: AppSpacing.sm),
               TextField(
                 controller: _notesController,
-                decoration: const InputDecoration(labelText: 'Notes (optional)'),
+                decoration: const InputDecoration(
+                  labelText: 'Notes (optional)',
+                ),
                 maxLines: 2,
               ),
               if (_error != null) ...[
@@ -181,13 +229,21 @@ class _MemberFormSheetState extends ConsumerState<_MemberFormSheet> {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(onPressed: _saving ? null : () => Navigator.of(context).pop(), child: const Text('Cancel')),
+                    child: OutlinedButton(
+                      onPressed: _saving
+                          ? null
+                          : () => Navigator.of(context).pop(),
+                      child: const Text('Cancel'),
+                    ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _saving ? null : _save,
-                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.secondary, foregroundColor: AppColors.onSecondary),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.secondary,
+                        foregroundColor: AppColors.onSecondary,
+                      ),
                       child: Text(_saving ? 'Saving…' : 'Save Member'),
                     ),
                   ),

@@ -5,7 +5,9 @@ part 'family_member.freezed.dart';
 enum FamilyMemberKind { child, dependentAdult }
 
 FamilyMemberKind _kindFromString(String value) {
-  return value == 'dependent_adult' ? FamilyMemberKind.dependentAdult : FamilyMemberKind.child;
+  return value == 'dependent_adult'
+      ? FamilyMemberKind.dependentAdult
+      : FamilyMemberKind.child;
 }
 
 String kindToColumnValue(FamilyMemberKind kind) {
