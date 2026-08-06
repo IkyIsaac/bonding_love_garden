@@ -2,9 +2,9 @@
 
 Living tracker for the Bonding Love Garden build. Updated with every commit. Phases mirror the build order in [`docs/ARCHITECTURE_PLAN.md`](docs/ARCHITECTURE_PLAN.md#7-build-order--mapped-to-brief-9-with-changes-flagged) (§7), reconciled against what's actually shipped rather than the original week-by-week estimate.
 
-**Current focus:** Web admin dashboard is feature-complete for §6 and has been rebuilt on ReUI/shadcn for a premium visual pass. Next up: mobile app, or further UAT/polish on the web admin.
+**Current focus:** Mobile app (Phase 6) is underway — customer auth, role-gated routing, and the Home screen are live against the real backend. Next: the rest of the customer bottom-nav tabs (Family, Plans, Wallet).
 
-**Last updated:** Web admin rebuilt on [ReUI](https://reui.io/components) (shadcn/ui-based component library) — new branded sidebar shell, Dialog/AlertDialog/Select/Table/Sidebar primitives replacing the hand-rolled originals, verified page-by-page in an actual browser with two real bugs found and fixed along the way.
+**Last updated:** Mobile customer auth (phone OTP, matching the web admin's flow exactly) + role-gated router + `CustomerShell` bottom nav + a fully wired Home screen, verified end-to-end against the real local Supabase instance via `flutter run -d chrome` (no emulator/simulator set up on this machine yet).
 
 ---
 
@@ -100,10 +100,17 @@ Content gets filled in incrementally as features ship, not written all at once r
 
 ## Phase 6 — Mobile app (§5)
 
-- [ ] Customer experience screens (auth, family, plans, checkout, wristbands, wallet, memberships, reservations, packages, notifications)
+- [x] Auth: phone OTP (`core/auth/`) — same mechanism as the web admin, no password/email anywhere
+- [x] Role-gated router (`core/routing/app_router.dart`) — customer -> `CustomerShell`, staff roles -> placeholder, admin -> "use the web dashboard" screen
+- [x] `CustomerShell` bottom nav (Home / Family / Plans / Wallet) via `StatefulShellRoute.indexedStack`, each tab keeping its own nav stack
+- [x] Customer Home screen — welcome card (name + membership tier), family summary, live session card (countdown ticks client-side off `planned_end_at`, no polling), quick actions, recent activity from `notifications`; matches the `customer_app_home_dashboard` Stitch mockup
+- [x] `google_fonts` added for real Montserrat/Inter (previously fell back to the platform default) — same two families the web admin pulls via `next/font/google`
+- [x] Venue name/logo fetched from `venue_settings` at runtime for the login screen rather than hardcoded — `venue_settings_select` is intentionally world-readable (incl. anon) for exactly this
+- [ ] Family, Plans, Wallet tabs (currently placeholder screens behind real nav)
+- [ ] Checkout, wristbands (detail screen), memberships, reservations, packages, notifications
 - [ ] Staff experience screens (auth, home, registration, sell, scanner, sessions, memberships, reports)
 
-Scaffold exists (`mobile/lib/core/` + `mobile/lib/features/`), no screens built yet.
+Verified against the real local Supabase instance: a fresh phone number (`255700000099`, local test-OTP allowlist) signs up through the actual `handle_new_user` trigger — new `auth.users` row, `profiles` row (`role: customer`, `approval_status: pending`), `families` row — then lands on a correctly-empty-state Home screen. No emulator/simulator configured on this machine yet, so verification used Flutter's Chrome (web) target rather than a real device — worth a pass on an actual emulator once one's set up, since Flutter's web renderer isn't pixel-identical to mobile.
 
 ## Phase 7 — Integration, UAT, deploy (§7 weeks 7-8)
 

@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local dev Supabase connection details (--dart-define-from-file), same
+# spirit as web/.env.local — environment-specific, never committed.
+.env.*.json

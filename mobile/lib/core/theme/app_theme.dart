@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Design tokens transcribed from docs/design/botanical_play/DESIGN.md.
 /// "Botanical Play": Deep Green primary, Warm Pink accent, hyper-rounded
@@ -83,14 +84,26 @@ ThemeData buildAppTheme() {
     outline: AppColors.outline,
   );
 
+  // Montserrat (headlines) / Inter (body) per DESIGN.md, via google_fonts
+  // (downloads + caches on first use — same two families the web admin
+  // pulls through next/font/google).
+  final baseTextTheme = GoogleFonts.interTextTheme();
+  final textTheme = baseTextTheme.copyWith(
+    displayLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.displayLarge, fontWeight: FontWeight.w700),
+    displayMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.displayMedium, fontWeight: FontWeight.w700),
+    displaySmall: GoogleFonts.montserrat(textStyle: baseTextTheme.displaySmall, fontWeight: FontWeight.w700),
+    headlineLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineLarge, fontWeight: FontWeight.w700),
+    headlineMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineMedium, fontWeight: FontWeight.w700),
+    headlineSmall: GoogleFonts.montserrat(textStyle: baseTextTheme.headlineSmall, fontWeight: FontWeight.w600),
+    titleLarge: GoogleFonts.montserrat(textStyle: baseTextTheme.titleLarge, fontWeight: FontWeight.w600),
+    titleMedium: GoogleFonts.montserrat(textStyle: baseTextTheme.titleMedium, fontWeight: FontWeight.w600),
+  );
+
   return ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,
     scaffoldBackgroundColor: AppColors.surface,
-    // Montserrat (headlines) / Inter (body) per DESIGN.md — bundle the actual
-    // font assets when building out the design system; falls back to the
-    // platform default until then.
-    fontFamily: 'Inter',
+    textTheme: textTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(48),
