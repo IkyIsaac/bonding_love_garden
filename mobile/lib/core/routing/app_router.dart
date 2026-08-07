@@ -18,6 +18,11 @@ import '../../features/customer/plans/plans_screen.dart';
 import '../../features/customer/wallet/wallet_screen.dart';
 import '../../features/customer/wristbands/wristbands_screen.dart';
 import '../../features/shared/login_screen.dart';
+import '../../features/staff/home/staff_home_screen.dart';
+import '../../features/staff/reports/staff_reports_screen.dart';
+import '../../features/staff/scanner/scanner_screen.dart';
+import '../../features/staff/sessions/sessions_screen.dart';
+import '../../features/staff/staff_shell.dart';
 
 /// Role gate (post sign-in, from `profiles.role`), per
 /// docs/ARCHITECTURE_PLAN.md §5:
@@ -60,11 +65,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin-only',
         builder: (context, state) => const _AdminOnlyScreen(),
-      ),
-      GoRoute(
-        path: '/staff',
-        builder: (context, state) =>
-            const _NotYetBuiltScreen(title: 'Staff app'),
       ),
       GoRoute(
         path: '/customer/wristbands',
@@ -122,6 +122,44 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            StaffShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/staff',
+                builder: (context, state) => const StaffHomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/staff/scanner',
+                builder: (context, state) => const ScannerScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/staff/sessions',
+                builder: (context, state) => const SessionsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/staff/reports',
+                builder: (context, state) => const StaffReportsScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
   );
 });
@@ -151,20 +189,6 @@ class _AdminOnlyScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _NotYetBuiltScreen extends StatelessWidget {
-  const _NotYetBuiltScreen({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text('$title — not yet implemented.')),
     );
   }
 }
