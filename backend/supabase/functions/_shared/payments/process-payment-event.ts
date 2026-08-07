@@ -169,6 +169,7 @@ async function handlePaymentSucceeded(admin: SupabaseClient, orderId: string) {
   }
 
   await notifySupervisorsOfPurchase(admin, orderId);
+  await notifyCustomerOfPurchase(admin, orderId, order.family_id);
 }
 
 function addInterval(date: Date, value: number, unit: string): Date {
@@ -226,5 +227,37 @@ async function notifySupervisorsOfPurchase(admin: SupabaseClient, orderId: strin
   );
   if (insertError) {
     console.error(`notifySupervisorsOfPurchase: failed to insert notifications for order ${orderId}: ${insertError.message}`);
+  }
+}
+
+/**
+ * The customer-facing twin of notifySupervisorsOfPurchase — 'payment_confirmed'
+ * is one of the example notification.type values named in this table's own
+ * migration comment, but until now nothing actually wrote one. Recipient is
+ * the family's owner_profile_id, not orders.buyer_profile_id: for a
+ * customer_app order those are the same person, but for a staff_app sale
+ * (Sell) buyer_profile_id is the staff member who rang it up — the family
+ * owner is the one who actually needs to know their purchase went through.
+ */
+async function notifyCustomerOfPurchase(admin: SupabaseClient, orderId: string, familyId: string) {
+  const { data: family, error: familyError } = await admin
+    .from("families")
+    .select("owner_profile_id")
+    .eq("id", familyId)
+    .maybeSingle();
+  if (familyError || !family) {
+    console.error(`notifyCustomerOfPurchase: failed to look up family ${familyId}: ${familyError?.message}`);
+    return;
+  }
+
+  const { error: insertError } = await admin.from("notifications").insert({
+    recipient_profile_id: family.owner_profile_id,
+    type: "payment_confirmed",
+    title: "Payment confirmed",
+    body: "Your payment went through — your wristband is ready.",
+    payload: { orderId },
+  });
+  if (insertError) {
+    console.error(`notifyCustomerOfPurchase: failed to insert notification for order ${orderId}: ${insertError.message}`);
   }
 }

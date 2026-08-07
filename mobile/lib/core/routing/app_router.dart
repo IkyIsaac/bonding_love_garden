@@ -14,6 +14,7 @@ import '../../features/customer/customer_shell.dart';
 import '../../features/customer/family/family_screen.dart';
 import '../../features/customer/memberships/memberships_screen.dart';
 import '../../features/customer/memberships/reservation_payment_screen.dart';
+import '../../features/customer/notifications/notifications_screen.dart';
 import '../../features/customer/plans/plans_screen.dart';
 import '../../features/customer/wallet/wallet_screen.dart';
 import '../../features/customer/wristbands/wristbands_screen.dart';
@@ -84,6 +85,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/customer/memberships',
         builder: (context, state) => const MembershipsScreen(),
+      ),
+      GoRoute(
+        path: '/customer/notifications',
+        builder: (context, state) => const NotificationsScreen(),
       ),
       GoRoute(
         path: '/customer/reservations/pay',
