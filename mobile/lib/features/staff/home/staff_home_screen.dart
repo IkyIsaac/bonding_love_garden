@@ -56,6 +56,24 @@ class StaffHomeScreen extends ConsumerWidget {
               icon: const Icon(Icons.qr_code_scanner_outlined),
               label: const Text('Scan QR Code'),
             ),
+            const SizedBox(height: AppSpacing.base),
+            OutlinedButton.icon(
+              onPressed: () => context.push('/staff/registration'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              icon: const Icon(Icons.person_add_outlined),
+              label: const Text('Register Customer'),
+            ),
+            const SizedBox(height: AppSpacing.base),
+            OutlinedButton.icon(
+              onPressed: () => context.push('/staff/customers'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              icon: const Icon(Icons.search),
+              label: const Text('Look Up Customer'),
+            ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'Recent Activity',

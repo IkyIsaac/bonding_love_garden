@@ -18,9 +18,15 @@ import '../../features/customer/plans/plans_screen.dart';
 import '../../features/customer/wallet/wallet_screen.dart';
 import '../../features/customer/wristbands/wristbands_screen.dart';
 import '../../features/shared/login_screen.dart';
+import '../../features/staff/customers/customer_detail_screen.dart';
+import '../../features/staff/customers/customer_lookup_screen.dart';
+import '../../features/staff/customers/customer_search_providers.dart';
 import '../../features/staff/home/staff_home_screen.dart';
+import '../../features/staff/registration/registration_screen.dart';
 import '../../features/staff/reports/staff_reports_screen.dart';
 import '../../features/staff/scanner/scanner_screen.dart';
+import '../../features/staff/sell/sell_checkout_screen.dart';
+import '../../features/staff/sell/sell_screen.dart';
 import '../../features/staff/sessions/sessions_screen.dart';
 import '../../features/staff/staff_shell.dart';
 
@@ -83,6 +89,32 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/customer/reservations/pay',
         builder: (context, state) =>
             ReservationPaymentScreen(reservation: state.extra as Reservation),
+      ),
+      GoRoute(
+        path: '/staff/registration',
+        builder: (context, state) => const RegistrationScreen(),
+      ),
+      GoRoute(
+        path: '/staff/customers',
+        builder: (context, state) => const CustomerLookupScreen(),
+      ),
+      GoRoute(
+        path: '/staff/customers/detail',
+        builder: (context, state) =>
+            CustomerDetailScreen(customer: state.extra as CustomerMatch),
+      ),
+      GoRoute(
+        path: '/staff/sell',
+        builder: (context, state) =>
+            SellScreen(customer: state.extra as CustomerMatch),
+      ),
+      GoRoute(
+        path: '/staff/sell/checkout',
+        builder: (context, state) {
+          final args =
+              state.extra as ({CustomerMatch customer, AccessPlan plan});
+          return SellCheckoutScreen(customer: args.customer, plan: args.plan);
+        },
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
