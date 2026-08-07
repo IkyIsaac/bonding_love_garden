@@ -49,6 +49,13 @@ class CustomerHomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.base),
             _QuickActionTile(
+              icon: Icons.card_membership_outlined,
+              title: 'My Memberships',
+              subtitle: 'Passes, visits left, reservations',
+              onTap: () => context.push('/customer/memberships'),
+            ),
+            const SizedBox(height: AppSpacing.base),
+            _QuickActionTile(
               icon: Icons.groups_outlined,
               title: 'My Family',
               subtitle: 'Add members or guests',

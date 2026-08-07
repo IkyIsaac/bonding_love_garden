@@ -7,12 +7,16 @@ import 'package:go_router/go_router.dart';
 import '../auth/auth_providers.dart';
 import '../models/access_plan.dart';
 import '../models/profile.dart';
+import '../models/reservation.dart';
 import '../../features/customer/checkout/checkout_screen.dart';
 import '../../features/customer/customer_home_screen.dart';
 import '../../features/customer/customer_shell.dart';
 import '../../features/customer/family/family_screen.dart';
+import '../../features/customer/memberships/memberships_screen.dart';
+import '../../features/customer/memberships/reservation_payment_screen.dart';
 import '../../features/customer/plans/plans_screen.dart';
 import '../../features/customer/wallet/wallet_screen.dart';
+import '../../features/customer/wristbands/wristbands_screen.dart';
 import '../../features/shared/login_screen.dart';
 
 /// Role gate (post sign-in, from `profiles.role`), per
@@ -64,13 +68,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/customer/wristbands',
-        builder: (context, state) =>
-            const _NotYetBuiltScreen(title: 'Wristbands'),
+        builder: (context, state) => const WristbandsScreen(),
       ),
       GoRoute(
         path: '/customer/checkout',
         builder: (context, state) =>
             CheckoutScreen(plan: state.extra as AccessPlan),
+      ),
+      GoRoute(
+        path: '/customer/memberships',
+        builder: (context, state) => const MembershipsScreen(),
+      ),
+      GoRoute(
+        path: '/customer/reservations/pay',
+        builder: (context, state) =>
+            ReservationPaymentScreen(reservation: state.extra as Reservation),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

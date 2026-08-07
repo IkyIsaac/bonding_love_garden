@@ -8,6 +8,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/branded_app_bar.dart';
 import '../home_providers.dart';
 import 'checkout_providers.dart';
+import 'payment_status_view.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key, required this.plan});
@@ -50,7 +51,21 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         padding: const EdgeInsets.all(AppSpacing.md),
         child: _checkout == null
             ? _buildPreview(context, preview)
-            : _buildPaymentStatus(context, _checkout!),
+            : PaymentStatusView(
+                checkout: _checkout!,
+                successMessage:
+                    '${widget.plan.name} is now active on your account. Your wristband is ready.',
+                doneLabel: 'Back to Home',
+                onDone: () {
+                  // Home's providers were fetched before this purchase existed —
+                  // without invalidating, "Welcome back" would keep showing "No
+                  // active membership" until a manual pull-to-refresh.
+                  ref.invalidate(activeSubscriptionProvider);
+                  ref.invalidate(liveSessionProvider);
+                  context.go('/customer');
+                },
+                onRetry: () => setState(() => _checkout = null),
+              ),
       ),
     );
   }
@@ -149,145 +164,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 : amount.toStringAsFixed(0),
             style: style,
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPaymentStatus(BuildContext context, CheckoutResult checkout) {
-    final status = ref.watch(orderStatusProvider(checkout.orderId));
-
-    return status.when(
-      data: (s) {
-        return switch (s) {
-          'paid' => _SuccessView(planName: widget.plan.name),
-          'failed' => _FailedView(
-            onRetry: () => setState(() => _checkout = null),
-          ),
-          _ => _WaitingView(redirectUrl: checkout.redirectUrl),
-        };
-      },
-      loading: () => _WaitingView(redirectUrl: checkout.redirectUrl),
-      error: (_, __) =>
-          _FailedView(onRetry: () => setState(() => _checkout = null)),
-    );
-  }
-}
-
-class _WaitingView extends StatelessWidget {
-  const _WaitingView({this.redirectUrl});
-
-  final String? redirectUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const CircularProgressIndicator(),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            'Waiting for payment confirmation…',
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            child: Text(
-              'In production you\'d be redirected to Selcom\'s hosted payment page now. This app updates automatically the moment Selcom confirms the payment.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          if (redirectUrl != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              redirectUrl!,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _SuccessView extends ConsumerWidget {
-  const _SuccessView({required this.planName});
-
-  final String planName;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.check_circle, color: AppColors.primary, size: 64),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            'Payment successful!',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            '$planName is now active on your account. Your wristband is ready.',
-            textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          ElevatedButton(
-            onPressed: () {
-              // Home's providers were fetched before this purchase existed —
-              // without invalidating, "Welcome back" would keep showing "No
-              // active membership" until a manual pull-to-refresh.
-              ref.invalidate(activeSubscriptionProvider);
-              ref.invalidate(liveSessionProvider);
-              context.go('/customer');
-            },
-            child: const Text('Back to Home'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FailedView extends StatelessWidget {
-  const _FailedView({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, color: AppColors.error, size: 64),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            'Payment failed',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            'The payment wasn\'t completed. No charge was made.',
-            textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          ElevatedButton(onPressed: onRetry, child: const Text('Try again')),
         ],
       ),
     );

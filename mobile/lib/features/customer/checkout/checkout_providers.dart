@@ -51,15 +51,39 @@ class CheckoutRepository {
 
   final SupabaseClient _client;
 
-  Future<CheckoutResult> startCheckout(String accessPlanId) async {
+  Future<CheckoutResult> startCheckout(String accessPlanId) {
+    return _createOrderAndInitiate(
+      items: [
+        {'itemType': 'access_plan', 'accessPlanId': accessPlanId},
+      ],
+      includeEntryFee: true,
+    );
+  }
+
+  /// Reservation fees aren't part of the discount engine's composition (see
+  /// cart-pricing.ts's computeCartPricing — only access_plan/package lines
+  /// feed evaluateDiscounts), and the customer already has an active
+  /// subscription by the time they're booking a reservation, so this never
+  /// re-charges the entry fee.
+  Future<CheckoutResult> startReservationFeeCheckout(String reservationId) {
+    return _createOrderAndInitiate(
+      items: [
+        {'itemType': 'reservation_fee', 'reservationId': reservationId},
+      ],
+      includeEntryFee: false,
+    );
+  }
+
+  Future<CheckoutResult> _createOrderAndInitiate({
+    required List<Map<String, Object?>> items,
+    required bool includeEntryFee,
+  }) async {
     final orderResponse = await _client.functions.invoke(
       'checkout-create-order',
       body: {
         'channel': 'customer_app',
-        'includeEntryFee': true,
-        'items': [
-          {'itemType': 'access_plan', 'accessPlanId': accessPlanId},
-        ],
+        'includeEntryFee': includeEntryFee,
+        'items': items,
       },
     );
     final orderData = orderResponse.data as Map<String, dynamic>;
