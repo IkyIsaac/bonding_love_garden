@@ -10,6 +10,7 @@ import '../../features/customer/customer_home_screen.dart';
 import '../../features/customer/customer_shell.dart';
 import '../../features/customer/family/family_screen.dart';
 import '../../features/customer/plans/plans_screen.dart';
+import '../../features/customer/wallet/wallet_screen.dart';
 import '../../features/shared/login_screen.dart';
 
 /// Role gate (post sign-in, from `profiles.role`), per
@@ -96,8 +97,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/customer/wallet',
-                builder: (context, state) =>
-                    const _NotYetBuiltScreen(title: 'Wallet'),
+                builder: (context, state) => const WalletScreen(),
               ),
             ],
           ),
