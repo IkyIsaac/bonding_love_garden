@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../auth/auth_providers.dart';
+import '../models/access_plan.dart';
 import '../models/profile.dart';
+import '../../features/customer/checkout/checkout_screen.dart';
 import '../../features/customer/customer_home_screen.dart';
 import '../../features/customer/customer_shell.dart';
 import '../../features/customer/family/family_screen.dart';
@@ -64,6 +66,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/customer/wristbands',
         builder: (context, state) =>
             const _NotYetBuiltScreen(title: 'Wristbands'),
+      ),
+      GoRoute(
+        path: '/customer/checkout',
+        builder: (context, state) =>
+            CheckoutScreen(plan: state.extra as AccessPlan),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

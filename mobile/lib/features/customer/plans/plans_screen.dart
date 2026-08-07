@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/models/access_plan.dart';
 import '../../../core/models/package_offer.dart';
@@ -106,7 +107,8 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
                         (p) => _PlanCard(
                           plan: p,
                           entryFee: entryFee.value,
-                          onSelect: _showCheckoutComingSoon,
+                          onSelect: () =>
+                              context.push('/customer/checkout', extra: p),
                         ),
                       )
                       .toList(),
