@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AccessPlan {
 
- String get id; String get name; AccessPlanType get planType; double get price; int get validityValue; String get validityUnit; int? get visitLimit; String? get description; int get includedItemCount;
+ String get id; String get name; AccessPlanType get planType; double get price; int get validityValue; String get validityUnit; int? get visitLimit; String? get description; List<String> get includedItemNames;
 /// Create a copy of AccessPlan
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AccessPlanCopyWith<AccessPlan> get copyWith => _$AccessPlanCopyWithImpl<AccessP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccessPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.planType, planType) || other.planType == planType)&&(identical(other.price, price) || other.price == price)&&(identical(other.validityValue, validityValue) || other.validityValue == validityValue)&&(identical(other.validityUnit, validityUnit) || other.validityUnit == validityUnit)&&(identical(other.visitLimit, visitLimit) || other.visitLimit == visitLimit)&&(identical(other.description, description) || other.description == description)&&(identical(other.includedItemCount, includedItemCount) || other.includedItemCount == includedItemCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccessPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.planType, planType) || other.planType == planType)&&(identical(other.price, price) || other.price == price)&&(identical(other.validityValue, validityValue) || other.validityValue == validityValue)&&(identical(other.validityUnit, validityUnit) || other.validityUnit == validityUnit)&&(identical(other.visitLimit, visitLimit) || other.visitLimit == visitLimit)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.includedItemNames, includedItemNames));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,planType,price,validityValue,validityUnit,visitLimit,description,includedItemCount);
+int get hashCode => Object.hash(runtimeType,id,name,planType,price,validityValue,validityUnit,visitLimit,description,const DeepCollectionEquality().hash(includedItemNames));
 
 @override
 String toString() {
-  return 'AccessPlan(id: $id, name: $name, planType: $planType, price: $price, validityValue: $validityValue, validityUnit: $validityUnit, visitLimit: $visitLimit, description: $description, includedItemCount: $includedItemCount)';
+  return 'AccessPlan(id: $id, name: $name, planType: $planType, price: $price, validityValue: $validityValue, validityUnit: $validityUnit, visitLimit: $visitLimit, description: $description, includedItemNames: $includedItemNames)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AccessPlanCopyWith<$Res>  {
   factory $AccessPlanCopyWith(AccessPlan value, $Res Function(AccessPlan) _then) = _$AccessPlanCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, AccessPlanType planType, double price, int validityValue, String validityUnit, int? visitLimit, String? description, int includedItemCount
+ String id, String name, AccessPlanType planType, double price, int validityValue, String validityUnit, int? visitLimit, String? description, List<String> includedItemNames
 });
 
 
@@ -62,7 +62,7 @@ class _$AccessPlanCopyWithImpl<$Res>
 
 /// Create a copy of AccessPlan
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? planType = null,Object? price = null,Object? validityValue = null,Object? validityUnit = null,Object? visitLimit = freezed,Object? description = freezed,Object? includedItemCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? planType = null,Object? price = null,Object? validityValue = null,Object? validityUnit = null,Object? visitLimit = freezed,Object? description = freezed,Object? includedItemNames = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -72,8 +72,8 @@ as double,validityValue: null == validityValue ? _self.validityValue : validityV
 as int,validityUnit: null == validityUnit ? _self.validityUnit : validityUnit // ignore: cast_nullable_to_non_nullable
 as String,visitLimit: freezed == visitLimit ? _self.visitLimit : visitLimit // ignore: cast_nullable_to_non_nullable
 as int?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,includedItemCount: null == includedItemCount ? _self.includedItemCount : includedItemCount // ignore: cast_nullable_to_non_nullable
-as int,
+as String?,includedItemNames: null == includedItemNames ? _self.includedItemNames : includedItemNames // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -158,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  int includedItemCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  List<String> includedItemNames)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AccessPlan() when $default != null:
-return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemCount);case _:
+return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemNames);case _:
   return orElse();
 
 }
@@ -179,10 +179,10 @@ return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityVal
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  int includedItemCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  List<String> includedItemNames)  $default,) {final _that = this;
 switch (_that) {
 case _AccessPlan():
-return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemCount);case _:
+return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemNames);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +199,10 @@ return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityVal
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  int includedItemCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  AccessPlanType planType,  double price,  int validityValue,  String validityUnit,  int? visitLimit,  String? description,  List<String> includedItemNames)?  $default,) {final _that = this;
 switch (_that) {
 case _AccessPlan() when $default != null:
-return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemCount);case _:
+return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityValue,_that.validityUnit,_that.visitLimit,_that.description,_that.includedItemNames);case _:
   return null;
 
 }
@@ -214,7 +214,7 @@ return $default(_that.id,_that.name,_that.planType,_that.price,_that.validityVal
 
 
 class _AccessPlan implements AccessPlan {
-  const _AccessPlan({required this.id, required this.name, required this.planType, required this.price, required this.validityValue, required this.validityUnit, this.visitLimit, this.description, required this.includedItemCount});
+  const _AccessPlan({required this.id, required this.name, required this.planType, required this.price, required this.validityValue, required this.validityUnit, this.visitLimit, this.description, required final  List<String> includedItemNames}): _includedItemNames = includedItemNames;
   
 
 @override final  String id;
@@ -225,7 +225,13 @@ class _AccessPlan implements AccessPlan {
 @override final  String validityUnit;
 @override final  int? visitLimit;
 @override final  String? description;
-@override final  int includedItemCount;
+ final  List<String> _includedItemNames;
+@override List<String> get includedItemNames {
+  if (_includedItemNames is EqualUnmodifiableListView) return _includedItemNames;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_includedItemNames);
+}
+
 
 /// Create a copy of AccessPlan
 /// with the given fields replaced by the non-null parameter values.
@@ -237,16 +243,16 @@ _$AccessPlanCopyWith<_AccessPlan> get copyWith => __$AccessPlanCopyWithImpl<_Acc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AccessPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.planType, planType) || other.planType == planType)&&(identical(other.price, price) || other.price == price)&&(identical(other.validityValue, validityValue) || other.validityValue == validityValue)&&(identical(other.validityUnit, validityUnit) || other.validityUnit == validityUnit)&&(identical(other.visitLimit, visitLimit) || other.visitLimit == visitLimit)&&(identical(other.description, description) || other.description == description)&&(identical(other.includedItemCount, includedItemCount) || other.includedItemCount == includedItemCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AccessPlan&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.planType, planType) || other.planType == planType)&&(identical(other.price, price) || other.price == price)&&(identical(other.validityValue, validityValue) || other.validityValue == validityValue)&&(identical(other.validityUnit, validityUnit) || other.validityUnit == validityUnit)&&(identical(other.visitLimit, visitLimit) || other.visitLimit == visitLimit)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._includedItemNames, _includedItemNames));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,planType,price,validityValue,validityUnit,visitLimit,description,includedItemCount);
+int get hashCode => Object.hash(runtimeType,id,name,planType,price,validityValue,validityUnit,visitLimit,description,const DeepCollectionEquality().hash(_includedItemNames));
 
 @override
 String toString() {
-  return 'AccessPlan(id: $id, name: $name, planType: $planType, price: $price, validityValue: $validityValue, validityUnit: $validityUnit, visitLimit: $visitLimit, description: $description, includedItemCount: $includedItemCount)';
+  return 'AccessPlan(id: $id, name: $name, planType: $planType, price: $price, validityValue: $validityValue, validityUnit: $validityUnit, visitLimit: $visitLimit, description: $description, includedItemNames: $includedItemNames)';
 }
 
 
@@ -257,7 +263,7 @@ abstract mixin class _$AccessPlanCopyWith<$Res> implements $AccessPlanCopyWith<$
   factory _$AccessPlanCopyWith(_AccessPlan value, $Res Function(_AccessPlan) _then) = __$AccessPlanCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, AccessPlanType planType, double price, int validityValue, String validityUnit, int? visitLimit, String? description, int includedItemCount
+ String id, String name, AccessPlanType planType, double price, int validityValue, String validityUnit, int? visitLimit, String? description, List<String> includedItemNames
 });
 
 
@@ -274,7 +280,7 @@ class __$AccessPlanCopyWithImpl<$Res>
 
 /// Create a copy of AccessPlan
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? planType = null,Object? price = null,Object? validityValue = null,Object? validityUnit = null,Object? visitLimit = freezed,Object? description = freezed,Object? includedItemCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? planType = null,Object? price = null,Object? validityValue = null,Object? validityUnit = null,Object? visitLimit = freezed,Object? description = freezed,Object? includedItemNames = null,}) {
   return _then(_AccessPlan(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -284,8 +290,8 @@ as double,validityValue: null == validityValue ? _self.validityValue : validityV
 as int,validityUnit: null == validityUnit ? _self.validityUnit : validityUnit // ignore: cast_nullable_to_non_nullable
 as String,visitLimit: freezed == visitLimit ? _self.visitLimit : visitLimit // ignore: cast_nullable_to_non_nullable
 as int?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,includedItemCount: null == includedItemCount ? _self.includedItemCount : includedItemCount // ignore: cast_nullable_to_non_nullable
-as int,
+as String?,includedItemNames: null == includedItemNames ? _self._includedItemNames : includedItemNames // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

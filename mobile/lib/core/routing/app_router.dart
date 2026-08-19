@@ -15,6 +15,7 @@ import '../../features/customer/family/family_screen.dart';
 import '../../features/customer/memberships/memberships_screen.dart';
 import '../../features/customer/memberships/reservation_payment_screen.dart';
 import '../../features/customer/notifications/notifications_screen.dart';
+import '../../features/customer/plans/plan_detail_screen.dart';
 import '../../features/customer/plans/plans_screen.dart';
 import '../../features/customer/wallet/wallet_screen.dart';
 import '../../features/customer/wristbands/wristbands_screen.dart';
@@ -81,6 +82,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/customer/checkout',
         builder: (context, state) =>
             CheckoutScreen(plan: state.extra as AccessPlan),
+      ),
+      GoRoute(
+        path: '/customer/plans/detail',
+        builder: (context, state) =>
+            PlanDetailScreen(plan: state.extra as AccessPlan),
       ),
       GoRoute(
         path: '/customer/memberships',

@@ -15,11 +15,13 @@ final entryFeeProvider = FutureProvider<double?>((ref) async {
   return (row['amount'] as num).toDouble();
 });
 
-/// Active access_plans with their included-item count. Fetched as two
-/// queries (plans, then all their access_plan_items) and joined in Dart —
-/// same pattern used for sessions/wristbands elsewhere in the app, since
-/// PostgREST's embedded-count syntax is finicky through join tables with a
-/// composite key.
+/// Active access_plans with the actual names of their included games/
+/// services — not just a count — so a customer can see what they'd
+/// actually be buying before selecting a plan. Fetched as three queries
+/// (plans, their access_plan_items, then those catalog_items) and joined in
+/// Dart, same pattern used for sessions/wristbands elsewhere in the app,
+/// since PostgREST's embedded-resource syntax is finicky through join
+/// tables with a composite key.
 final accessPlansProvider = FutureProvider<List<AccessPlan>>((ref) async {
   final client = ref.watch(supabaseClientProvider);
   final planRows = await client
@@ -32,19 +34,36 @@ final accessPlansProvider = FutureProvider<List<AccessPlan>>((ref) async {
 
   final itemRows = await client
       .from('access_plan_items')
-      .select('access_plan_id')
+      .select('access_plan_id, catalog_item_id')
       .inFilter('access_plan_id', planIds);
-  final countByPlanId = <String, int>{};
+  final catalogItemIds = itemRows
+      .map((r) => r['catalog_item_id'] as String)
+      .toSet()
+      .toList();
+  final catalogNameById = <String, String>{};
+  if (catalogItemIds.isNotEmpty) {
+    final catalogRows = await client
+        .from('catalog_items')
+        .select('id, name')
+        .inFilter('id', catalogItemIds);
+    for (final c in catalogRows) {
+      catalogNameById[c['id'] as String] = c['name'] as String;
+    }
+  }
+
+  final namesByPlanId = <String, List<String>>{};
   for (final row in itemRows) {
     final planId = row['access_plan_id'] as String;
-    countByPlanId[planId] = (countByPlanId[planId] ?? 0) + 1;
+    final name = catalogNameById[row['catalog_item_id']];
+    if (name == null) continue;
+    (namesByPlanId[planId] ??= []).add(name);
   }
 
   return planRows
       .map(
         (r) => AccessPlan.fromJson(
           r,
-          includedItemCount: countByPlanId[r['id']] ?? 0,
+          includedItemNames: namesByPlanId[r['id']] ?? const [],
         ),
       )
       .toList();

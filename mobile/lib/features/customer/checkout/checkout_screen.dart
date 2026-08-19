@@ -80,6 +80,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             context,
           ).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
         ),
+        if (widget.plan.includedItemNames.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Text('Includes', style: Theme.of(context).textTheme.labelLarge),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: AppSpacing.base,
+            runSpacing: 4,
+            children: widget.plan.includedItemNames
+                .map(
+                  (name) => Chip(
+                    label: Text(name),
+                    visualDensity: VisualDensity.compact,
+                    backgroundColor: AppColors.surfaceVariant,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
         const SizedBox(height: AppSpacing.md),
         Card(
           child: Padding(

@@ -108,7 +108,7 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
                           plan: p,
                           entryFee: entryFee.value,
                           onSelect: () =>
-                              context.push('/customer/checkout', extra: p),
+                              context.push('/customer/plans/detail', extra: p),
                         ),
                       )
                       .toList(),
@@ -246,23 +246,36 @@ class _PlanCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Icon(
-                  Icons.sports_esports_outlined,
-                  size: 16,
-                  color: AppColors.onSurfaceVariant,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  plan.includedItemCount == 0
-                      ? 'No games/services bundled'
-                      : '${plan.includedItemCount} games/services included',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
+            const SizedBox(height: AppSpacing.base),
+            if (plan.includedItemNames.isEmpty)
+              Row(
+                children: [
+                  const Icon(
+                    Icons.sports_esports_outlined,
+                    size: 16,
+                    color: AppColors.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    'No games/services bundled',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              )
+            else
+              Wrap(
+                spacing: AppSpacing.base,
+                runSpacing: 4,
+                children: [
+                  ...plan.includedItemNames
+                      .take(3)
+                      .map((name) => _IncludedItemChip(name: name)),
+                  if (plan.includedItemNames.length > 3)
+                    _IncludedItemChip(
+                      name: '+${plan.includedItemNames.length - 3} more',
+                    ),
+                ],
+              ),
             if (plan.visitLimit != null) ...[
               const SizedBox(height: 4),
               Row(
@@ -284,7 +297,7 @@ class _PlanCard extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onSelect,
               icon: const Icon(Icons.arrow_forward),
-              label: const Text('Select Plan'),
+              label: const Text('View Plan'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.secondary,
                 foregroundColor: AppColors.onSecondary,
@@ -293,6 +306,24 @@ class _PlanCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _IncludedItemChip extends StatelessWidget {
+  const _IncludedItemChip({required this.name});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariant,
+        borderRadius: BorderRadius.circular(AppRadii.full),
+      ),
+      child: Text(name, style: Theme.of(context).textTheme.bodySmall),
     );
   }
 }

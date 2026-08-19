@@ -10,9 +10,9 @@ AccessPlanType _planTypeFromString(String value) {
       : AccessPlanType.singleVisit;
 }
 
-/// 1:1 with `access_plans`, plus includedItemCount which is derived from a
-/// separate access_plan_items query (see plans_providers.dart) rather than
-/// stored on the row.
+/// 1:1 with `access_plans`, plus includedItemNames which is derived from a
+/// separate access_plan_items -> catalog_items join (see
+/// plans_providers.dart) rather than stored on the row.
 @freezed
 abstract class AccessPlan with _$AccessPlan {
   const factory AccessPlan({
@@ -24,12 +24,12 @@ abstract class AccessPlan with _$AccessPlan {
     required String validityUnit,
     int? visitLimit,
     String? description,
-    required int includedItemCount,
+    required List<String> includedItemNames,
   }) = _AccessPlan;
 
   factory AccessPlan.fromJson(
     Map<String, dynamic> json, {
-    required int includedItemCount,
+    required List<String> includedItemNames,
   }) {
     return AccessPlan(
       id: json['id'] as String,
@@ -40,7 +40,7 @@ abstract class AccessPlan with _$AccessPlan {
       validityUnit: json['validity_unit'] as String,
       visitLimit: json['visit_limit'] as int?,
       description: json['description'] as String?,
-      includedItemCount: includedItemCount,
+      includedItemNames: includedItemNames,
     );
   }
 }
