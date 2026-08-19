@@ -10,9 +10,9 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import NavMenu from "./nav-menu";
 import UserMenu from "./user-menu";
+import NotAuthorizedActions from "./not-authorized-actions";
 
 export default async function DashboardLayout({
   children,
@@ -37,9 +37,7 @@ export default async function DashboardLayout({
           <p className="text-muted-foreground mb-6">
             This account doesn&apos;t have admin access to the dashboard.
           </p>
-          <Button variant="outline" render={<a href="/login" />}>
-            Back to login
-          </Button>
+          <NotAuthorizedActions />
         </div>
       </div>
     );
