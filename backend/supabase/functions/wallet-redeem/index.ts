@@ -6,11 +6,10 @@ import { HttpError } from "../_shared/http-error.ts";
 /**
  * Staff-initiated: redeem N game credits against a wristband at a game
  * station (brief §4.9/§4.10). Deliberately agnostic to how the credits got
- * there — the "earning" side (auto-crediting a wallet from purchased plan/
- * package contents) was explicitly NOT built in the payments work
- * (docs/ARCHITECTURE_PLAN.md §4, process-payment-event.ts) because the
- * conversion rule is genuinely ambiguous in the brief. This function only
- * needs a positive balance to exist, regardless of source (a real 'earned'
+ * there — the "earning" side is package checkout (process-payment-event.ts's
+ * creditWalletForPackages: a purchased package's game_credit_ledger amount
+ * is the sum of its package_items quantities). This function only needs a
+ * positive balance to exist, regardless of source (an 'earned' package
  * credit, or a staff 'adjusted' comp) — redeem shouldn't need to know or
  * care which.
  */

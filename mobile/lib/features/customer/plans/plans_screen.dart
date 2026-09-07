@@ -18,24 +18,6 @@ class PlansScreen extends ConsumerStatefulWidget {
 class _PlansScreenState extends ConsumerState<PlansScreen> {
   AccessPlanType _selectedType = AccessPlanType.singleVisit;
 
-  void _showCheckoutComingSoon() {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Coming soon'),
-        content: const Text(
-          'Checkout isn\'t built yet — you can browse plans, but purchasing is a future step.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final plans = ref.watch(accessPlansProvider);
@@ -148,7 +130,8 @@ class _PlansScreenState extends ConsumerState<PlansScreen> {
                         const SizedBox(width: AppSpacing.base),
                     itemBuilder: (context, i) => _PackageCard(
                       package: list[i],
-                      onSelect: _showCheckoutComingSoon,
+                      onSelect: () =>
+                          context.push('/customer/checkout', extra: list[i]),
                     ),
                   ),
                 );

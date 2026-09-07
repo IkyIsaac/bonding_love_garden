@@ -4,16 +4,28 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/models/access_plan.dart';
 import '../../../core/models/cart_pricing.dart';
+import '../../../core/models/package_offer.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/branded_app_bar.dart';
 import '../home_providers.dart';
+import '../wallet/wallet_providers.dart';
 import 'checkout_providers.dart';
 import 'payment_status_view.dart';
 
+/// Handles both an access_plan purchase and a package purchase — the two
+/// diverge only in which preview/checkout call fires and what happens on
+/// success (a plan activates a subscription; a package credits the wallet,
+/// see checkout_providers.dart), so one screen with two optional
+/// constructor params is less duplication than two near-identical screens.
 class CheckoutScreen extends ConsumerStatefulWidget {
-  const CheckoutScreen({super.key, required this.plan});
+  const CheckoutScreen({super.key, this.plan, this.package})
+    : assert(
+        (plan == null) != (package == null),
+        'Provide exactly one of plan or package',
+      );
 
-  final AccessPlan plan;
+  final AccessPlan? plan;
+  final PackageOffer? package;
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -24,15 +36,22 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   bool _starting = false;
   String? _error;
 
+  String get _itemId => widget.plan?.id ?? widget.package!.id;
+  String get _itemName => widget.plan?.name ?? widget.package!.name;
+  List<String> get _includedItemNames =>
+      widget.plan?.includedItemNames ?? widget.package!.includedItemNames;
+  bool get _isPackage => widget.package != null;
+
   Future<void> _pay() async {
     setState(() {
       _starting = true;
       _error = null;
     });
     try {
-      final result = await ref
-          .read(checkoutRepositoryProvider)
-          .startCheckout(widget.plan.id);
+      final repository = ref.read(checkoutRepositoryProvider);
+      final result = _isPackage
+          ? await repository.startPackageCheckout(_itemId)
+          : await repository.startCheckout(_itemId);
       setState(() => _checkout = result);
     } catch (e) {
       setState(() => _error = e.toString());
@@ -43,7 +62,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final preview = ref.watch(checkoutPreviewProvider(widget.plan.id));
+    final preview = _isPackage
+        ? ref.watch(packageCheckoutPreviewProvider(_itemId))
+        : ref.watch(checkoutPreviewProvider(_itemId));
 
     return Scaffold(
       appBar: const BrandedAppBar(),
@@ -53,15 +74,22 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             ? _buildPreview(context, preview)
             : PaymentStatusView(
                 checkout: _checkout!,
-                successMessage:
-                    '${widget.plan.name} is now active on your account. Your wristband is ready.',
+                successMessage: _isPackage
+                    ? '$_itemName credits are in your wallet — show your wristband (or get one at the gate) to start playing.'
+                    : '$_itemName is now active on your account. Your wristband is ready.',
                 doneLabel: 'Back to Home',
                 onDone: () {
-                  // Home's providers were fetched before this purchase existed —
-                  // without invalidating, "Welcome back" would keep showing "No
-                  // active membership" until a manual pull-to-refresh.
-                  ref.invalidate(activeSubscriptionProvider);
-                  ref.invalidate(liveSessionProvider);
+                  // Home's/Wallet's providers were fetched before this purchase
+                  // existed — without invalidating, they'd keep showing stale
+                  // data until a manual pull-to-refresh (same fix as the plan
+                  // path already needed for activeSubscriptionProvider).
+                  if (_isPackage) {
+                    ref.invalidate(familyCreditBalanceProvider);
+                    ref.invalidate(creditLedgerProvider);
+                  } else {
+                    ref.invalidate(activeSubscriptionProvider);
+                    ref.invalidate(liveSessionProvider);
+                  }
                   context.go('/customer');
                 },
                 onRetry: () => setState(() => _checkout = null),
@@ -75,19 +103,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       children: [
         Text('Checkout', style: Theme.of(context).textTheme.headlineSmall),
         Text(
-          widget.plan.name,
+          _itemName,
           style: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: AppColors.onSurfaceVariant),
         ),
-        if (widget.plan.includedItemNames.isNotEmpty) ...[
+        if (_includedItemNames.isNotEmpty) ...[
           const SizedBox(height: AppSpacing.sm),
           Text('Includes', style: Theme.of(context).textTheme.labelLarge),
           const SizedBox(height: 4),
           Wrap(
             spacing: AppSpacing.base,
             runSpacing: 4,
-            children: widget.plan.includedItemNames
+            children: _includedItemNames
                 .map(
                   (name) => Chip(
                     label: Text(name),
@@ -98,6 +126,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 .toList(),
           ),
         ],
+        if (_isPackage) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Paid for up front as game credits — spend them on any of the games above, in any mix, next time you visit.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
+        ],
         const SizedBox(height: AppSpacing.md),
         Card(
           child: Padding(
@@ -106,7 +143,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               data: (pricing) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _priceRow(context, widget.plan.name, pricing.subtotal),
+                  _priceRow(context, _itemName, pricing.subtotal),
                   if (pricing.discountTotal > 0)
                     _priceRow(
                       context,

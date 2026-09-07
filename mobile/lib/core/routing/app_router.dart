@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../auth/auth_providers.dart';
 import '../models/access_plan.dart';
+import '../models/package_offer.dart';
 import '../models/profile.dart';
 import '../models/reservation.dart';
 import '../../features/customer/checkout/checkout_screen.dart';
@@ -80,8 +81,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/customer/checkout',
-        builder: (context, state) =>
-            CheckoutScreen(plan: state.extra as AccessPlan),
+        builder: (context, state) => state.extra is PackageOffer
+            ? CheckoutScreen(package: state.extra as PackageOffer)
+            : CheckoutScreen(plan: state.extra as AccessPlan),
       ),
       GoRoute(
         path: '/customer/plans/detail',

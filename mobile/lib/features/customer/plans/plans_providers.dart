@@ -70,23 +70,64 @@ final accessPlansProvider = FutureProvider<List<AccessPlan>>((ref) async {
 });
 
 /// Active packages currently within their availability window (or with no
-/// window set at all, meaning always available).
+/// window set at all, meaning always available), with the quantity-prefixed
+/// names of what each one includes (see PackageOffer's own doc comment).
 final packagesProvider = FutureProvider<List<PackageOffer>>((ref) async {
   final client = ref.watch(supabaseClientProvider);
-  final rows = await client
+  final packageRows = await client
       .from('packages')
       .select()
       .eq('is_active', true)
       .order('price');
   final now = DateTime.now();
-  return rows
-      .map(PackageOffer.fromJson)
-      .where(
-        (p) =>
-            p.availabilityStart == null || p.availabilityStart!.isBefore(now),
-      )
-      .where(
-        (p) => p.availabilityEnd == null || p.availabilityEnd!.isAfter(now),
+  final activeRows = packageRows.where((r) {
+    final start = r['availability_start'] == null
+        ? null
+        : DateTime.parse(r['availability_start'] as String);
+    final end = r['availability_end'] == null
+        ? null
+        : DateTime.parse(r['availability_end'] as String);
+    if (start != null && !start.isBefore(now)) return false;
+    if (end != null && !end.isAfter(now)) return false;
+    return true;
+  }).toList();
+  final packageIds = activeRows.map((r) => r['id'] as String).toList();
+  if (packageIds.isEmpty) return [];
+
+  final itemRows = await client
+      .from('package_items')
+      .select('package_id, catalog_item_id, quantity')
+      .inFilter('package_id', packageIds);
+  final catalogItemIds = itemRows
+      .map((r) => r['catalog_item_id'] as String)
+      .toSet()
+      .toList();
+  final catalogNameById = <String, String>{};
+  if (catalogItemIds.isNotEmpty) {
+    final catalogRows = await client
+        .from('catalog_items')
+        .select('id, name')
+        .inFilter('id', catalogItemIds);
+    for (final c in catalogRows) {
+      catalogNameById[c['id'] as String] = c['name'] as String;
+    }
+  }
+
+  final namesByPackageId = <String, List<String>>{};
+  for (final row in itemRows) {
+    final packageId = row['package_id'] as String;
+    final name = catalogNameById[row['catalog_item_id']];
+    if (name == null) continue;
+    final quantity = row['quantity'] as int;
+    (namesByPackageId[packageId] ??= []).add('${quantity}x $name');
+  }
+
+  return activeRows
+      .map(
+        (r) => PackageOffer.fromJson(
+          r,
+          includedItemNames: namesByPackageId[r['id']] ?? const [],
+        ),
       )
       .toList();
 });

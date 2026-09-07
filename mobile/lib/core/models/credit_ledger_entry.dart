@@ -12,10 +12,10 @@ CreditDirection _directionFromString(String value) {
 }
 
 /// 1:1 with `game_credit_ledger` — append-only, so this is purely a read
-/// model. Customers can only view; redemption is a staff-only action at a
-/// physical game station (see wallet-redeem Edge Function), and "earning"
-/// credits from a purchase isn't built yet (the conversion rule is
-/// genuinely ambiguous — see that function's own header comment).
+/// model. Customers can only view; earning happens automatically on package
+/// checkout (see backend's creditWalletForPackages), redemption is a
+/// staff-only action at a physical game station (see wallet-redeem Edge
+/// Function).
 @freezed
 abstract class CreditLedgerEntry with _$CreditLedgerEntry {
   const factory CreditLedgerEntry({

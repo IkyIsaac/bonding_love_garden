@@ -2,7 +2,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'package_offer.freezed.dart';
 
-/// 1:1 with `packages` — the fields the browsing screen shows.
+/// 1:1 with `packages`, plus includedItemNames which is derived from a
+/// separate package_items -> catalog_items join (see plans_providers.dart)
+/// rather than stored on the row — formatted as "4x Bounce Zone" (quantity
+/// prefixed) since, unlike an access plan's included games, a package's
+/// items carry a meaningful quantity (see backend's game_credit_ledger
+/// crediting logic, which sums these same quantities into a credit total).
 @freezed
 abstract class PackageOffer with _$PackageOffer {
   const factory PackageOffer({
@@ -12,9 +17,13 @@ abstract class PackageOffer with _$PackageOffer {
     required double price,
     DateTime? availabilityStart,
     DateTime? availabilityEnd,
+    required List<String> includedItemNames,
   }) = _PackageOffer;
 
-  factory PackageOffer.fromJson(Map<String, dynamic> json) {
+  factory PackageOffer.fromJson(
+    Map<String, dynamic> json, {
+    List<String> includedItemNames = const [],
+  }) {
     return PackageOffer(
       id: json['id'] as String,
       name: json['name'] as String,
@@ -26,6 +35,7 @@ abstract class PackageOffer with _$PackageOffer {
       availabilityEnd: json['availability_end'] == null
           ? null
           : DateTime.parse(json['availability_end'] as String),
+      includedItemNames: includedItemNames,
     );
   }
 }

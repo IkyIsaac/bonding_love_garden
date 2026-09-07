@@ -88,6 +88,7 @@ Deno.serve(async (req) => {
       familyId: body.familyId,
       familyMemberId,
       subscriptionId,
+      entryKind: subscriptionId ? "subscription" : "complimentary",
       expiresAt,
       issuedBy: caller.id,
     });

@@ -27,6 +27,26 @@ final checkoutPreviewProvider = FutureProvider.family<CartPricing, String>((
   return CartPricing.fromJson(response.data as Map<String, dynamic>);
 });
 
+/// The package twin of checkoutPreviewProvider — same discount-preview
+/// pipeline, just an itemType:'package' line instead of access_plan.
+final packageCheckoutPreviewProvider = FutureProvider.family<CartPricing, String>((
+  ref,
+  packageId,
+) async {
+  final client = ref.watch(supabaseClientProvider);
+  final response = await client.functions.invoke(
+    'discount-preview',
+    body: {
+      'channel': 'customer_app',
+      'includeEntryFee': true,
+      'items': [
+        {'itemType': 'package', 'packageId': packageId},
+      ],
+    },
+  );
+  return CartPricing.fromJson(response.data as Map<String, dynamic>);
+});
+
 class CheckoutResult {
   const CheckoutResult({
     required this.orderId,
@@ -55,6 +75,20 @@ class CheckoutRepository {
     return _createOrderAndInitiate(
       items: [
         {'itemType': 'access_plan', 'accessPlanId': accessPlanId},
+      ],
+      includeEntryFee: true,
+    );
+  }
+
+  /// Buying a package earns wallet credits rather than a subscription — see
+  /// backend/supabase/functions/_shared/payments/process-payment-event.ts's
+  /// creditWalletForPackages. Checkout itself is identical to a plan
+  /// purchase from this app's point of view; only what happens after
+  /// payment succeeds differs, entirely server-side.
+  Future<CheckoutResult> startPackageCheckout(String packageId) {
+    return _createOrderAndInitiate(
+      items: [
+        {'itemType': 'package', 'packageId': packageId},
       ],
       includeEntryFee: true,
     );

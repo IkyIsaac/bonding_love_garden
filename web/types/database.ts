@@ -1157,6 +1157,7 @@ export type Database = {
       }
       wristbands: {
         Row: {
+          entry_kind: string
           expires_at: string
           family_id: string
           family_member_id: string | null
@@ -1171,6 +1172,7 @@ export type Database = {
           wristband_number: string
         }
         Insert: {
+          entry_kind?: string
           expires_at: string
           family_id: string
           family_member_id?: string | null
@@ -1185,6 +1187,7 @@ export type Database = {
           wristband_number: string
         }
         Update: {
+          entry_kind?: string
           expires_at?: string
           family_id?: string
           family_member_id?: string | null

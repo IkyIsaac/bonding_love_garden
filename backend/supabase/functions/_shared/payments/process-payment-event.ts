@@ -5,10 +5,14 @@ import { issueWristband } from "../wristbands.ts";
 /**
  * "What happens when a payment succeeds" (docs/ARCHITECTURE_PLAN.md §4) —
  * the one place this logic lives regardless of which of the three
- * providers' webhooks fired. Scope, deliberately: marks the payment/order,
- * creates a subscription + wristband for each purchased access_plan. Two
- * things §4's description also lists ("credits the wallet") are NOT built
- * here — see the note below handlePaymentSucceeded for why.
+ * providers' webhooks fired. Marks the payment/order, creates a
+ * subscription + wristband for each purchased access_plan, and credits the
+ * wallet for each purchased package (Option 2 of the package-checkout gap:
+ * a package converts into generic game_credit_ledger credits — amount =
+ * sum(package_items.quantity) — rather than a time-boxed subscription,
+ * since packages have no validity_value/validity_unit to compute an expiry
+ * from). See the note below handlePaymentSucceeded for what's still not
+ * built.
  */
 
 export interface ProcessResult {
@@ -64,20 +68,19 @@ export async function processPaymentEvent(
 }
 
 /**
- * NOT built here, both deliberately deferred rather than guessed:
+ * NOT built here, deliberately deferred rather than guessed:
  *
- * - Wallet crediting. The brief (§4.9) says games/services paid for but not
- *   yet used become wallet credit, but doesn't specify which purchased
- *   components convert to credits, how many, or how that interacts with an
- *   access_plan's own visit_limit/daily_time_limit — auto-crediting the
- *   wallet from every catalog_item bundled into a purchased plan/package
- *   would be inventing a credit-economy rule I'm not confident is right,
- *   for a feature where getting it wrong directly costs the venue money.
- * - Package-only or entry-fee-only orders don't get a subscription/
- *   wristband here — only access_plan order_items map cleanly onto
- *   subscriptions (packages have no validity_value/validity_unit of their
- *   own to compute an expiry from). A cart with no access_plan at all is a
- *   real gap this doesn't resolve.
+ * - Per-catalog-item metering. A package's game_credit_ledger amount is the
+ *   *sum* of its package_items quantities (e.g. "4x Bounce Zone + 1x Laser
+ *   Tag" -> 5 credits) — deliberately generic, spendable on any one included
+ *   game per credit, not "4 Bounce Zone credits + 1 Laser Tag credit" kept
+ *   separate. Nothing else in this schema meters per-game counts either
+ *   (access_plans' visits_remaining is plan-wide), so this stays consistent
+ *   with that rather than inventing a new, finer-grained concept for one
+ *   feature.
+ * - Entry-fee-only orders (no access_plan or package line at all) still
+ *   don't get a subscription/wristband here. A real gap this doesn't
+ *   resolve.
  */
 async function handlePaymentSucceeded(admin: SupabaseClient, orderId: string) {
   await admin.from("orders").update({ status: "paid" }).eq("id", orderId);
@@ -155,6 +158,7 @@ async function handlePaymentSucceeded(admin: SupabaseClient, orderId: string) {
           familyId: order.family_id,
           familyMemberId: item.family_member_id,
           subscriptionId: subscription.id,
+          entryKind: "subscription",
           expiresAt: endsAt,
         });
       } catch (err) {
@@ -168,8 +172,107 @@ async function handlePaymentSucceeded(admin: SupabaseClient, orderId: string) {
     }
   }
 
+  await creditWalletForPackages(admin, orderId, order.family_id);
+
   await notifySupervisorsOfPurchase(admin, orderId);
   await notifyCustomerOfPurchase(admin, orderId, order.family_id);
+}
+
+/**
+ * Package checkout (Option 2, product decision): buying a package earns
+ * generic game_credit_ledger credits (1 credit = 1 play of any one included
+ * game, redeemed at session-scan-admit) rather than creating a subscription
+ * — see this file's own header comment for why. Also ensures the
+ * beneficiary has a way to physically get in: a wallet_credits wristband,
+ * issued only if they don't already hold an active one (a family that
+ * already has a membership wristband, or an earlier package's wristband,
+ * just gets more credits on the same wristband — no need for a second).
+ */
+async function creditWalletForPackages(admin: SupabaseClient, orderId: string, familyId: string) {
+  const { data: packageItems, error: packageItemsError } = await admin
+    .from("order_items")
+    .select("id, reference_id, family_member_id, quantity")
+    .eq("order_id", orderId)
+    .eq("item_type", "package");
+  if (packageItemsError) {
+    console.error(`creditWalletForPackages: failed to load package order_items for order ${orderId}: ${packageItemsError.message}`);
+    return;
+  }
+  if (!packageItems || packageItems.length === 0) return;
+
+  for (const item of packageItems) {
+    const { data: pkg, error: pkgError } = await admin
+      .from("packages")
+      .select("name")
+      .eq("id", item.reference_id)
+      .single();
+    if (pkgError || !pkg) {
+      console.error(`creditWalletForPackages: package ${item.reference_id} not found for order_item ${item.id}`);
+      continue;
+    }
+
+    const { data: contents, error: contentsError } = await admin
+      .from("package_items")
+      .select("quantity")
+      .eq("package_id", item.reference_id);
+    if (contentsError) {
+      console.error(`creditWalletForPackages: failed to load package_items for package ${item.reference_id}: ${contentsError.message}`);
+      continue;
+    }
+    const creditsPerPackage = (contents ?? []).reduce((sum, row) => sum + row.quantity, 0);
+    const totalCredits = creditsPerPackage * item.quantity;
+    if (totalCredits <= 0) continue; // a package with no items — nothing to credit
+
+    const { error: ledgerError } = await admin.from("game_credit_ledger").insert({
+      family_id: familyId,
+      family_member_id: item.family_member_id,
+      order_id: orderId,
+      direction: "earned",
+      amount: totalCredits,
+      reason: `Package purchase: ${pkg.name}`,
+    });
+    if (ledgerError) {
+      console.error(`creditWalletForPackages: failed to credit wallet for order_item ${item.id}: ${ledgerError.message}`);
+      continue;
+    }
+
+    await ensureEntryWristband(admin, familyId, item.family_member_id);
+  }
+}
+
+/** A generous, deliberately-chosen default — game_credit_ledger credits have no expiry of their own in this schema, so this wristband is purely a physical/QR entry credential, not the thing that limits how long the credits are good for. */
+const WALLET_CREDITS_WRISTBAND_VALIDITY_DAYS = 365;
+
+async function ensureEntryWristband(admin: SupabaseClient, familyId: string, familyMemberId: string | null) {
+  let existingQuery = admin
+    .from("wristband_live_status")
+    .select("id")
+    .eq("family_id", familyId)
+    .eq("live_status", "active");
+  existingQuery = familyMemberId
+    ? existingQuery.eq("family_member_id", familyMemberId)
+    : existingQuery.is("family_member_id", null);
+  const { data: existing, error: existingError } = await existingQuery.maybeSingle();
+  if (existingError) {
+    console.error(`ensureEntryWristband: failed to check for an existing wristband: ${existingError.message}`);
+    return;
+  }
+  if (existing) return; // already has a way in — just credited more spend on it
+
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + WALLET_CREDITS_WRISTBAND_VALIDITY_DAYS);
+
+  try {
+    await issueWristband(admin, {
+      familyId,
+      familyMemberId,
+      subscriptionId: null,
+      entryKind: "wallet_credits",
+      expiresAt,
+    });
+  } catch (err) {
+    console.error(`ensureEntryWristband: failed to issue wristband: ${err instanceof Error ? err.message : err}`);
+  }
 }
 
 function addInterval(date: Date, value: number, unit: string): Date {

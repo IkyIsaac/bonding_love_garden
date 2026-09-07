@@ -9,7 +9,8 @@ import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 export interface IssueWristbandParams {
   familyId: string;
   familyMemberId: string | null;
-  subscriptionId: string | null; // nullable: a complimentary/manual pass has no subscription
+  subscriptionId: string | null; // nullable: a complimentary/manual pass or a wallet_credits pass has no subscription
+  entryKind: "subscription" | "complimentary" | "wallet_credits"; // why subscriptionId is (or isn't) set — see the entry_kind column comment
   expiresAt: Date;
   issuedBy?: string | null; // staff profile id, if issued in person
 }
@@ -35,6 +36,7 @@ export async function issueWristband(
       family_id: params.familyId,
       family_member_id: params.familyMemberId,
       subscription_id: params.subscriptionId,
+      entry_kind: params.entryKind,
       qr_code_value: qrCodeValue,
       wristband_number: wristbandNumber,
       expires_at: params.expiresAt.toISOString(),
